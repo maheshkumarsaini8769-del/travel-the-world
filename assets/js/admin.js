@@ -18,9 +18,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!container) {
       container = document.createElement('div');
       container.id = 'adminToastContainer';
-      container.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;';
       document.body.appendChild(container);
     }
+    container.style.position = 'fixed';
+    container.style.bottom = '24px';
+    container.style.right = '24px';
+    container.style.zIndex = '999999';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.gap = '10px';
+    container.style.pointerEvents = 'none';
     const toast = document.createElement('div');
     toast.style.cssText = `
       background: ${isError ? '#ef4444' : '#0f172a'};
@@ -71,8 +78,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const sidebar = document.getElementById('adminSidebar');
   const sidebarToggle = document.getElementById('mobileSidebarToggle');
   if (sidebar && sidebarToggle) {
-    sidebarToggle.addEventListener('click', () => {
+    sidebarToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       sidebar.classList.toggle('open');
+    });
+
+    // Close on click outside on mobile / tablet
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 1024 && sidebar.classList.contains('open')) {
+        if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+          sidebar.classList.remove('open');
+        }
+      }
     });
   }
 
