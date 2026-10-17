@@ -11,3 +11,4 @@ node_modules/
 # Scratch & Temporary
 scratch/
 .system_generated/
+.vercel

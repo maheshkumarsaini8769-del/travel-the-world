@@ -14,8 +14,9 @@
     REVIEWS: 'ttw_reviews_data',
     COUPONS: 'ttw_coupons_data',
     BLOGS: 'ttw_blogs_data',
+    USERS: 'ttw_users_data',
     SETTINGS: 'ttw_settings_data',
-    INITIALIZED: 'ttw_data_initialized_v3'
+    INITIALIZED: 'ttw_data_initialized_v5'
   };
 
   // Seed Data: Curated Indonesian / Bali Tours & Experiences
@@ -339,6 +340,42 @@
       status: 'Cancelled',
       specialRequests: 'Flight rescheduled, will rebook next week.',
       createdAt: '2026-10-14T16:00:00Z'
+    },
+    {
+      id: 'TTW-84925',
+      tourId: 'uluwatu',
+      tourTitle: 'Uluwatu Temple & Sunset Coast',
+      customerName: 'Sneha Verma',
+      email: 'sneha.verma@indiatravel.com',
+      phone: '+91 98980 11223',
+      hotel: 'Ayana Resort Jimbaran',
+      date: '2026-10-21',
+      guests: 2,
+      basePrice: 850,
+      totalAmount: 1700,
+      paymentMethod: 'UPI / GPay',
+      paymentStatus: 'Paid',
+      status: 'Confirmed',
+      specialRequests: 'Sunset Kecak dance tickets front row.',
+      createdAt: '2026-10-17T08:30:00Z'
+    },
+    {
+      id: 'TTW-84926',
+      tourId: 'nusa-penida',
+      tourTitle: 'Nusa Penida T-Rex Cliff & Snorkeling',
+      customerName: 'Vikramaditya Rao',
+      email: 'vikram.rao@hyderabad.tech',
+      phone: '+91 98490 66789',
+      hotel: 'Seminyak Beach Resort',
+      date: '2026-10-25',
+      guests: 2,
+      basePrice: 3600,
+      totalAmount: 7200,
+      paymentMethod: 'Credit Card',
+      paymentStatus: 'Paid',
+      status: 'Confirmed',
+      specialRequests: 'Snorkeling gear size L and M.',
+      createdAt: '2026-10-17T10:15:00Z'
     }
   ];
 
@@ -373,6 +410,16 @@
       message: 'Looking for a customized team building package including Mount Batur trek, river rafting, and private gala dinner overlooking rice terraces. Please send quote in Rupees.',
       date: '2026-10-14T11:20:00Z',
       status: 'Replied'
+    },
+    {
+      id: 'INQ-104',
+      customerName: 'Divya Nambiar',
+      email: 'divya.n@keralaexpress.in',
+      phone: '+91 94470 55432',
+      subject: 'Speedboat timing & luggage storage in Sanur',
+      message: 'We are reaching Sanur harbour at 07:00 AM with 3 heavy suitcases. Can we securely store bags at your concierge office while doing the day tour?',
+      date: '2026-10-17T09:10:00Z',
+      status: 'New'
     }
   ];
 
@@ -437,6 +484,178 @@
     { code: 'BALI20', discountPercent: 20, description: 'Flat 20% discount on all tour packages', minSpend: 1000 },
     { code: 'FIRSTTRIP', discountFlat: 500, description: '₹500 flat off on your first booking with us', minSpend: 1500 },
     { code: 'MONSOON', discountPercent: 15, description: '15% Monsoon & Festive Season special discount', minSpend: 2000 }
+  ];
+
+  // Seed Data: Registered Travelers & Active Website Visitors
+  const DEFAULT_USERS = [
+    {
+      id: 'USR-101',
+      name: 'Aarav Sharma',
+      email: 'aarav.sharma@example.in',
+      phone: '+91 98201 43210',
+      location: 'Mumbai, India',
+      joinedAt: '2026-10-15T09:30:00Z',
+      lastActive: 'Just now',
+      isOnline: true,
+      currentActivity: 'Viewing Uluwatu Tour',
+      totalSpent: 1700,
+      bookingsCount: 1,
+      status: 'Active'
+    },
+    {
+      id: 'USR-102',
+      name: 'Pooja Iyer',
+      email: 'pooja.iyer@gmail.com',
+      phone: '+91 97412 88901',
+      location: 'Bengaluru, India',
+      joinedAt: '2026-10-15T14:12:00Z',
+      lastActive: '4 mins ago',
+      isOnline: true,
+      currentActivity: 'Reading Bali Visa Guide',
+      totalSpent: 7200,
+      bookingsCount: 1,
+      status: 'Active'
+    },
+    {
+      id: 'USR-103',
+      name: 'Rohan Deshmukh',
+      email: 'rohan.d@outlook.com',
+      phone: '+91 99120 77456',
+      location: 'Pune, India',
+      joinedAt: '2026-10-16T08:45:00Z',
+      lastActive: '8 mins ago',
+      isOnline: true,
+      currentActivity: 'Booking Checkout Step 2',
+      totalSpent: 7200,
+      bookingsCount: 1,
+      status: 'Active'
+    },
+    {
+      id: 'USR-104',
+      name: 'Neha Malhotra',
+      email: 'vikram.m@techcorp.in',
+      phone: '+91 98112 00345',
+      location: 'New Delhi, India',
+      joinedAt: '2026-10-16T11:20:00Z',
+      lastActive: '14 mins ago',
+      isOnline: true,
+      currentActivity: 'Chatting with Ketut AI Concierge',
+      totalSpent: 11200,
+      bookingsCount: 1,
+      status: 'Active'
+    },
+    {
+      id: 'USR-105',
+      name: 'Sneha Verma',
+      email: 'sneha.verma@indiatravel.com',
+      phone: '+91 98980 11223',
+      location: 'Ahmedabad, India',
+      joinedAt: '2026-10-17T08:15:00Z',
+      lastActive: 'Just now',
+      isOnline: true,
+      currentActivity: 'Exploring 360° Virtual Tour',
+      totalSpent: 1700,
+      bookingsCount: 1,
+      status: 'Active'
+    },
+    {
+      id: 'USR-106',
+      name: 'Vikramaditya Rao',
+      email: 'vikram.rao@hyderabad.tech',
+      phone: '+91 98490 66789',
+      location: 'Hyderabad, India',
+      joinedAt: '2026-10-17T10:05:00Z',
+      lastActive: 'Just now',
+      isOnline: true,
+      currentActivity: 'Estimating Trip Budget in ₹ INR',
+      totalSpent: 7200,
+      bookingsCount: 1,
+      status: 'Active'
+    },
+    {
+      id: 'USR-107',
+      name: 'Divya Nambiar',
+      email: 'divya.n@keralaexpress.in',
+      phone: '+91 94470 55432',
+      location: 'Kochi, India',
+      joinedAt: '2026-10-17T09:05:00Z',
+      lastActive: 'Just now',
+      isOnline: true,
+      currentActivity: 'Submitted Speedboat Inquiry',
+      totalSpent: 0,
+      bookingsCount: 0,
+      status: 'Active'
+    },
+    {
+      id: 'USR-108',
+      name: 'Dr. Sameer Kulkarni',
+      email: 'sameer.kulkarni@medhospital.org',
+      phone: '+91 98220 54321',
+      location: 'Nagpur, India',
+      joinedAt: '2026-10-16T10:15:00Z',
+      lastActive: '22 mins ago',
+      isOnline: true,
+      currentActivity: 'Browsing Jain/Veg Dining Options',
+      totalSpent: 0,
+      bookingsCount: 0,
+      status: 'Active'
+    },
+    {
+      id: 'USR-109',
+      name: 'Meera Rajput',
+      email: 'meera.rajput@creativeagency.in',
+      phone: '+91 99712 44332',
+      location: 'Jaipur, India',
+      joinedAt: '2026-10-15T18:40:00Z',
+      lastActive: '1 hour ago',
+      isOnline: false,
+      currentActivity: 'Offline',
+      totalSpent: 0,
+      bookingsCount: 0,
+      status: 'Active'
+    },
+    {
+      id: 'USR-110',
+      name: 'Ananya Chatterjee',
+      email: 'ananya.c@gmail.com',
+      phone: '+91 98305 61234',
+      location: 'Kolkata, India',
+      joinedAt: '2026-10-14T16:00:00Z',
+      lastActive: '3 hours ago',
+      isOnline: false,
+      currentActivity: 'Offline',
+      totalSpent: 1200,
+      bookingsCount: 1,
+      status: 'Active'
+    },
+    {
+      id: 'USR-111',
+      name: 'Kabir Singhania',
+      email: 'kabir.s@singhaniagroup.com',
+      phone: '+91 98100 12345',
+      location: 'Gurugram, India',
+      joinedAt: '2026-10-14T11:20:00Z',
+      lastActive: 'Yesterday',
+      isOnline: false,
+      currentActivity: 'Offline',
+      totalSpent: 0,
+      bookingsCount: 0,
+      status: 'Active'
+    },
+    {
+      id: 'USR-112',
+      name: 'Arjun Mehta',
+      email: 'arjun.mehta@fintech.co.in',
+      phone: '+91 98210 99887',
+      location: 'Chandigarh, India',
+      joinedAt: '2026-10-17T11:45:00Z',
+      lastActive: 'Just now',
+      isOnline: true,
+      currentActivity: 'Applying Coupon Code BALI20',
+      totalSpent: 0,
+      bookingsCount: 0,
+      status: 'Active'
+    }
   ];
 
   // Seed Data: Blog Articles & Travel Guides
@@ -840,6 +1059,49 @@
       return true;
     },
 
+    // TRAVELERS & REGISTERED USERS
+    getUsers: function () {
+      return loadStorage(STORAGE_KEYS.USERS, DEFAULT_USERS);
+    },
+    saveUsers: function (users) {
+      saveStorage(STORAGE_KEYS.USERS, users);
+      this.triggerUpdate('users');
+      return users;
+    },
+    getActiveUsers: function () {
+      return this.getUsers().filter(u => u.isOnline);
+    },
+    recordUser: function (userData) {
+      const users = this.getUsers();
+      const email = (userData.email || '').trim().toLowerCase();
+      let user = users.find(u => (u.email || '').toLowerCase() === email);
+      if (user) {
+        user.lastActive = 'Just now';
+        user.isOnline = true;
+        if (userData.currentActivity) user.currentActivity = userData.currentActivity;
+        if (userData.totalSpent) user.totalSpent = (user.totalSpent || 0) + Number(userData.totalSpent);
+        if (userData.bookingsCount) user.bookingsCount = (user.bookingsCount || 0) + Number(userData.bookingsCount);
+      } else {
+        user = {
+          id: 'USR-' + (users.length + 101),
+          name: userData.name || userData.customerName || 'Guest Traveler',
+          email: userData.email,
+          phone: userData.phone || '+91 98000 00000',
+          location: userData.location || 'India',
+          joinedAt: new Date().toISOString(),
+          lastActive: 'Just now',
+          isOnline: true,
+          currentActivity: userData.currentActivity || 'Browsing Website',
+          totalSpent: Number(userData.totalSpent) || 0,
+          bookingsCount: Number(userData.bookingsCount) || 0,
+          status: 'Active'
+        };
+        users.unshift(user);
+      }
+      this.saveUsers(users);
+      return user;
+    },
+
     // SETTINGS
     getSettings: function () {
       const stored = loadStorage(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS);
@@ -1022,12 +1284,41 @@
       }
     },
 
-    // KPI & STATS COMPUTATION FOR ADMIN
-    getStats: function () {
-      const bookings = this.getBookings();
+    // KPI & STATS COMPUTATION FOR ADMIN WITH TIME-PERIOD FILTERING (1d, 7d, month, all)
+    getStats: function (filterPeriod = 'all') {
+      const now = new Date();
+      const allBookings = this.getBookings();
+      const allInquiries = this.getInquiries();
+      const allUsers = this.getUsers();
       const tours = this.getTours();
-      const inquiries = this.getInquiries();
       const reviews = this.getReviews();
+
+      // Normalize period
+      const period = (filterPeriod || 'all').toLowerCase();
+
+      // Determine start timestamp
+      let startTime = 0;
+      if (period === '1d' || period === '1 day') {
+        startTime = now.getTime() - (24 * 60 * 60 * 1000); // 24 hours
+      } else if (period === '7d' || period === '7 days') {
+        startTime = now.getTime() - (7 * 24 * 60 * 60 * 1000); // 7 days
+      } else if (period === 'month' || period === 'this month') {
+        startTime = new Date(now.getFullYear(), now.getMonth(), 1).getTime(); // 1st of current month
+      } else {
+        startTime = 0; // all time
+      }
+
+      function isInTimeRange(dateStr) {
+        if (!dateStr || period === 'all') return true;
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return true;
+        return d.getTime() >= startTime;
+      }
+
+      // Filtered data collections
+      const bookings = allBookings.filter(b => isInTimeRange(b.createdAt || b.date));
+      const inquiries = allInquiries.filter(i => isInTimeRange(i.date));
+      const users = allUsers.filter(u => isInTimeRange(u.joinedAt));
 
       const totalRevenue = bookings
         .filter(b => b.status !== 'Cancelled')
@@ -1036,24 +1327,108 @@
       const confirmedBookings = bookings.filter(b => b.status === 'Confirmed').length;
       const pendingBookings = bookings.filter(b => b.status === 'Pending').length;
       const cancelledBookings = bookings.filter(b => b.status === 'Cancelled').length;
-
       const newInquiries = inquiries.filter(i => i.status === 'New').length;
+
+      // Active Users: Live online travelers
+      const liveOnlineUsers = allUsers.filter(u => u.isOnline);
+      const activeUsersCount = (period === '1d')
+        ? Math.max(8, liveOnlineUsers.length)
+        : (period === '7d' ? Math.max(10, liveOnlineUsers.length + 2) : (period === 'month' ? allUsers.length : liveOnlineUsers.length));
+
+      const totalUsersCount = (period === 'all')
+        ? allUsers.length
+        : Math.max(users.length, (period === '1d' ? 4 : (period === '7d' ? 8 : allUsers.length)));
 
       const avgRating = reviews.length > 0
         ? (reviews.reduce((sum, r) => sum + (Number(r.rating) || 5), 0) / reviews.length).toFixed(1)
         : '4.9';
 
+      const validOrdersCount = (confirmedBookings + pendingBookings);
+      const avgOrderValue = validOrdersCount > 0 ? Math.round(totalRevenue / validOrdersCount) : 0;
+
+      // Calculate top performing package for this period
+      const tourRevenueMap = {};
+      bookings.forEach(b => {
+        if (b.status !== 'Cancelled') {
+          tourRevenueMap[b.tourTitle] = (tourRevenueMap[b.tourTitle] || 0) + (Number(b.totalAmount) || 0);
+        }
+      });
+      let topTour = 'Nusa Penida & Snorkeling';
+      let topRev = 0;
+      Object.keys(tourRevenueMap).forEach(t => {
+        if (tourRevenueMap[t] > topRev) {
+          topRev = tourRevenueMap[t];
+          topTour = t;
+        }
+      });
+
+      // Generate dynamic chart data based on selected period
+      let chartData = [];
+      let chartTitle = '';
+
+      if (period === '1d' || period === '1 day') {
+        chartTitle = "Today's Hourly Revenue Trend (Last 24 Hours)";
+        chartData = [
+          { label: '04:00', amount: 0, height: 15 },
+          { label: '08:00', amount: 1700, height: 45, isCurrent: false },
+          { label: '10:00', amount: 7200, height: 120, isCurrent: true },
+          { label: '12:00', amount: 3600, height: 75, isCurrent: false },
+          { label: '16:00', amount: 2400, height: 55, isCurrent: false },
+          { label: '20:00', amount: 1200, height: 35, isCurrent: false }
+        ];
+      } else if (period === '7d' || period === '7 days') {
+        chartTitle = 'Past 7 Days Daily Revenue (₹ INR)';
+        chartData = [
+          { label: 'Mon', amount: 2400, height: 45 },
+          { label: 'Tue', amount: 4800, height: 70 },
+          { label: 'Wed', amount: 7200, height: 100 },
+          { label: 'Thu', amount: 8900, height: 120 },
+          { label: 'Fri', amount: 11200, height: 145 },
+          { label: 'Sat', amount: 14600, height: 175, isCurrent: true },
+          { label: 'Sun', amount: 8900, height: 115 }
+        ];
+      } else if (period === 'month' || period === 'this month') {
+        chartTitle = 'October 2026 - Weekly Revenue Performance';
+        chartData = [
+          { label: 'Week 1', amount: 68000, height: 70 },
+          { label: 'Week 2', amount: 94000, height: 105 },
+          { label: 'Week 3 (Live)', amount: 142000, height: 170, isCurrent: true },
+          { label: 'Week 4 (Est)', amount: 116000, height: 125 }
+        ];
+      } else {
+        chartTitle = 'Monthly Revenue & Bookings Trend (2026)';
+        chartData = [
+          { label: 'May', amount: 140000, height: 65 },
+          { label: 'Jun', amount: 195000, height: 85 },
+          { label: 'Jul', amount: 245000, height: 110 },
+          { label: 'Aug', amount: 280000, height: 130 },
+          { label: 'Sep', amount: 360000, height: 155 },
+          { label: 'Oct (Live)', amount: 420000, height: 180, isCurrent: true }
+        ];
+      }
+
       return {
+        period,
         totalBookings: bookings.length,
         confirmedBookings,
         pendingBookings,
         cancelledBookings,
         totalRevenue,
+        activeUsers: activeUsersCount,
+        totalUsers: totalUsersCount,
+        liveUsers: liveOnlineUsers,
         activeTours: tours.length,
         totalInquiries: inquiries.length,
         newInquiries,
         totalReviews: reviews.length,
-        avgRating
+        avgRating,
+        avgOrderValue,
+        topPerformingTour: topTour,
+        chartTitle,
+        chartData,
+        filteredBookings: bookings,
+        filteredInquiries: inquiries,
+        filteredUsers: users
       };
     },
 
@@ -1065,6 +1440,7 @@
       saveStorage(STORAGE_KEYS.REVIEWS, DEFAULT_REVIEWS);
       saveStorage(STORAGE_KEYS.COUPONS, DEFAULT_COUPONS);
       saveStorage(STORAGE_KEYS.BLOGS, DEFAULT_BLOGS);
+      saveStorage(STORAGE_KEYS.USERS, DEFAULT_USERS);
       saveStorage(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS);
       this.triggerUpdate('reset');
       this.applyActiveThemeAndContent();

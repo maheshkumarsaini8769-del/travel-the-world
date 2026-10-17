@@ -46,6 +46,13 @@
         </a>
       </li>
       <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="users">
+          <span class="sidebar-icon">👥</span>
+          <span>Travelers & Users</span>
+          <span class="sidebar-badge" id="badgeActiveUsersLive" style="background: #10b981; color: #ffffff; font-weight: 800;">LIVE</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
         <a class="sidebar-link" data-tab="coupons">
           <span class="sidebar-icon">🎟️</span>
           <span>Coupons & Offers</span>
@@ -145,123 +152,148 @@
            ============================================== -->
       <section class="admin-tab-panel active" id="tab-dashboard">
         
-        <!-- KPI Metrics Grid -->
+        <!-- Timeframe Filter Toolbar -->
+        <div class="dashboard-filter-bar">
+          <div class="filter-header-title">
+            <span class="filter-icon">⏱️</span>
+            <div>
+              <span class="filter-main-label">Dashboard Analytics Timeframe</span>
+              <span class="filter-sub-label" id="dashboardActiveFilterName">Showing: All Time Performance</span>
+            </div>
+          </div>
+          <div class="filter-btn-group" id="dashboardTimeFilters">
+            <button class="btn-time-filter" data-period="1d">⚡ 1 Day</button>
+            <button class="btn-time-filter" data-period="7d">📅 7 Days</button>
+            <button class="btn-time-filter" data-period="month">📆 This Month</button>
+            <button class="btn-time-filter active" data-period="all">🌐 All Time</button>
+          </div>
+        </div>
+
+        <!-- KPI Metrics Grid (Now with Active & Total Users) -->
         <div class="kpi-grid">
-          <!-- KPI 1 -->
+          <!-- KPI 1: Revenue -->
           <div class="kpi-card">
             <div>
               <div class="kpi-label">Total Revenue (₹)</div>
               <div class="kpi-value" id="kpiTotalRevenue">₹0</div>
-              <div class="kpi-sub">
+              <div class="kpi-sub" id="kpiRevenueSub">
                 <span>↑ 18.4%</span>
-                <span style="color: #64748b; font-weight: normal;">vs last month</span>
+                <span style="color: #64748b; font-weight: normal;">in selected period</span>
               </div>
             </div>
             <div class="kpi-icon-box icon-emerald">💰</div>
           </div>
 
-          <!-- KPI 2 -->
+          <!-- KPI 2: Bookings -->
           <div class="kpi-card">
             <div>
               <div class="kpi-label">Total Bookings</div>
               <div class="kpi-value" id="kpiTotalBookings">0</div>
-              <div class="kpi-sub">
-                <span>↑ 12 new</span>
-                <span style="color: #64748b; font-weight: normal;">this week</span>
+              <div class="kpi-sub" id="kpiBookingsSub">
+                <span>📋 Filtered orders</span>
               </div>
             </div>
             <div class="kpi-icon-box icon-blue">📋</div>
           </div>
 
-          <!-- KPI 3 -->
+          <!-- KPI 3: Active Users (Live Online) -->
           <div class="kpi-card">
             <div>
-              <div class="kpi-label">Active Tours</div>
-              <div class="kpi-value" id="kpiActiveTours">0</div>
-              <div class="kpi-sub" style="color: #2563eb;">
-                <span>● 100% Online</span>
+              <div class="kpi-label">
+                <span class="live-pulse-dot"></span> Active Users (Live)
+              </div>
+              <div class="kpi-value" id="kpiActiveUsers" style="color: #059669;">0</div>
+              <div class="kpi-sub" style="color: #059669;">
+                <span>🟢 Online on website right now</span>
               </div>
             </div>
-            <div class="kpi-icon-box icon-purple">🗺️</div>
+            <div class="kpi-icon-box icon-emerald" style="background: #ecfdf5; color: #10b981;">👥</div>
           </div>
 
-          <!-- KPI 4 -->
+          <!-- KPI 4: Total Users / Registered Travelers -->
           <div class="kpi-card">
             <div>
-              <div class="kpi-label">New Inquiries</div>
+              <div class="kpi-label">Total Users / Travelers</div>
+              <div class="kpi-value" id="kpiTotalUsers">0</div>
+              <div class="kpi-sub" style="color: #2563eb;">
+                <span>● Registered customers</span>
+              </div>
+            </div>
+            <div class="kpi-icon-box icon-purple">👤</div>
+          </div>
+
+          <!-- KPI 5: Inquiries -->
+          <div class="kpi-card">
+            <div>
+              <div class="kpi-label">Customer Inquiries</div>
               <div class="kpi-value" id="kpiNewInquiries">0</div>
               <div class="kpi-sub" style="color: #d97706;">
-                <span>● Pending response</span>
+                <span id="kpiInquiriesSub">● Received in timeframe</span>
               </div>
             </div>
             <div class="kpi-icon-box icon-amber">✉️</div>
           </div>
 
-          <!-- KPI 5 -->
+          <!-- KPI 6: Rating / Avg Order -->
           <div class="kpi-card">
             <div>
               <div class="kpi-label">Avg Guest Rating</div>
               <div class="kpi-value" id="kpiAvgRating">4.9 ★</div>
               <div class="kpi-sub">
-                <span>★ 98% 5-Star reviews</span>
+                <span id="kpiRatingSub">★ 98% 5-Star reviews</span>
               </div>
             </div>
             <div class="kpi-icon-box icon-amber">⭐</div>
           </div>
         </div>
 
-        <!-- 2 Column Section: Chart + Inquiries -->
+        <!-- 2 Column Section: Dynamic Chart + Side Feeds -->
         <div class="dashboard-grid-2">
           
-          <!-- Monthly Bookings Visual Chart -->
+          <!-- Dynamic Revenue & Bookings Trend Chart -->
           <div class="admin-card">
             <div class="admin-card-header">
-              <h3 class="admin-card-title">Monthly Revenue & Bookings Trend (2026)</h3>
+              <h3 class="admin-card-title" id="chartTimeframeLabel">Monthly Revenue & Bookings Trend (2026)</h3>
               <span style="font-size: 0.78rem; font-weight: 700; color: #2563eb; background: #eff6ff; padding: 0.2rem 0.6rem; border-radius: 4px;">In Indian Rupees (₹)</span>
             </div>
             <div class="admin-card-body">
-              <div class="revenue-chart-mockup">
-                <div class="chart-bar-col">
-                  <div class="chart-bar" style="height: 65px;" title="May: ₹1,40,000"></div>
-                  <span class="chart-month">May</span>
-                </div>
-                <div class="chart-bar-col">
-                  <div class="chart-bar" style="height: 85px;" title="Jun: ₹1,95,000"></div>
-                  <span class="chart-month">Jun</span>
-                </div>
-                <div class="chart-bar-col">
-                  <div class="chart-bar" style="height: 110px;" title="Jul: ₹2,45,000"></div>
-                  <span class="chart-month">Jul</span>
-                </div>
-                <div class="chart-bar-col">
-                  <div class="chart-bar" style="height: 130px;" title="Aug: ₹2,80,000"></div>
-                  <span class="chart-month">Aug</span>
-                </div>
-                <div class="chart-bar-col">
-                  <div class="chart-bar" style="height: 155px;" title="Sep: ₹3,60,000"></div>
-                  <span class="chart-month">Sep</span>
-                </div>
-                <div class="chart-bar-col">
-                  <div class="chart-bar" style="height: 180px; background: #2563eb;" title="Oct (Current): ₹4,20,000+"></div>
-                  <span class="chart-month" style="font-weight: 800; color: #2563eb;">Oct</span>
-                </div>
+              <div class="revenue-chart-mockup" id="dashboardRevenueChart">
+                <!-- Dynamically populated via admin.js based on selected filter -->
               </div>
-              <div style="display: flex; justify-content: space-between; margin-top: 1rem; font-size: 0.82rem; color: #64748b;">
-                <span>🚀 Highest performing package: <strong>Nusa Penida & Snorkeling</strong></span>
-                <span>Average Order Value: <strong>₹4,850</strong></span>
+              <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; margin-top: 1rem; font-size: 0.82rem; color: #64748b;">
+                <span id="dashboardTopTourBadge">🚀 Highest performing package: <strong>Nusa Penida & Snorkeling</strong></span>
+                <span id="dashboardAvgOrderBadge">Average Order Value: <strong>₹4,850</strong></span>
               </div>
             </div>
           </div>
 
-          <!-- Quick Inquiries Mini-List -->
-          <div class="admin-card">
-            <div class="admin-card-header">
-              <h3 class="admin-card-title">Recent Inquiries</h3>
-              <a href="#" onclick="document.querySelector('.sidebar-link[data-tab=\'inquiries\']').click()" style="font-size: 0.8rem; font-weight: 700; color: #2563eb; text-decoration: none;">View All &rarr;</a>
+          <!-- Side Stack: Live Active Travelers Feed + Quick Inquiries -->
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <!-- Live Active Travelers Feed -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title" style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="live-pulse-dot"></span> Live Active Travelers
+                </h3>
+                <span style="font-size: 0.75rem; font-weight: 700; color: #059669; background: #ecfdf5; padding: 0.2rem 0.5rem; border-radius: 12px;" id="badgeLiveActiveCount">8 Online</span>
+              </div>
+              <div class="admin-card-body" style="padding-top: 0.5rem; max-height: 220px; overflow-y: auto;" id="liveTravelersList">
+                <!-- Injected via admin.js -->
+              </div>
             </div>
-            <div class="admin-card-body" style="padding-top: 0.5rem;" id="recentInquiriesList">
-              <!-- Rendered via admin.js -->
+
+            <!-- Quick Inquiries Mini-List -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title">Recent Inquiries</h3>
+                <a href="#" onclick="document.querySelector('.sidebar-link[data-tab=\'inquiries\']').click()" style="font-size: 0.8rem; font-weight: 700; color: #2563eb; text-decoration: none;">View All &rarr;</a>
+              </div>
+              <div class="admin-card-body" style="padding-top: 0.5rem; max-height: 180px; overflow-y: auto;" id="recentInquiriesList">
+                <!-- Rendered via admin.js -->
+              </div>
             </div>
+
           </div>
 
         </div>
@@ -375,6 +407,56 @@
                 </tr>
               </thead>
               <tbody id="adminBookingsTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           TAB: TRAVELERS & REGISTERED USERS
+           ============================================== -->
+      <section class="admin-tab-panel" id="tab-users">
+        <div class="admin-section-header">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a;">👥 Registered Travelers & Website Visitors</h2>
+            <p style="font-size: 0.85rem; color: #64748b;">Monitor active online travelers, booking histories, and registered user profiles.</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <span style="font-size: 0.82rem; font-weight: 700; color: #059669; background: #ecfdf5; padding: 0.4rem 0.8rem; border-radius: 20px; border: 1px solid #a7f3d0;" id="usersLiveCounterBadge">
+              <span class="live-pulse-dot"></span> 8 Online Now
+            </span>
+          </div>
+        </div>
+
+        <div class="admin-toolbar">
+          <div class="admin-search-box">
+            <span>🔍</span>
+            <input type="text" id="searchUsersInput" placeholder="Search travelers by name, email, or city...">
+          </div>
+          <div style="display: flex; gap: 0.5rem;" id="userFilterButtons">
+            <button class="btn-sm-outline active" data-user-filter="all">All</button>
+            <button class="btn-sm-outline" data-user-filter="online">🟢 Online Now</button>
+            <button class="btn-sm-outline" data-user-filter="booked">📋 Has Bookings</button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Traveler</th>
+                  <th>Contact Details</th>
+                  <th>Origin / City</th>
+                  <th>Current Activity</th>
+                  <th>Total Spent (₹)</th>
+                  <th>Bookings</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTableBody">
                 <!-- Injected via admin.js -->
               </tbody>
             </table>

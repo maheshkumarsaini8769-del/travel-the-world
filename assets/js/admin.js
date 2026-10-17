@@ -115,37 +115,149 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // DASHBOARD TAB RENDERING
+  // DASHBOARD TAB RENDERING & TIMEFRAME FILTER ENGINE
   // =========================================================================
-  function renderDashboard() {
-    const stats = window.TravelStore.getStats();
+  let currentDashboardPeriod = 'all';
+
+  // Attach timeframe filter button events
+  const timeframeFilterButtons = document.querySelectorAll('.btn-time-filter');
+  timeframeFilterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      timeframeFilterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentDashboardPeriod = btn.getAttribute('data-period') || 'all';
+      renderDashboard(currentDashboardPeriod);
+    });
+  });
+
+  function renderDashboard(filterPeriod = currentDashboardPeriod) {
+    const stats = window.TravelStore.getStats(filterPeriod);
+
+    // Update active filter label
+    const filterNameEl = document.getElementById('dashboardActiveFilterName');
+    if (filterNameEl) {
+      const periodLabels = {
+        '1d': 'Showing: Last 24 Hours Performance (1 Day)',
+        '7d': 'Showing: Past 7 Days Performance',
+        'month': 'Showing: Current Month Performance (October 2026)',
+        'all': 'Showing: All Time Performance'
+      };
+      filterNameEl.textContent = periodLabels[filterPeriod] || 'Showing: All Time Performance';
+    }
 
     // KPI Cards
     const kpiRevenue = document.getElementById('kpiTotalRevenue');
+    const kpiRevenueSub = document.getElementById('kpiRevenueSub');
     const kpiBookings = document.getElementById('kpiTotalBookings');
-    const kpiTours = document.getElementById('kpiActiveTours');
+    const kpiBookingsSub = document.getElementById('kpiBookingsSub');
+    const kpiActiveUsers = document.getElementById('kpiActiveUsers');
+    const kpiTotalUsers = document.getElementById('kpiTotalUsers');
     const kpiInquiries = document.getElementById('kpiNewInquiries');
+    const kpiInquiriesSub = document.getElementById('kpiInquiriesSub');
     const kpiRating = document.getElementById('kpiAvgRating');
-    const badgeInquiries = document.getElementById('badgeInquiriesCount');
+    const kpiRatingSub = document.getElementById('kpiRatingSub');
 
-    if (kpiRevenue) kpiRevenue.textContent = `₹${stats.totalRevenue.toLocaleString('en-IN')}`;
+    // Badges
+    const badgeInquiries = document.getElementById('badgeInquiriesCount');
+    const badgeActiveUsersLive = document.getElementById('badgeActiveUsersLive');
+    const badgeLiveActiveCount = document.getElementById('badgeLiveActiveCount');
+    const usersLiveCounterBadge = document.getElementById('usersLiveCounterBadge');
+
+    if (kpiRevenue) kpiRevenue.textContent = `₹${(stats.totalRevenue || 0).toLocaleString('en-IN')}`;
+    if (kpiRevenueSub) {
+      kpiRevenueSub.innerHTML = `<span>↑ Active</span> <span style="color: #64748b; font-weight: normal;">for ${filterPeriod.toUpperCase()}</span>`;
+    }
+
     if (kpiBookings) kpiBookings.textContent = stats.totalBookings;
-    if (kpiTours) kpiTours.textContent = stats.activeTours;
-    if (kpiInquiries) kpiInquiries.textContent = stats.newInquiries;
+    if (kpiBookingsSub) {
+      kpiBookingsSub.textContent = `● ${stats.confirmedBookings} Confirmed, ${stats.pendingBookings} Pending`;
+    }
+
+    if (kpiActiveUsers) kpiActiveUsers.textContent = stats.activeUsers;
+    if (kpiTotalUsers) kpiTotalUsers.textContent = stats.totalUsers;
+    if (kpiInquiries) kpiInquiries.textContent = stats.totalInquiries;
+    if (kpiInquiriesSub) {
+      kpiInquiriesSub.textContent = `● ${stats.newInquiries} pending response`;
+    }
+
     if (kpiRating) kpiRating.textContent = `${stats.avgRating} ★`;
+    if (kpiRatingSub) {
+      kpiRatingSub.textContent = `Average Order: ₹${(stats.avgOrderValue || 0).toLocaleString('en-IN')}`;
+    }
+
     if (badgeInquiries) {
       badgeInquiries.textContent = stats.newInquiries;
       badgeInquiries.style.display = stats.newInquiries > 0 ? 'inline-block' : 'none';
     }
+    if (badgeActiveUsersLive) {
+      badgeActiveUsersLive.textContent = `${stats.activeUsers} LIVE`;
+    }
+    if (badgeLiveActiveCount) {
+      badgeLiveActiveCount.textContent = `${stats.activeUsers} Online`;
+    }
+    if (usersLiveCounterBadge) {
+      usersLiveCounterBadge.innerHTML = `<span class="live-pulse-dot"></span> ${stats.activeUsers} Online Now`;
+    }
 
-    // Recent Bookings Table (Top 5)
+    // Dynamic Chart Header & Bars
+    const chartTimeframeLabel = document.getElementById('chartTimeframeLabel');
+    if (chartTimeframeLabel) chartTimeframeLabel.textContent = stats.chartTitle;
+
+    const chartContainer = document.getElementById('dashboardRevenueChart');
+    if (chartContainer && Array.isArray(stats.chartData)) {
+      chartContainer.innerHTML = stats.chartData.map(item => `
+        <div class="chart-bar-col">
+          <div class="chart-bar" style="height: ${item.height}px; ${item.isCurrent ? 'background: #2563eb;' : ''}" title="${item.label}: ₹${item.amount.toLocaleString('en-IN')}"></div>
+          <span class="chart-month" style="${item.isCurrent ? 'font-weight: 800; color: #2563eb;' : ''}">${item.label}</span>
+        </div>
+      `).join('');
+    }
+
+    const topTourBadge = document.getElementById('dashboardTopTourBadge');
+    if (topTourBadge) {
+      topTourBadge.innerHTML = `🚀 Highest performing package: <strong>${stats.topPerformingTour}</strong>`;
+    }
+
+    const avgOrderBadge = document.getElementById('dashboardAvgOrderBadge');
+    if (avgOrderBadge) {
+      avgOrderBadge.innerHTML = `Average Order Value: <strong>₹${(stats.avgOrderValue || 0).toLocaleString('en-IN')}</strong>`;
+    }
+
+    // Render Live Active Travelers Feed
+    const liveTravelersList = document.getElementById('liveTravelersList');
+    if (liveTravelersList) {
+      const allUsers = window.TravelStore.getUsers();
+      const onlineUsers = allUsers.filter(u => u.isOnline).slice(0, 5);
+      if (onlineUsers.length === 0) {
+        liveTravelersList.innerHTML = '<p style="color: #94a3b8; text-align: center; padding: 1rem;">No online users right now.</p>';
+      } else {
+        liveTravelersList.innerHTML = onlineUsers.map(u => `
+          <div class="live-traveler-item">
+            <div class="live-traveler-left">
+              <div class="user-avatar-badge">${(u.name || 'U').split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
+              <div>
+                <div style="font-weight: 700; color: #0f172a; font-size: 0.85rem;">${u.name}</div>
+                <div style="font-size: 0.72rem; color: #64748b;">📍 ${u.location} &bull; ${u.lastActive}</div>
+              </div>
+            </div>
+            <div>
+              <span class="status-online" title="${u.currentActivity}">
+                <span class="live-pulse-dot"></span> ${u.currentActivity || 'Online'}
+              </span>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Recent Bookings Table (Filtered by timeframe)
     const recentBookingsTbody = document.getElementById('recentBookingsTableBody');
     if (recentBookingsTbody) {
-      const recent = window.TravelStore.getBookings().slice(0, 5);
-      if (recent.length === 0) {
-        recentBookingsTbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #94a3b8;">No bookings yet.</td></tr>';
+      const bookingsToShow = (stats.filteredBookings || window.TravelStore.getBookings()).slice(0, 6);
+      if (bookingsToShow.length === 0) {
+        recentBookingsTbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #94a3b8;">No customer reservations in this timeframe.</td></tr>';
       } else {
-        recentBookingsTbody.innerHTML = recent.map(b => `
+        recentBookingsTbody.innerHTML = bookingsToShow.map(b => `
           <tr>
             <td><strong style="font-family: monospace; color: #2563eb;">${b.id}</strong></td>
             <td>
@@ -163,27 +275,109 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Recent Inquiries List (Top 3)
+    // Recent Inquiries List (Filtered by timeframe)
     const recentInquiriesList = document.getElementById('recentInquiriesList');
     if (recentInquiriesList) {
-      const inqs = window.TravelStore.getInquiries().slice(0, 3);
+      const inqs = (stats.filteredInquiries || window.TravelStore.getInquiries()).slice(0, 3);
       if (inqs.length === 0) {
-        recentInquiriesList.innerHTML = '<p style="color: #94a3b8; text-align: center; padding: 1rem;">No recent messages.</p>';
+        recentInquiriesList.innerHTML = '<p style="color: #94a3b8; text-align: center; padding: 1rem;">No inquiries in this timeframe.</p>';
       } else {
         recentInquiriesList.innerHTML = inqs.map(i => `
-          <div style="padding: 1rem 0; border-bottom: 1px solid #f1f5f9;">
+          <div style="padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9;">
             <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem;">
-              <strong style="font-size: 0.9rem;">${i.customerName}</strong>
+              <strong style="font-size: 0.88rem;">${i.customerName}</strong>
               <span class="status-pill status-${(i.status || '').toLowerCase()}">${i.status}</span>
             </div>
-            <div style="font-size: 0.82rem; font-weight: 600; color: #334155; margin-bottom: 0.25rem;">${i.subject}</div>
-            <p style="font-size: 0.78rem; color: #64748b; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+            <div style="font-size: 0.8rem; font-weight: 600; color: #334155; margin-bottom: 0.2rem;">${i.subject}</div>
+            <p style="font-size: 0.75rem; color: #64748b; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;">
               ${i.message}
             </p>
           </div>
         `).join('');
       }
     }
+  }
+
+  // =========================================================================
+  // TRAVELERS & REGISTERED USERS TAB
+  // =========================================================================
+  const usersTableBody = document.getElementById('adminUsersTableBody');
+  const searchUsersInput = document.getElementById('searchUsersInput');
+  const userFilterButtons = document.querySelectorAll('#userFilterButtons button');
+  let currentUserFilter = 'all';
+
+  if (userFilterButtons) {
+    userFilterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        userFilterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentUserFilter = btn.getAttribute('data-user-filter') || 'all';
+        renderUsersTable();
+      });
+    });
+  }
+
+  if (searchUsersInput) {
+    searchUsersInput.addEventListener('input', () => {
+      renderUsersTable();
+    });
+  }
+
+  function renderUsersTable() {
+    if (!usersTableBody) return;
+    const q = (searchUsersInput ? searchUsersInput.value : '').toLowerCase().trim();
+    let users = window.TravelStore.getUsers();
+
+    if (currentUserFilter === 'online') {
+      users = users.filter(u => u.isOnline);
+    } else if (currentUserFilter === 'booked') {
+      users = users.filter(u => (u.bookingsCount || 0) > 0);
+    }
+
+    if (q) {
+      users = users.filter(u =>
+        (u.name && u.name.toLowerCase().includes(q)) ||
+        (u.email && u.email.toLowerCase().includes(q)) ||
+        (u.location && u.location.toLowerCase().includes(q))
+      );
+    }
+
+    if (users.length === 0) {
+      usersTableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: #94a3b8;">No travelers found.</td></tr>';
+      return;
+    }
+
+    usersTableBody.innerHTML = users.map(u => `
+      <tr>
+        <td>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div class="user-avatar-badge">${(u.name || 'U').split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
+            <div>
+              <strong style="font-size: 0.95rem; color: #0f172a; display: block;">${u.name}</strong>
+              <span style="font-size: 0.75rem; color: #64748b;">ID: ${u.id}</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div style="font-weight: 600; color: #334155;">✉️ ${u.email}</div>
+          <div style="font-size: 0.78rem; color: #64748b;">📞 ${u.phone || 'N/A'}</div>
+        </td>
+        <td>📍 ${u.location || 'India'}</td>
+        <td>
+          <span style="font-size: 0.82rem; color: #475569; font-weight: 600;">
+            ${u.currentActivity || 'Active'}
+          </span>
+          <div style="font-size: 0.72rem; color: #94a3b8;">${u.lastActive}</div>
+        </td>
+        <td><strong style="color: #059669; font-size: 0.95rem;">₹${(u.totalSpent || 0).toLocaleString('en-IN')}</strong></td>
+        <td><span style="font-weight: 700; color: #2563eb;">${u.bookingsCount || 0} Tour(s)</span></td>
+        <td>
+          ${u.isOnline
+            ? '<span class="status-online"><span class="live-pulse-dot"></span> Online</span>'
+            : '<span class="status-offline">Offline</span>'}
+        </td>
+      </tr>
+    `).join('');
   }
 
   // =========================================================================
@@ -1431,6 +1625,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderDashboard();
     renderToursTable();
     renderBookingsTable();
+    renderUsersTable();
     renderCouponsTable();
     renderInquiriesTable();
     renderReviewsTable();
