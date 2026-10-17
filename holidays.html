@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bali Holiday Packages & Experiences | Travel The World</title>
+  <meta name="description" content="Explore handcrafted Bali tour packages, historic Hindu temples, volcanic sunrise treks, and island snorkeling. Transparent pricing in Indian Rupees (₹).">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/advanced.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header scrolled" id="siteHeader">
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="nav-logo" aria-label="Travel the World homepage">
+        <span class="logo-script">travel</span>
+        <span class="logo-sub">THE WORLD</span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="holidays.html" class="nav-link active">Holidays</a></li>
+        <li class="nav-item"><a href="offers.html" class="nav-link">Offers</a></li>
+        <li class="nav-item"><a href="about.html" class="nav-link">About Us</a></li>
+        <li class="nav-item"><a href="reviews.html" class="nav-link">Reviews</a></li>
+        <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <div class="search-pill" id="searchPill">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search destinations..." autocomplete="off">
+          <button class="search-clear-btn" id="searchClearBtn" aria-label="Clear search">&times;</button>
+          <div class="search-results-dropdown" id="searchResultsDropdown"></div>
+        </div>
+
+        <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero" style="background-image: url('assets/images/hero-gates.jpg');">
+    <div class="page-hero-content">
+      <span class="page-badge">✨ Handcrafted Itineraries</span>
+      <h1 class="page-title">BALI HOLIDAYS & TOURS</h1>
+      <p class="page-subtitle">
+        Immerse yourself in sacred ocean temples, mist-shrouded volcanic ridges, lush stepped rice valleys, and private island speedboat expeditions.
+      </p>
+    </div>
+  </section>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <div class="breadcrumb-list">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Holidays & Tour Packages</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="container" style="padding-top: 2rem;">
+    
+    <!-- CATEGORY FILTER & SORTING BAR -->
+    <div class="filter-tabs-wrapper">
+      <div class="filter-pills">
+        <button class="filter-btn active" data-category="all">All Experiences</button>
+        <button class="filter-btn" data-category="Temple">Hindu Temples</button>
+        <button class="filter-btn" data-category="Volcano">Volcano Treks</button>
+        <button class="filter-btn" data-category="Terrace">Rice Terraces</button>
+        <button class="filter-btn" data-category="Water">Waterparks & Family</button>
+        <button class="filter-btn" data-category="Island">Island Snorkeling</button>
+      </div>
+
+      <div class="filter-sort-box">
+        <label for="sortSelect">Sort By:</label>
+        <select id="sortSelect" class="filter-select">
+          <option value="popular">Most Popular</option>
+          <option value="price-low">Price: Low to High (₹)</option>
+          <option value="price-high">Price: High to Low (₹)</option>
+          <option value="rating">Highest Rated</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- DYNAMIC TOURS GRID -->
+    <div class="tours-grid" id="holidaysToursGrid">
+      <!-- Injected dynamically via TravelStore in assets/js/pages.js -->
+    </div>
+
+    <!-- ==============================================
+         INTERACTIVE BALI TRIP COST & ITINERARY CALCULATOR
+         ============================================== -->
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; border-radius: 24px; padding: 3rem 2.5rem; margin-bottom: 4rem; box-shadow: var(--shadow-xl);">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8;">✨ Custom Trip Planner</span>
+          <h3 style="font-family: var(--font-heading); font-size: 2rem; font-weight: 800; margin: 0.3rem 0;">Build Your Custom Bali Holiday & Calculate Total Cost</h3>
+        </div>
+        <span style="background: rgba(255,255,255,0.12); padding: 0.35rem 0.8rem; border-radius: var(--radius-pill); font-size: 0.82rem; font-weight: 700;">All in Indian Rupees (₹)</span>
+      </div>
+      <p style="color: rgba(255,255,255,0.85); font-size: 0.95rem; max-width: 680px; margin-bottom: 2rem;">
+        Select the excursions you want to experience, choose number of travelers, and watch your customized private package estimate calculate live.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2rem;" id="customTripOptionsList">
+        <!-- Populated via assets/js/pages.js -->
+      </div>
+
+      <div style="background: rgba(255,255,255,0.08); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+          <div>
+            <label for="customTripGuests" style="font-size: 0.75rem; text-transform: uppercase; color: rgba(255,255,255,0.7); font-weight: 700; display: block; margin-bottom: 0.25rem;">Travelers</label>
+            <select id="customTripGuests" style="background: #0f172a; color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 0.5rem 0.8rem; border-radius: 6px; font-weight: 700; cursor: pointer;">
+              <option value="1">1 Person</option>
+              <option value="2" selected>2 Persons</option>
+              <option value="3">3 Persons</option>
+              <option value="4">4 Persons</option>
+              <option value="5">5+ Persons</option>
+            </select>
+          </div>
+          <div>
+            <span style="font-size: 0.75rem; text-transform: uppercase; color: rgba(255,255,255,0.7); font-weight: 700; display: block; margin-bottom: 0.25rem;">Estimated Total Price:</span>
+            <div style="font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: #38bdf8;" id="customTripTotalPrice">₹6,500</div>
+          </div>
+        </div>
+
+        <button class="btn btn-white-pill" id="btnBookCustomTrip" style="color: #0f172a; font-weight: 800; padding: 0.85rem 1.8rem;">
+          <span>Book Custom Plan &rarr;</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PERKS CALLOUT -->
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; padding: 2.5rem; margin-bottom: 5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; text-align: center;">
+      <div>
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔒</div>
+        <h4 style="font-weight: 800; margin-bottom: 0.3rem;">Zero Hidden Charges</h4>
+        <p style="font-size: 0.88rem; color: #64748b;">All entry tickets, temple sarongs & toll parking included.</p>
+      </div>
+      <div>
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🚘</div>
+        <h4 style="font-weight: 800; margin-bottom: 0.3rem;">Private Chauffeur</h4>
+        <p style="font-size: 0.88rem; color: #64748b;">Air-conditioned private pickup directly from your hotel.</p>
+      </div>
+      <div>
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🇮🇳</div>
+        <h4 style="font-weight: 800; margin-bottom: 0.3rem;">Rupee Invoicing (₹)</h4>
+        <p style="font-size: 0.88rem; color: #64748b;">Pay seamlessly via UPI, Indian Net Banking or Credit Cards.</p>
+      </div>
+      <div>
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
+        <h4 style="font-weight: 800; margin-bottom: 0.3rem;">24/7 Ground Support</h4>
+        <p style="font-size: 0.88rem; color: #64748b;">Instant WhatsApp concierge on-the-ground in Bali.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <span class="logo-script">travel</span>
+          <span class="logo-sub">THE WORLD</span>
+        </div>
+        <p class="footer-tagline">Making bespoke Indonesian travel accessible, luxurious, and completely effortless.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram">Instagram</a>
+          <a href="#" aria-label="YouTube">YouTube</a>
+          <a href="#" aria-label="Facebook">Facebook</a>
+          <a href="#" aria-label="Twitter">Twitter</a>
+        </div>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Destinations</h4>
+        <ul>
+          <li><a href="holidays.html">Uluwatu Temples</a></li>
+          <li><a href="holidays.html">Tanah Lot Ocean Shrine</a></li>
+          <li><a href="holidays.html">Waterbom Tropical Park</a></li>
+          <li><a href="holidays.html">Tegallalang Terraces</a></li>
+          <li><a href="holidays.html">Mount Batur Volcano</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="holidays.html">All Tour Packages</a></li>
+          <li><a href="offers.html">Seasonal Deals & Coupons</a></li>
+          <li><a href="reviews.html">Verified Traveler Reviews</a></li>
+          <li><a href="contact.html">Contact Concierge</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Bali Travel Concierge</h4>
+        <p class="contact-info">📍 Jl. Danau Tamblingan No. 42, Sanur, Bali</p>
+        <p class="contact-info">📞 +62 361 720 892 / +91 98200 12345</p>
+        <p class="contact-info">✉️ concierge@traveltheworld.bali</p>
+        <div class="secure-badge">
+          🔒 Certified Indonesian Tour Operator #7819/BALI
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom text-center">
+      <p>&copy; 2026 Travel The World. Designed with precision & care. All pricing in Indian Rupees (₹).</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="assets/js/travel-store.js"></script>
+  <script src="assets/js/pages.js"></script>
+  <script src="assets/js/advanced-features.js"></script>
+</body>
+</html>

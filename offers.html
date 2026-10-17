@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exclusive Offers & Promo Deals | Travel The World</title>
+  <meta name="description" content="Save big on your dream Bali holiday with exclusive seasonal coupons, flash sale discounts, and combo packages in Indian Rupees (₹).">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/advanced.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header scrolled" id="siteHeader">
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="nav-logo" aria-label="Travel the World homepage">
+        <span class="logo-script">travel</span>
+        <span class="logo-sub">THE WORLD</span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="holidays.html" class="nav-link">Holidays</a></li>
+        <li class="nav-item"><a href="offers.html" class="nav-link active">Offers</a></li>
+        <li class="nav-item"><a href="about.html" class="nav-link">About Us</a></li>
+        <li class="nav-item"><a href="reviews.html" class="nav-link">Reviews</a></li>
+        <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <div class="search-pill" id="searchPill">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search deals & spots..." autocomplete="off">
+          <button class="search-clear-btn" id="searchClearBtn" aria-label="Clear search">&times;</button>
+          <div class="search-results-dropdown" id="searchResultsDropdown"></div>
+        </div>
+
+        <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero" style="background-image: url('assets/images/hero-beach.jpg');">
+    <div class="page-hero-content">
+      <span class="page-badge">🏷️ Limited Time Deals</span>
+      <h1 class="page-title">SPECIAL OFFERS & PROMOS</h1>
+      <p class="page-subtitle">
+        Book your authentic Balinese adventure with verified instant promo codes, festive seasonal packages, and combo discounts in Indian Rupees.
+      </p>
+    </div>
+  </section>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <div class="breadcrumb-list">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Exclusive Offers</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+    
+    <!-- FLASH SALE BANNER -->
+    <div class="offers-banner">
+      <div>
+        <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8;">🔥 Festive Flash Sale</span>
+        <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 800; margin: 0.3rem 0 0.8rem;">Up to 20% Off on All Bali Experiences</h2>
+        <p style="color: rgba(255,255,255,0.85); max-width: 480px; font-size: 0.95rem; line-height: 1.5;">
+          Use code <strong>BALI20</strong> at checkout. Includes complimentary airport meet-and-greet on bookings above ₹5,000.
+        </p>
+      </div>
+
+      <div>
+        <span style="font-size: 0.78rem; text-transform: uppercase; color: rgba(255,255,255,0.7); display: block; margin-bottom: 0.5rem; font-weight: 600;">Sale Ends In:</span>
+        <div class="offers-countdown">
+          <div class="countdown-box">
+            <div class="countdown-val" id="countDays">02</div>
+            <div class="countdown-unit">Days</div>
+          </div>
+          <div class="countdown-box">
+            <div class="countdown-val" id="countHours">14</div>
+            <div class="countdown-unit">Hours</div>
+          </div>
+          <div class="countdown-box">
+            <div class="countdown-val" id="countMins">38</div>
+            <div class="countdown-unit">Mins</div>
+          </div>
+          <div class="countdown-box">
+            <div class="countdown-val" id="countSecs">45</div>
+            <div class="countdown-unit">Secs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COUPONS GRID -->
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800;">Available Promo Coupons</h3>
+      <p style="color: #64748b; font-size: 0.95rem;">Copy any code and apply during checkout for instant discount.</p>
+    </div>
+
+    <div class="coupons-grid" id="offersCouponsGrid">
+      <!-- Coupon 1 -->
+      <div class="coupon-card">
+        <span class="coupon-badge">FLAT 20% OFF</span>
+        <h4 class="coupon-title">BALI20</h4>
+        <p class="coupon-desc">Get a full 20% discount on any booking of ₹1,000 or above. Valid on all temple tours and island excursions.</p>
+        <div class="coupon-action-row">
+          <span class="coupon-code-text">BALI20</span>
+          <button class="btn-copy-code" data-code="BALI20">Copy Code</button>
+        </div>
+      </div>
+
+      <!-- Coupon 2 -->
+      <div class="coupon-card">
+        <span class="coupon-badge" style="background: #fef3c7; color: #d97706;">₹500 INSTANT CASHBACK</span>
+        <h4 class="coupon-title">FIRSTTRIP</h4>
+        <p class="coupon-desc">Flat ₹500 off on your first Bali reservation. Applicable across all single-day and multi-day packages.</p>
+        <div class="coupon-action-row">
+          <span class="coupon-code-text">FIRSTTRIP</span>
+          <button class="btn-copy-code" data-code="FIRSTTRIP">Copy Code</button>
+        </div>
+      </div>
+
+      <!-- Coupon 3 -->
+      <div class="coupon-card">
+        <span class="coupon-badge" style="background: #ecfdf5; color: #059669;">15% OFF TREKKING</span>
+        <h4 class="coupon-title">MONSOON</h4>
+        <p class="coupon-desc">Enjoy 15% off on Mount Batur Sunrise Trek and Tegallalang Jungle Swing tours with complimentary hot spring entry.</p>
+        <div class="coupon-action-row">
+          <span class="coupon-code-text">MONSOON</span>
+          <button class="btn-copy-code" data-code="MONSOON">Copy Code</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMBO PACKAGES SECTION -->
+    <div style="margin: 4rem 0 5rem;">
+      <h3 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">Curated Combo Deals (Save Extra)</h3>
+      <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 2rem;">Combine our top-rated excursions into single easy reservations with maximum savings.</p>
+
+      <div class="tours-grid">
+        <!-- Combo 1 -->
+        <div class="tour-card">
+          <div class="tour-card-media">
+            <img src="assets/images/featured-uluwatu.jpg" alt="Uluwatu Sunset + Seafood Dinner" class="tour-card-img">
+            <span class="tour-card-tag" style="background: #dc2626;">COMBO SAVE 30%</span>
+            <span class="tour-duration-badge">Full Day + Dinner</span>
+          </div>
+          <div class="tour-card-body">
+            <div class="tour-card-rating">
+              <span class="star">★</span>
+              <span>4.9</span>
+              <span style="color: #94a3b8;">(185 bookings)</span>
+            </div>
+            <h3 class="tour-card-title">Uluwatu Sunset & Jimbaran Seafood Feast</h3>
+            <p class="tour-card-desc">Uluwatu cliff temple tour, front-row Kecak Fire Dance tickets, followed by a beachfront candlelit fresh grilled seafood dinner.</p>
+            <div class="tour-card-footer">
+              <div class="tour-price-box">
+                <span class="price-label">Combo Price</span>
+                <div style="display: flex; align-items: baseline;">
+                  <span class="price-figure">₹1,850</span>
+                  <span class="price-original">₹2,600</span>
+                </div>
+              </div>
+              <a href="booking.html?tour=uluwatu" class="btn-sm-primary">Book Combo</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Combo 2 -->
+        <div class="tour-card">
+          <div class="tour-card-media">
+            <img src="assets/images/mount-batur.jpg" alt="Mount Batur + Ubud Terraces" class="tour-card-img">
+            <span class="tour-card-tag" style="background: #dc2626;">COMBO SAVE 25%</span>
+            <span class="tour-duration-badge">Full Day Expedition</span>
+          </div>
+          <div class="tour-card-body">
+            <div class="tour-card-rating">
+              <span class="star">★</span>
+              <span>4.9</span>
+              <span style="color: #94a3b8;">(240 bookings)</span>
+            </div>
+            <h3 class="tour-card-title">Mount Batur Sunrise & Tegallalang Swing</h3>
+            <p class="tour-card-desc">Conquer the volcano summit at dawn, soak in natural volcanic hot springs, then fly high above Tegallalang rice paddies on a jungle swing.</p>
+            <div class="tour-card-footer">
+              <div class="tour-price-box">
+                <span class="price-label">Combo Price</span>
+                <div style="display: flex; align-items: baseline;">
+                  <span class="price-figure">₹3,100</span>
+                  <span class="price-original">₹4,200</span>
+                </div>
+              </div>
+              <a href="booking.html?tour=mount-batur" class="btn-sm-primary">Book Combo</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Combo 3 -->
+        <div class="tour-card">
+          <div class="tour-card-media">
+            <img src="assets/images/nusa-penida.jpg" alt="Nusa Penida + Snorkeling" class="tour-card-img">
+            <span class="tour-card-tag" style="background: #dc2626;">VIP ALL-INCLUSIVE</span>
+            <span class="tour-duration-badge">Speedboat + Snorkel</span>
+          </div>
+          <div class="tour-card-body">
+            <div class="tour-card-rating">
+              <span class="star">★</span>
+              <span>5.0</span>
+              <span style="color: #94a3b8;">(310 bookings)</span>
+            </div>
+            <h3 class="tour-card-title">Nusa Penida VIP: T-Rex Cliff & Manta Snorkel</h3>
+            <p class="tour-card-desc">Roundtrip speedboat tickets, private air-conditioned island 4WD car, certified snorkel guide with underwater GoPro photos included.</p>
+            <div class="tour-card-footer">
+              <div class="tour-price-box">
+                <span class="price-label">Combo Price</span>
+                <div style="display: flex; align-items: baseline;">
+                  <span class="price-figure">₹4,200</span>
+                  <span class="price-original">₹5,500</span>
+                </div>
+              </div>
+              <a href="booking.html?tour=nusa-penida" class="btn-sm-primary">Book Combo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <span class="logo-script">travel</span>
+          <span class="logo-sub">THE WORLD</span>
+        </div>
+        <p class="footer-tagline">Making bespoke Indonesian travel accessible, luxurious, and completely effortless.</p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Popular Spots</h4>
+        <ul>
+          <li><a href="holidays.html">Uluwatu Sunset</a></li>
+          <li><a href="holidays.html">Mount Batur Volcano</a></li>
+          <li><a href="holidays.html">Nusa Penida Island</a></li>
+          <li><a href="holidays.html">Waterbom Bali</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="holidays.html">All Tours</a></li>
+          <li><a href="offers.html">Special Offers</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Concierge Desk</h4>
+        <p class="contact-info">📍 Sanur, Bali & New Delhi, India</p>
+        <p class="contact-info">📞 +91 98200 12345</p>
+        <p class="contact-info">✉️ concierge@traveltheworld.bali</p>
+        <div class="secure-badge">
+          🔒 Indonesian Tourism Board Operator #7819/BALI
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom text-center">
+      <p>&copy; 2026 Travel The World. Designed with precision & care. All pricing in Indian Rupees (₹).</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="assets/js/travel-store.js"></script>
+  <script src="assets/js/pages.js"></script>
+  <script src="assets/js/advanced-features.js"></script>
+</body>
+</html>

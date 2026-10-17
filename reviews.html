@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verified Traveler Reviews & Testimonials | Travel The World</title>
+  <meta name="description" content="Read authentic experiences and unvarnished reviews from thousands of global travelers and Indian families who explored Bali with us.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header scrolled" id="siteHeader">
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="nav-logo" aria-label="Travel the World homepage">
+        <span class="logo-script">travel</span>
+        <span class="logo-sub">THE WORLD</span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="holidays.html" class="nav-link">Holidays</a></li>
+        <li class="nav-item"><a href="offers.html" class="nav-link">Offers</a></li>
+        <li class="nav-item"><a href="about.html" class="nav-link">About Us</a></li>
+        <li class="nav-item"><a href="reviews.html" class="nav-link active">Reviews</a></li>
+        <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero" style="background-image: url('assets/images/hero-gates.jpg');">
+    <div class="page-hero-content">
+      <span class="page-badge">⭐ 100% Real Travelers</span>
+      <h1 class="page-title">TRAVELER STORIES & REVIEWS</h1>
+      <p class="page-subtitle">
+        Real stories from couples, honeymooners, solo trekkers, and families who trusted us with their once-in-a-lifetime Bali holiday.
+      </p>
+    </div>
+  </section>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <div class="breadcrumb-list">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Customer Reviews</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+    
+    <!-- REVIEWS BREAKDOWN CARD -->
+    <div class="reviews-breakdown-card">
+      <div class="reviews-score-block">
+        <div class="huge-score">4.9</div>
+        <div>
+          <div class="score-stars-text">★★★★★</div>
+          <span style="font-weight: 700; color: #0f172a; font-size: 1.1rem; display: block;">Exceptional Experience</span>
+          <span style="font-size: 0.85rem; color: #64748b;">Based on 1,280+ verified guest reviews across India & worldwide</span>
+        </div>
+      </div>
+
+      <button class="btn btn-dark-pill" onclick="document.getElementById('writeReviewModal').classList.add('active')">
+        <span>✍️ Write a Review &bull; Share Your Story</span>
+      </button>
+    </div>
+
+    <!-- REVIEWS GRID (Populated from TravelStore) -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 5rem;" id="reviewsListContainer">
+      <!-- Populated dynamically via TravelStore in assets/js/pages.js -->
+    </div>
+
+  </main>
+
+  <!-- MODAL: WRITE A REVIEW -->
+  <div class="modal-backdrop" id="writeReviewModal">
+    <div class="modal-box" style="max-width: 580px;">
+      <button class="modal-close-btn" onclick="document.getElementById('writeReviewModal').classList.remove('active')">&times;</button>
+      <div style="padding: 2.5rem;">
+        <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: #2563eb;">Share Your Experience</span>
+        <h3 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; margin: 0.3rem 0 1rem;">Submit Traveler Review</h3>
+
+        <form id="submitReviewForm">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label for="revName" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Your Full Name</label>
+              <input type="text" id="revName" placeholder="e.g. Siddharth & Rhea" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 8px;" required>
+            </div>
+            <div class="form-group">
+              <label for="revOrigin" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">City & Country</label>
+              <input type="text" id="revOrigin" placeholder="e.g. Bengaluru, India" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 8px;" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label for="revRating" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Rating (1 to 5 Stars)</label>
+              <select id="revRating" class="filter-select" style="width: 100%; padding: 0.75rem;">
+                <option value="5" selected>★★★★★ 5 Stars (Exceptional)</option>
+                <option value="4">★★★★☆ 4 Stars (Very Good)</option>
+                <option value="3">★★★☆☆ 3 Stars (Average)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="revTravelType" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Travel Style</label>
+              <select id="revTravelType" class="filter-select" style="width: 100%; padding: 0.75rem;">
+                <option value="Couple Holiday">Couple / Honeymoon</option>
+                <option value="Family Vacation">Family with Children</option>
+                <option value="Friends Trip">Friends Group</option>
+                <option value="Solo Traveler">Solo Explorer</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="revComment" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Your Honest Review</label>
+            <textarea id="revComment" rows="4" placeholder="How was the driver, the scenery, the punctuality, and overall trip experience?..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 8px; font-family: inherit;" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-dark-pill" style="width: 100%; padding: 0.9rem; justify-content: center;">
+            <span>Publish Review &bull; Instant Live</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <span class="logo-script">travel</span>
+          <span class="logo-sub">THE WORLD</span>
+        </div>
+        <p class="footer-tagline">Making bespoke Indonesian travel accessible, luxurious, and completely effortless.</p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Popular Spots</h4>
+        <ul>
+          <li><a href="holidays.html">Uluwatu Sunset</a></li>
+          <li><a href="holidays.html">Mount Batur Volcano</a></li>
+          <li><a href="holidays.html">Nusa Penida Island</a></li>
+          <li><a href="holidays.html">Waterbom Bali</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="holidays.html">All Tours</a></li>
+          <li><a href="offers.html">Seasonal Discounts</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Concierge Desk</h4>
+        <p class="contact-info">📍 Sanur, Bali & New Delhi, India</p>
+        <p class="contact-info">📞 +91 98200 12345</p>
+        <p class="contact-info">✉️ concierge@traveltheworld.bali</p>
+        <div class="secure-badge">
+          🔒 Indonesian Tourism Board Operator #7819/BALI
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom text-center">
+      <p>&copy; 2026 Travel The World. Designed with precision & care. All pricing in Indian Rupees (₹).</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="assets/js/travel-store.js"></script>
+  <script src="assets/js/pages.js"></script>
+</body>
+</html>

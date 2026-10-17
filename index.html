@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel The World | Bali Island of the Gods</title>
+  <meta name="description" content="Discover the magic of Bali with bespoke tour packages, historic temples, breathtaking volcanic landscapes, and scenic coastlines.">
+
+  <!-- Google Fonts: Syne for bold headlines, Caveat for cursive logo, Plus Jakarta Sans for UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/advanced.css">
+</head>
+<body>
+
+  <!-- ==============================================
+       HEADER & NAVIGATION (Transparent Glassmorphic Bar)
+       ============================================== -->
+  <header class="site-header" id="siteHeader">
+    <nav class="navbar" id="navbar">
+      <!-- Cursive Logo matching reference -->
+      <a href="#" class="nav-logo" aria-label="Travel the World homepage">
+        <span class="logo-script">travel</span>
+        <span class="logo-sub">THE WORLD</span>
+      </a>
+
+      <!-- Centered Navigation Links -->
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
+        <li class="nav-item"><a href="holidays.html" class="nav-link">Holidays</a></li>
+        <li class="nav-item"><a href="offers.html" class="nav-link">Offers</a></li>
+        <li class="nav-item"><a href="about.html" class="nav-link">About Us</a></li>
+        <li class="nav-item"><a href="reviews.html" class="nav-link">Reviews</a></li>
+        <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <!-- Search Pill Bar matching reference -->
+      <div class="nav-right">
+        <div class="search-pill" id="searchPill">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search your favorite place..." autocomplete="off">
+          <button class="search-clear-btn" id="searchClearBtn" aria-label="Clear search">&times;</button>
+          
+          <!-- Quick search dropdown -->
+          <div class="search-results-dropdown" id="searchResultsDropdown"></div>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+
+  <!-- ==============================================
+       HERO SECTION (Video 4-5s then Silk-Smooth Slideshow)
+       ============================================== -->
+  <section class="hero-section" id="hero">
+    <!-- Media Stage: Video + Image Slides -->
+    <div class="hero-media-stage" id="heroMediaStage">
+      <!-- Background Video (plays first 4-5 sec) -->
+      <div class="hero-video-wrapper" id="heroVideoWrapper">
+        <video 
+          id="heroVideo" 
+          muted 
+          playsinline 
+          preload="auto"
+          poster="assets/images/hero-ulun-danu.jpg">
+          <source src="assets/videos/hero-bali.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay-tint"></div>
+      </div>
+
+      <!-- Image Slides (smooth cinematic dissolve transition) -->
+      <div class="hero-slides-wrapper" id="heroSlidesWrapper">
+        <!-- Slide 01: Ulun Danu Beratan (Matches reference screenshot) -->
+        <div class="hero-slide active" data-index="0" data-title="BALI" data-desc="The famed Island of the Gods, with its varied landscape of hills and mountains, rugged coastlines and sandy beaches, lush rice terraces, and volcanic hillsides.">
+          <div class="slide-bg" style="background-image: url('assets/images/hero-ulun-danu.jpg');"></div>
+          <div class="slide-overlay-gradient"></div>
+        </div>
+
+        <!-- Slide 02: Lempuyang Gates of Heaven -->
+        <div class="hero-slide" data-index="1" data-title="LEMPUYANG" data-desc="The iconic Gates of Heaven framing majestic Mount Agung, offering a spiritual threshold between the earthly realm and mystical heavens.">
+          <div class="slide-bg" style="background-image: url('assets/images/hero-gates.jpg');"></div>
+          <div class="slide-overlay-gradient"></div>
+        </div>
+
+        <!-- Slide 03: Nusa Dua Coastal Serenity -->
+        <div class="hero-slide" data-index="2" data-title="NUSA DUA" data-desc="Crystal turquoise waters meeting pristine white shores, where coral reefs flourish beneath the warm tropical Balinese sun.">
+          <div class="slide-bg" style="background-image: url('assets/images/hero-beach.jpg');"></div>
+          <div class="slide-overlay-gradient"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Content Overlay (Exact Reference Typography & Elements) -->
+    <div class="hero-container">
+      <div class="hero-content">
+        <!-- Big Bold Headline -->
+        <h1 class="hero-title" id="heroTitle">BALI</h1>
+        
+        <!-- Description Paragraph -->
+        <p class="hero-description" id="heroDescription">
+          The famed Island of the Gods, with its varied landscape of hills and mountains, rugged coastlines and sandy beaches, lush rice terraces, and volcanic hillsides.
+        </p>
+
+        <!-- CTA Buttons matching reference -->
+        <div class="hero-actions">
+          <a href="#explore" class="btn btn-white-pill" id="discoverLocationBtn">
+            <span>Discover Location</span>
+          </a>
+          <button class="btn-play-circle" id="heroMediaToggleBtn" aria-label="Replay intro video" title="Watch 4s Cinematic Video Intro">
+            <svg class="play-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <svg class="pause-icon hidden" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </button>
+          <span class="media-badge" id="mediaBadge">
+            <span class="pulse-dot"></span>
+            <span id="mediaBadgeText">Cinematic Video (4s)</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Hero Footer Controls: 01 / 03 indicators matching reference screenshot -->
+      <div class="hero-footer-controls">
+        <div class="slide-counter-wrapper">
+          <button class="slide-num-btn active" data-slide="0" id="slideBtn0">01</button>
+          <div class="slide-progress-track">
+            <div class="slide-progress-fill" id="slideProgressFill"></div>
+          </div>
+          <button class="slide-num-btn" data-slide="1" id="slideBtn1">02</button>
+          <button class="slide-num-btn" data-slide="2" id="slideBtn2">03</button>
+        </div>
+
+        <div class="hero-manual-arrows">
+          <button class="hero-arrow-btn" id="heroPrevBtn" aria-label="Previous slide">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="hero-arrow-btn" id="heroNextBtn" aria-label="Next slide">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       LIVE BALI ATMOSPHERIC & FOREX BENCHMARK TICKER
+       ============================================== -->
+  <div class="bali-live-ticker-bar">
+    <div class="container live-ticker-content">
+      <div class="ticker-item"><span class="ticker-dot"></span> <strong>Bali Live:</strong> <span id="baliLiveClock">17:50 WITA</span></div>
+      <div class="ticker-item">☀️ <strong>Climate:</strong> 29°C Tropical Clear Skies</div>
+      <div class="ticker-item">🌅 <strong>Uluwatu Golden Hour:</strong> Sunset at 18:14 WITA</div>
+      <div class="ticker-item">🇮🇳 <strong>Forex Benchmark:</strong> ₹1 INR ≈ 190.5 IDR (Zero conversion fee on all tours)</div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       FLOATING QUICK TRIP FINDER & AVAILABILITY ENGINE
+       ============================================== -->
+  <div class="hero-quick-finder-wrapper">
+    <div class="hero-quick-finder-card">
+      <div class="quick-finder-col">
+        <label for="quickFinderDest">Destination Region</label>
+        <select id="quickFinderDest" class="quick-finder-select">
+          <option value="all">Entire Bali Island (All Highlights)</option>
+          <option value="uluwatu">Uluwatu Temple & Coastal Cliffs</option>
+          <option value="tanah-lot">Tanah Lot Ocean Shrine</option>
+          <option value="tegallalang">Ubud & Tegallalang Rice Terraces</option>
+          <option value="mount-batur">Mount Batur Sunrise Volcano</option>
+          <option value="nusa-penida">Nusa Penida T-Rex & Manta Bay</option>
+        </select>
+      </div>
+
+      <div class="quick-finder-col">
+        <label for="quickFinderDate">Preferred Travel Date</label>
+        <input type="date" id="quickFinderDate" class="quick-finder-input">
+      </div>
+
+      <div class="quick-finder-col">
+        <label for="quickFinderGuests">Travelers</label>
+        <select id="quickFinderGuests" class="quick-finder-select">
+          <option value="1">1 Person (Solo)</option>
+          <option value="2" selected>2 Persons (Couple)</option>
+          <option value="3">3 Persons</option>
+          <option value="4">4+ Persons (Family)</option>
+        </select>
+      </div>
+
+      <button class="btn btn-dark-pill" id="quickFinderSubmitBtn" style="padding: 0.9rem 1.6rem; height: 100%; white-space: nowrap;">
+        <span>Check Best Rates in ₹ &rarr;</span>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ==============================================
+       SECTION 2: "EXPLORE BALI WITH US"
+       - Left Side: Seamless Background Scenery (NO card border) with Real Interactive Cloud Canvas
+       - Right Side: Title + Subtitle + Hand-Scrollable Cards in Rupees (₹)
+       ============================================== -->
+  <section class="explore-section" id="explore">
+    
+    <!-- LEFT SIDE SEAMLESS BACKGROUND SCENERY & CLOUD MIST CANVAS -->
+    <div class="explore-backdrop-wrapper" id="exploreBackdropWrapper">
+      <!-- High Resolution Landscape Image (Changes smoothly when cards are clicked) -->
+      <img 
+        id="featuredMainImg" 
+        src="assets/images/featured-uluwatu.jpg" 
+        alt="Bali scenic temple coast" 
+        class="explore-backdrop-img">
+
+      <!-- Interactive Cloud Mist Canvas (Erases smoothly under cursor radius like real clouds parting) -->
+      <canvas id="cloudCanvas" class="cloud-canvas"></canvas>
+
+      <!-- Subtle Hint for Interactive Cloud Feature -->
+      <div class="cloud-interactive-hint" id="cloudInteractiveHint">
+        <span>✨ Move mouse to part clouds in 150-200px radius around cursor &bull; Real-time mist</span>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE CONTENT & HAND-SCROLLABLE CARDS -->
+    <div class="explore-content-container">
+      <div class="explore-content-col">
+        
+        <!-- Header Text directly matching screenshot -->
+        <div class="explore-text-block">
+          <h2 class="section-title">EXPLORE BALI<br>WITH US</h2>
+          <p class="section-subtitle">
+            We are an online based travel company allowing us to keep our prices competitive. We will take care of the booking process for you from start to finish.
+          </p>
+        </div>
+
+        <!-- Controls Toolbar (Cloud Toggle & Carousel Arrows) -->
+        <div class="cards-control-bar">
+          <div class="cloud-control-badge" id="cloudControlBadge" title="Click to clear all clouds or restore mist">
+            <span class="cloud-icon">☁️</span>
+            <span class="cloud-status-text">Cloud Mist: <strong id="cloudStatusLabel">150-200px Radius Active</strong></span>
+          </div>
+
+          <button class="btn btn-outline-pill" id="btnOpenVirtualTour" style="padding: 0.45rem 1.1rem; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border: 1.5px solid #cbd5e1; background: #ffffff; border-radius: 9999px; font-weight: 700; color: #0f172a; transition: all 0.2s ease;">
+            <span>🌀 360° Virtual Island Tour</span>
+          </button>
+
+          <div class="carousel-nav-arrows">
+            <button class="round-arrow-btn" id="cardsPrevBtn" aria-label="Scroll cards left">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button class="round-arrow-btn" id="cardsNextBtn" aria-label="Scroll cards right">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hand-scrollable / Draggable Cards Track in Indian Rupees (₹) -->
+        <div class="cards-track-wrapper" id="cardsTrackWrapper">
+          <div class="cards-track" id="cardsTrack">
+            
+            <!-- CARD 1: Uluwatu Temple (Matches screenshot) -->
+            <div class="location-card active" data-id="uluwatu" data-name="Uluwatu Temple" data-category="Hindu Temple | 1 Day" data-price="₹850" data-num-price="850" data-rating="4.8" data-img="assets/images/featured-uluwatu.jpg">
+              <div class="card-thumb-box">
+                <img src="assets/images/uluwatu.jpg" alt="Uluwatu Temple" class="card-thumb-img">
+                <span class="card-active-indicator">Selected</span>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Uluwatu Temple</h4>
+                <p class="card-meta">Hindu Temple | 1 Day</p>
+                <div class="card-footer">
+                  <div class="card-rating">
+                    <span class="star-icon">★</span>
+                    <span class="rating-val">4.8</span>
+                  </div>
+                  <div class="card-price">₹850</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 2: Tanah Lot (Matches screenshot) -->
+            <div class="location-card" data-id="tanah-lot" data-name="Tanah Lot" data-category="Scenic point | 1 Day" data-price="₹1,200" data-num-price="1200" data-rating="4.6" data-img="assets/images/featured-tanah-lot.jpg">
+              <div class="card-thumb-box">
+                <img src="assets/images/tanah-lot.jpg" alt="Tanah Lot" class="card-thumb-img">
+                <span class="card-active-indicator">Selected</span>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Tanah Lot</h4>
+                <p class="card-meta">Scenic point | 1 Day</p>
+                <div class="card-footer">
+                  <div class="card-rating">
+                    <span class="star-icon">★</span>
+                    <span class="rating-val">4.6</span>
+                  </div>
+                  <div class="card-price">₹1,200</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 3: Waterbom Bali (Matches screenshot) -->
+            <div class="location-card" data-id="waterbom" data-name="Waterbom Bali" data-category="Water park | 1 Day" data-price="₹2,800" data-num-price="2800" data-rating="4.7" data-img="assets/images/waterbom.jpg">
+              <div class="card-thumb-box">
+                <img src="assets/images/waterbom.jpg" alt="Waterbom Bali" class="card-thumb-img">
+                <span class="card-active-indicator">Selected</span>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Waterbom Bali</h4>
+                <p class="card-meta">Water park | 1 Day</p>
+                <div class="card-footer">
+                  <div class="card-rating">
+                    <span class="star-icon">★</span>
+                    <span class="rating-val">4.7</span>
+                  </div>
+                  <div class="card-price">₹2,800</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 4: Tegallalang Rice Terrace -->
+            <div class="location-card" data-id="tegallalang" data-name="Tegallalang" data-category="Rice Terrace | 1 Day" data-price="₹950" data-num-price="950" data-rating="4.9" data-img="assets/images/tegallalang.jpg">
+              <div class="card-thumb-box">
+                <img src="assets/images/tegallalang.jpg" alt="Tegallalang Rice Terrace" class="card-thumb-img">
+                <span class="card-active-indicator">Selected</span>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Tegallalang</h4>
+                <p class="card-meta">Rice Terrace | 1 Day</p>
+                <div class="card-footer">
+                  <div class="card-rating">
+                    <span class="star-icon">★</span>
+                    <span class="rating-val">4.9</span>
+                  </div>
+                  <div class="card-price">₹950</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 5: Mount Batur Volcano -->
+            <div class="location-card" data-id="mount-batur" data-name="Mount Batur" data-category="Sunrise Trek | 1 Day" data-price="₹2,400" data-num-price="2400" data-rating="4.8" data-img="assets/images/mount-batur.jpg">
+              <div class="card-thumb-box">
+                <img src="assets/images/mount-batur.jpg" alt="Mount Batur Volcano" class="card-thumb-img">
+                <span class="card-active-indicator">Selected</span>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Mount Batur</h4>
+                <p class="card-meta">Sunrise Trek | 1 Day</p>
+                <div class="card-footer">
+                  <div class="card-rating">
+                    <span class="star-icon">★</span>
+                    <span class="rating-val">4.8</span>
+                  </div>
+                  <div class="card-price">₹2,400</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 6: Nusa Penida Island -->
+            <div class="location-card" data-id="nusa-penida" data-name="Nusa Penida" data-category="Island Coast | 1 Day" data-price="₹3,600" data-num-price="3600" data-rating="4.9" data-img="assets/images/nusa-penida.jpg">
+              <div class="card-thumb-box">
+                <img src="assets/images/nusa-penida.jpg" alt="Nusa Penida Island" class="card-thumb-img">
+                <span class="card-active-indicator">Selected</span>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Nusa Penida</h4>
+                <p class="card-meta">Island Coast | 1 Day</p>
+                <div class="card-footer">
+                  <div class="card-rating">
+                    <span class="star-icon">★</span>
+                    <span class="rating-val">4.9</span>
+                  </div>
+                  <div class="card-price">₹3,600</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Drag Scroll Helper Instruction -->
+        <div class="drag-hint-bar">
+          <span class="drag-hint-icon">👈</span>
+          <span>Click any card to load scenic background &bull; Drag with hand / mouse to scroll</span>
+          <span class="drag-hint-icon">👉</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==============================================
+       SECTION 3: TOUR PACKAGES & REVIEWS (In Indian Rupees ₹)
+       ============================================== -->
+  <section class="packages-section" id="packages">
+    <div class="container">
+      
+      <!-- Section Header with Filter Pills -->
+      <div class="packages-header">
+        <div>
+          <span class="section-tag">CURATED EXPERIENCES</span>
+          <h2 class="section-heading">Bali Tour Packages & Reviews</h2>
+          <p class="section-desc">All-inclusive guided expeditions featuring private transportation, local Balinese guides, and authentic cultural encounters.</p>
+        </div>
+
+        <div class="filter-pills" id="filterPills">
+          <button class="filter-pill active" data-filter="all">All Packages</button>
+          <button class="filter-pill" data-filter="temple">Temples & Culture</button>
+          <button class="filter-pill" data-filter="adventure">Adventure & Treks</button>
+          <button class="filter-pill" data-filter="water">Water & Leisure</button>
+        </div>
+      </div>
+
+      <!-- Tour Packages Grid -->
+      <div class="packages-grid" id="packagesGrid">
+        
+        <!-- Package 1: Uluwatu Sunset & Kecak Fire Dance -->
+        <div class="package-card" data-category="temple" data-location="uluwatu">
+          <div class="package-badge-top">Top Rated</div>
+          <div class="package-img-wrap">
+            <img src="assets/images/uluwatu.jpg" alt="Uluwatu Sunset Tour">
+            <span class="package-duration">⏱ 10 Hours</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta-row">
+              <span class="package-category">Temple & Sunset</span>
+              <span class="package-rating">★ 4.9 (428 reviews)</span>
+            </div>
+            <h3 class="package-title">Uluwatu Cliff Temple & Kecak Sunset Fire Dance</h3>
+            <p class="package-snippet">Witness the breathtaking ocean sunset atop 70m cliffs followed by the mesmerizing traditional Balinese Kecak chant and dance.</p>
+            
+            <ul class="package-highlights">
+              <li>✓ Private AC vehicle with chauffeur</li>
+              <li>✓ Priority entrance ticket to Uluwatu Temple</li>
+              <li>✓ Reserved Kecak dance amphitheater seat</li>
+              <li>✓ Jimbaran Bay candlelit seafood dinner</li>
+            </ul>
+
+            <div class="package-card-footer">
+              <div class="package-price-wrap">
+                <span class="price-from">From</span>
+                <span class="price-amount">₹3,200</span>
+                <span class="price-unit">/ person</span>
+              </div>
+              <button class="btn btn-dark-pill view-package-btn" data-id="uluwatu-pkg" data-rupees="3200">
+                <span>View Details & Reviews</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package 2: Tanah Lot & Royal Water Palaces -->
+        <div class="package-card" data-category="temple" data-location="tanah-lot">
+          <div class="package-badge-top">Best Seller</div>
+          <div class="package-img-wrap">
+            <img src="assets/images/tanah-lot.jpg" alt="Tanah Lot Sea Temple">
+            <span class="package-duration">⏱ 8 Hours</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta-row">
+              <span class="package-category">Scenic Heritage</span>
+              <span class="package-rating">★ 4.8 (380 reviews)</span>
+            </div>
+            <h3 class="package-title">Tanah Lot Sea Temple & Taman Ayun Royal Gardens</h3>
+            <p class="package-snippet">Explore the iconic offshore pagoda surrounded by ocean tides, ancient holy water springs, and UNESCO royal gardens.</p>
+            
+            <ul class="package-highlights">
+              <li>✓ Hotel pickup & drop-off across Bali</li>
+              <li>✓ Licensed English-speaking storyteller</li>
+              <li>✓ Scenic coffee plantation tasting</li>
+              <li>✓ All temple sarongs and entrance passes</li>
+            </ul>
+
+            <div class="package-card-footer">
+              <div class="package-price-wrap">
+                <span class="price-from">From</span>
+                <span class="price-amount">₹2,600</span>
+                <span class="price-unit">/ person</span>
+              </div>
+              <button class="btn btn-dark-pill view-package-btn" data-id="tanah-lot-pkg" data-rupees="2600">
+                <span>View Details & Reviews</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package 3: Waterbom VIP Splash & Kuta Beach Day -->
+        <div class="package-card" data-category="water" data-location="waterbom">
+          <div class="package-badge-top">Family Favorite</div>
+          <div class="package-img-wrap">
+            <img src="assets/images/waterbom.jpg" alt="Waterbom Bali Waterpark">
+            <span class="package-duration">⏱ Full Day</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta-row">
+              <span class="package-category">Water Park & Adventure</span>
+              <span class="package-rating">★ 4.9 (612 reviews)</span>
+            </div>
+            <h3 class="package-title">Waterbom Bali VIP All-Access Day Pass</h3>
+            <p class="package-snippet">Asia's #1 waterpark set within 3.8 hectares of landscaped tropical gardens with world-class waterslides and lazy rivers.</p>
+            
+            <ul class="package-highlights">
+              <li>✓ Express skip-the-line barcode admission</li>
+              <li>✓ Free locker & towel rental included</li>
+              <li>✓ Splash band cashless wristband credit</li>
+              <li>✓ Shaded cabana reservation upgrade option</li>
+            </ul>
+
+            <div class="package-card-footer">
+              <div class="package-price-wrap">
+                <span class="price-from">From</span>
+                <span class="price-amount">₹2,800</span>
+                <span class="price-unit">/ person</span>
+              </div>
+              <button class="btn btn-dark-pill view-package-btn" data-id="waterbom-pkg" data-rupees="2800">
+                <span>View Details & Reviews</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package 4: Mount Batur Sunrise Hike & Hot Springs -->
+        <div class="package-card" data-category="adventure" data-location="mount-batur">
+          <div class="package-badge-top">Must Do</div>
+          <div class="package-img-wrap">
+            <img src="assets/images/mount-batur.jpg" alt="Mount Batur Sunrise Trek">
+            <span class="package-duration">⏱ 10 Hours</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta-row">
+              <span class="package-category">Volcano Trekking</span>
+              <span class="package-rating">★ 4.95 (840 reviews)</span>
+            </div>
+            <h3 class="package-title">Mount Batur Sunrise Summit Trek & Natural Hot Springs</h3>
+            <p class="package-snippet">Hike above the clouds to witness a golden volcanic dawn, breakfast cooked by volcanic steam, and soak in volcanic hot springs.</p>
+            
+            <ul class="package-highlights">
+              <li>✓ Professional mountain trekking guide</li>
+              <li>✓ High-powered headlamps & walking poles</li>
+              <li>✓ Hot crater breakfast & steaming eggs</li>
+              <li>✓ Natural mineral lakeside hot spring pools</li>
+            </ul>
+
+            <div class="package-card-footer">
+              <div class="package-price-wrap">
+                <span class="price-from">From</span>
+                <span class="price-amount">₹3,400</span>
+                <span class="price-unit">/ person</span>
+              </div>
+              <button class="btn btn-dark-pill view-package-btn" data-id="batur-pkg" data-rupees="3400">
+                <span>View Details & Reviews</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package 5: Ubud Rice Terraces & Jungle Swing -->
+        <div class="package-card" data-category="adventure" data-location="tegallalang">
+          <div class="package-badge-top">Instagram Favorite</div>
+          <div class="package-img-wrap">
+            <img src="assets/images/tegallalang.jpg" alt="Tegallalang Rice Terrace">
+            <span class="package-duration">⏱ 8 Hours</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta-row">
+              <span class="package-category">Nature & Culture</span>
+              <span class="package-rating">★ 4.85 (510 reviews)</span>
+            </div>
+            <h3 class="package-title">Tegallalang Terraced Fields & Giant Jungle Swing</h3>
+            <p class="package-snippet">Walk through ancient emerald subak irrigation terraces, soar over the tropical jungle canopy on giant swings, and visit Ubud Art Market.</p>
+            
+            <ul class="package-highlights">
+              <li>✓ Unlimited giant swing passes</li>
+              <li>✓ Traditional rice farmer photo pass</li>
+              <li>✓ Tegenungan Waterfall swimming stop</li>
+              <li>✓ Sacred Monkey Forest sanctuary visit</li>
+            </ul>
+
+            <div class="package-card-footer">
+              <div class="package-price-wrap">
+                <span class="price-from">From</span>
+                <span class="price-amount">₹2,300</span>
+                <span class="price-unit">/ person</span>
+              </div>
+              <button class="btn btn-dark-pill view-package-btn" data-id="tegallalang-pkg" data-rupees="2300">
+                <span>View Details & Reviews</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package 6: Nusa Penida West Coast Island Day -->
+        <div class="package-card" data-category="water" data-location="nusa-penida">
+          <div class="package-badge-top">Excursion</div>
+          <div class="package-img-wrap">
+            <img src="assets/images/nusa-penida.jpg" alt="Nusa Penida Kelingking Beach">
+            <span class="package-duration">⏱ 11 Hours</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta-row">
+              <span class="package-category">Island Fast Boat</span>
+              <span class="package-rating">★ 4.9 (730 reviews)</span>
+            </div>
+            <h3 class="package-title">Nusa Penida: Kelingking T-Rex Cliff & Crystal Bay</h3>
+            <p class="package-snippet">Cruise by high-speed catamaran to Nusa Penida island to gaze upon iconic Kelingking cliff, Broken Beach, and snorkel with manta rays.</p>
+            
+            <ul class="package-highlights">
+              <li>✓ Round-trip fast boat tickets from Sanur</li>
+              <li>✓ Private island vehicle with local driver</li>
+              <li>✓ Kelingking, Broken Beach & Angel's Billabong</li>
+              <li>✓ Indonesian buffet lunch & snorkeling gear</li>
+            </ul>
+
+            <div class="package-card-footer">
+              <div class="package-price-wrap">
+                <span class="price-from">From</span>
+                <span class="price-amount">₹3,900</span>
+                <span class="price-unit">/ person</span>
+              </div>
+              <button class="btn btn-dark-pill view-package-btn" data-id="nusa-pkg" data-rupees="3900">
+                <span>View Details & Reviews</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       INTERACTIVE BALI REGION ROUTE EXPLORER & BUDGET CALCULATOR
+       ============================================== -->
+  <section class="route-explorer-section" id="routeExplorer">
+    <div class="container">
+      <div class="route-explorer-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+          <div>
+            <span class="section-tag" style="background: rgba(37, 99, 235, 0.1); color: #2563eb; padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">ISLAND ROUTE & TRAVEL TIME EXPLORER</span>
+            <h2 style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-top: 0.5rem;">Explore Bali Region by Region</h2>
+            <p style="font-size: 0.95rem; color: #64748b; max-width: 650px;">Click any quadrant to view airport drive times, highlight sights, and instant package booking in Indian Rupees.</p>
+          </div>
+          <button class="btn btn-dark-pill" onclick="window.openVirtual360Modal('uluwatu')" style="padding: 0.75rem 1.4rem;">
+            <span>🌀 Launch 360° Panorama &rarr;</span>
+          </button>
+        </div>
+
+        <!-- 4 Major Island Regions -->
+        <div class="regions-grid">
+          <!-- Region 1: South Coast -->
+          <div class="region-tile active" onclick="document.querySelectorAll('.region-tile').forEach(r => r.classList.remove('active')); this.classList.add('active'); window.location.href='#explore';">
+            <div class="region-icon">🏖️</div>
+            <h3 class="region-name">South Coast & Cliffs</h3>
+            <div class="region-meta">⏱ 30–45 Mins from Airport (DPS) &bull; Sunny 29°C</div>
+            <p class="region-highlights"><strong>Highlights:</strong> Uluwatu Cliff Temple, Jimbaran Bay seafood dinner, Padang Padang surf cove, and sunset Kecak Fire Dance.</p>
+            <div style="margin-top: 1rem; font-size: 0.82rem; font-weight: 800; color: #2563eb;">Featured: Uluwatu Temple &bull; ₹850 &rarr;</div>
+          </div>
+
+          <!-- Region 2: Central Ubud -->
+          <div class="region-tile" onclick="document.querySelectorAll('.region-tile').forEach(r => r.classList.remove('active')); this.classList.add('active'); window.location.href='#explore';">
+            <div class="region-icon">🌴</div>
+            <h3 class="region-name">Central Ubud & Terraces</h3>
+            <div class="region-meta">⏱ 75 Mins from Airport &bull; Lush Mist 26°C</div>
+            <p class="region-highlights"><strong>Highlights:</strong> UNESCO Tegallalang Rice Terraces, giant jungle swings, Sacred Monkey Forest, and artisan handicraft markets.</p>
+            <div style="margin-top: 1rem; font-size: 0.82rem; font-weight: 800; color: #2563eb;">Featured: Tegallalang Terraces &bull; ₹950 &rarr;</div>
+          </div>
+
+          <!-- Region 3: Volcanic North -->
+          <div class="region-tile" onclick="document.querySelectorAll('.region-tile').forEach(r => r.classList.remove('active')); this.classList.add('active'); window.location.href='#explore';">
+            <div class="region-icon">🌋</div>
+            <h3 class="region-name">North Volcanic Caldera</h3>
+            <div class="region-meta">⏱ 110 Mins from Airport &bull; Crisp Mountain 21°C</div>
+            <p class="region-highlights"><strong>Highlights:</strong> Predawn Mount Batur active volcano sunrise trek, volcanic steam breakfast, natural hot springs, and Ulun Danu lake pagoda.</p>
+            <div style="margin-top: 1rem; font-size: 0.82rem; font-weight: 800; color: #2563eb;">Featured: Mount Batur Sunrise &bull; ₹3,400 &rarr;</div>
+          </div>
+
+          <!-- Region 4: Nusa Islands -->
+          <div class="region-tile" onclick="document.querySelectorAll('.region-tile').forEach(r => r.classList.remove('active')); this.classList.add('active'); window.location.href='#explore';">
+            <div class="region-icon">⛵</div>
+            <h3 class="region-name">Nusa Penida & Offshore</h3>
+            <div class="region-meta">⏱ 45 Mins Speedboat from Sanur &bull; Ocean Breeze</div>
+            <p class="region-highlights"><strong>Highlights:</strong> Iconic Kelingking T-Rex cliff, snorkeling with giant oceanic manta rays at Manta Point, and Broken Beach natural bridge.</p>
+            <div style="margin-top: 1rem; font-size: 0.82rem; font-weight: 800; color: #2563eb;">Featured: Nusa Penida VIP &bull; ₹3,600 &rarr;</div>
+          </div>
+        </div>
+
+        <!-- Live Currency & Trip Budget Estimator -->
+        <div id="liveTripBudgetEstimator" style="margin-top: 2.5rem; background: #0f172a; color: #ffffff; border-radius: 16px; padding: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; align-items: center;">
+          <div>
+            <span style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; letter-spacing: 0.6px; text-transform: uppercase;">INTERACTIVE COST ENGINE</span>
+            <h3 style="font-size: 1.4rem; font-weight: 800; margin-top: 0.35rem; color: #ffffff;">Calculate Your Trip Cost in ₹</h3>
+            <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem;">Real-time benchmark: ₹1 INR ≈ 190.5 IDR with zero conversion markup.</p>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1.25rem; flex-wrap: wrap;">
+              <div style="flex: 1; min-width: 140px;">
+                <label for="calcBudgetInr" style="font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 0.35rem;">Budget in Rupees (₹)</label>
+                <input type="number" id="calcBudgetInr" value="30000" step="1000" style="width: 100%; background: #1e293b; border: 1px solid #334155; color: #ffffff; padding: 0.65rem 0.85rem; border-radius: 8px; font-weight: 700; font-size: 1.05rem;">
+              </div>
+              <div style="flex: 1; min-width: 140px;">
+                <label for="calcTripDays" style="font-size: 0.75rem; color: #94a3b8; display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                  <span>Trip Duration</span>
+                  <span id="calcDaysLabel" style="color: #38bdf8; font-weight: 800;">4 Days</span>
+                </label>
+                <input type="range" id="calcTripDays" min="2" max="10" value="4" style="width: 100%; margin-top: 0.6rem; cursor: pointer;">
+              </div>
+            </div>
+          </div>
+
+          <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 1.5rem;">
+            <div style="font-size: 0.78rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Direct Indonesian Rupiah Value</div>
+            <div id="calcBudgetIdr" style="font-size: 1.6rem; font-weight: 800; color: #fbbf24; margin: 0.35rem 0 0.75rem;">≈ Rp 5,715,000 IDR</div>
+            
+            <div id="calcPlanBreakdown" style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 0.75rem;">
+              <div style="font-size: 0.85rem; color: #38bdf8; font-weight: 700;">● Ideal for 4-Star Resort + 3 Day Guided Island Tours</div>
+              <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.25rem;">Includes private AC transport, English driver, all entry passes & taxes.</div>
+            </div>
+
+            <div style="margin-top: 1.25rem; display: flex; gap: 0.75rem;">
+              <a href="booking.html" class="btn btn-white-pill" style="padding: 0.6rem 1.2rem; font-size: 0.82rem; flex: 1; text-align: center;">
+                <span>Book This Plan &rarr;</span>
+              </a>
+              <a href="https://wa.me/919820012345?text=Hi%20Travel%20The%20World%2C%20please%20plan%20my%20Bali%20trip%20budget%20quote" target="_blank" class="btn btn-outline-pill" style="border-color: #25d366; color: #25d366; padding: 0.6rem 1rem; font-size: 0.82rem;">
+                <span>WhatsApp Quote</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       REVIEWS & TESTIMONIALS SECTION
+       ============================================== -->
+  <section class="reviews-section" id="reviews">
+    <div class="container">
+      <div class="reviews-header text-center">
+        <span class="section-tag">TRAVELER TESTIMONIALS</span>
+        <h2 class="section-heading">Loved By Over 24,000 Adventurers</h2>
+        <p class="section-desc">Authentic experiences shared by travelers who booked their Bali adventures through us.</p>
+      </div>
+
+      <div class="reviews-carousel">
+        <!-- Review 1 -->
+        <div class="review-bubble">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-quote">"The cloud effect on the website got me hooked, but the actual Uluwatu tour exceeded every expectation. Our driver Wayan was a saint and found us the best front-row seats for the Kecak dance!"</p>
+          <div class="reviewer-meta">
+            <div class="reviewer-avatar">ER</div>
+            <div>
+              <h5 class="reviewer-name">Elena Rostova</h5>
+              <span class="reviewer-origin">Munich, Germany &bull; Traveled with Family</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="review-bubble">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-quote">"Booking Tanah Lot was super smooth. Everything was timed to perfection so we arrived right when the ocean tides receded and the sunset illuminated the pagoda. Unforgettable!"</p>
+          <div class="reviewer-meta">
+            <div class="reviewer-avatar">MC</div>
+            <div>
+              <h5 class="reviewer-name">Marcus Chen</h5>
+              <span class="reviewer-origin">Singapore &bull; Couple Holiday</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="review-bubble">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-quote">"Mount Batur sunrise was on my bucket list for 5 years. The trekking guide provided steaming coffee at 1,717 meters altitude as the sun pierced the clouds. 10/10 recommend!"</p>
+          <div class="reviewer-meta">
+            <div class="reviewer-avatar">SH</div>
+            <div>
+              <h5 class="reviewer-name">Sarah Jenkins</h5>
+              <span class="reviewer-origin">Sydney, Australia &bull; Solo Traveler</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==============================================
+       FOOTER
+       ============================================== -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <span class="logo-script">travel</span>
+          <span class="logo-sub">THE WORLD</span>
+        </div>
+        <p class="footer-tagline">Making bespoke Indonesian travel accessible, luxurious, and completely effortless.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram">Instagram</a>
+          <a href="#" aria-label="YouTube">YouTube</a>
+          <a href="#" aria-label="Facebook">Facebook</a>
+          <a href="#" aria-label="Twitter">Twitter</a>
+        </div>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Destinations</h4>
+        <ul>
+          <li><a href="holidays.html">Uluwatu Temples</a></li>
+          <li><a href="holidays.html">Tanah Lot Ocean Shrine</a></li>
+          <li><a href="holidays.html">Waterbom Tropical Park</a></li>
+          <li><a href="holidays.html">Tegallalang Terraces</a></li>
+          <li><a href="holidays.html">Mount Batur Volcano</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="holidays.html">All Tour Packages</a></li>
+          <li><a href="offers.html">Seasonal Discounts & Deals</a></li>
+          <li><a href="reviews.html">Verified Customer Reviews</a></li>
+          <li><a href="blog.html">Bali Travel Guides</a></li>
+          <li><a href="contact.html">Contact Concierge</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Bali Travel Concierge</h4>
+        <p class="contact-info">📍 Jl. Danau Tamblingan No. 42, Sanur, Bali</p>
+        <p class="contact-info">📞 +62 361 720 892</p>
+        <p class="contact-info">✉️ concierge@traveltheworld.bali</p>
+        <div class="secure-badge">
+          🔒 Certified Indonesian Tour Operator #7819/BALI
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom text-center">
+      <p>&copy; 2026 Travel The World. Designed with precision & care.</p>
+    </div>
+  </footer>
+
+
+  <!-- ==============================================
+       MODAL: PACKAGE DETAILS & INSTANT BOOKING (In Indian Rupees ₹)
+       ============================================== -->
+  <div class="modal-backdrop" id="bookingModalBackdrop">
+    <div class="modal-box" id="bookingModal">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">&times;</button>
+      
+      <div class="modal-grid">
+        <div class="modal-img-col">
+          <img id="modalImg" src="assets/images/uluwatu.jpg" alt="Selected package image">
+          <div class="modal-img-overlay">
+            <span class="modal-tag" id="modalTag">Hindu Temple</span>
+            <h3 id="modalImgTitle">Uluwatu Temple</h3>
+          </div>
+        </div>
+
+        <div class="modal-form-col">
+          <div class="modal-header">
+            <h3 id="modalTitle">Book Your Bali Experience</h3>
+            <div class="modal-rating-badge">
+              <span>★ 4.9</span>
+              <span id="modalReviewsCount">(428 reviews)</span>
+            </div>
+          </div>
+
+          <p class="modal-desc" id="modalDesc">
+            Secure your spot with guaranteed instant confirmation. Full refund up to 24 hours prior to travel date.
+          </p>
+
+          <form id="bookingForm" class="booking-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="bookDate">Select Tour Date</label>
+                <input type="date" id="bookDate" required>
+              </div>
+              <div class="form-group">
+                <label for="bookTravelers">Guests / Travelers</label>
+                <select id="bookTravelers">
+                  <option value="1">1 Person</option>
+                  <option value="2" selected>2 Persons (Most Popular)</option>
+                  <option value="3">3 Persons</option>
+                  <option value="4">4 Persons</option>
+                  <option value="5">5+ Persons (Private Van)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="bookName">Full Name</label>
+              <input type="text" id="bookName" placeholder="e.g. Johnathan Smith" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="bookEmail">Email Address</label>
+                <input type="email" id="bookEmail" placeholder="name@example.com" required>
+              </div>
+              <div class="form-group">
+                <label for="bookHotel">Hotel / Villa Name (Bali)</label>
+                <input type="text" id="bookHotel" placeholder="e.g. Maya Sanur Resort" required>
+              </div>
+            </div>
+
+            <div class="booking-summary-box">
+              <div class="summary-line">
+                <span>Base Price:</span>
+                <span id="summaryBasePrice">₹3,200</span>
+              </div>
+              <div class="summary-line">
+                <span>Guests:</span>
+                <span id="summaryGuests">2 Travelers</span>
+              </div>
+              <div class="summary-line total">
+                <span>Estimated Total:</span>
+                <span id="summaryTotal">₹6,400</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-dark-pill submit-booking-btn">
+              <span>Confirm Reservation &bull; Instant Ticket</span>
+            </button>
+            <p class="guarantee-text">🔒 No cancellation fee up to 24 hours before tour.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Balinese Ambient Audio (Waves & Temple Chimes synthesized via Web Audio API) -->
+  <button class="ambient-sound-btn" id="ambientSoundToggleBtn" aria-label="Toggle ambient sound of Bali" title="Experience Balinese coastal ocean waves and soothing temple chimes">
+    <span class="ambient-sound-waves" id="ambientSoundWaves">
+      <span></span><span></span><span></span>
+    </span>
+    <span id="ambientSoundLabel">Sound of Bali: <strong>Off</strong></span>
+  </button>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="assets/js/travel-store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/advanced-features.js"></script>
+</body>
+</html>

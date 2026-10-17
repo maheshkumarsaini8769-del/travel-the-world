@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Reservation & Checkout | Travel The World</title>
+  <meta name="description" content="Secure instant confirmation for your Bali excursion. Transparent pricing in Indian Rupees (₹), UPI & Net Banking enabled.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header scrolled" id="siteHeader">
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="nav-logo" aria-label="Travel the World homepage">
+        <span class="logo-script">travel</span>
+        <span class="logo-sub">THE WORLD</span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="holidays.html" class="nav-link">Holidays</a></li>
+        <li class="nav-item"><a href="offers.html" class="nav-link">Offers</a></li>
+        <li class="nav-item"><a href="about.html" class="nav-link">About Us</a></li>
+        <li class="nav-item"><a href="reviews.html" class="nav-link">Reviews</a></li>
+        <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero" style="background-image: url('assets/images/hero-ulun-danu.jpg'); min-height: 280px; padding: 6.5rem 2rem 3rem;">
+    <div class="page-hero-content">
+      <span class="page-badge">🔒 256-Bit SSL Encrypted Checkout</span>
+      <h1 class="page-title" style="font-size: 2.8rem;">SECURE RESERVATION</h1>
+      <p class="page-subtitle">Instant ticket confirmation with 100% free cancellation up to 24 hours before tour.</p>
+    </div>
+  </section>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <div class="breadcrumb-list">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="holidays.html">Holidays</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Checkout & Booking</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+    
+    <div class="booking-layout">
+      <!-- LEFT: FORM STEPS -->
+      <div class="booking-steps-col">
+
+        <!-- Progress Steps -->
+        <div class="booking-steps-nav">
+          <div class="step-indicator active">
+            <span class="step-num">1</span>
+            <span>Tour & Date</span>
+          </div>
+          <span style="color: #cbd5e1;">&rarr;</span>
+          <div class="step-indicator active">
+            <span class="step-num">2</span>
+            <span>Guest Details</span>
+          </div>
+          <span style="color: #cbd5e1;">&rarr;</span>
+          <div class="step-indicator active">
+            <span class="step-num">3</span>
+            <span>Extras & Payment</span>
+          </div>
+        </div>
+
+        <form id="dedicatedBookingForm" class="booking-main-card">
+          <!-- Step 1: Tour Selection & Date -->
+          <div class="form-section-title">
+            <span>🗺️</span>
+            <span>1. Select Experience & Schedule</span>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <label for="bookTourSelect" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Tour / Package</label>
+            <select id="bookTourSelect" class="filter-select" style="width: 100%; padding: 0.8rem; font-size: 1rem;">
+              <!-- Populated dynamically via TravelStore -->
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2rem;">
+            <div class="form-group">
+              <label for="bookDateInput" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Tour Date</label>
+              <input type="date" id="bookDateInput" class="filter-select" style="width: 100%; padding: 0.75rem;" required>
+            </div>
+            <div class="form-group">
+              <label for="bookGuestsSelect" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Travelers / Guests</label>
+              <select id="bookGuestsSelect" class="filter-select" style="width: 100%; padding: 0.8rem;">
+                <option value="1">1 Person (Solo Explorer)</option>
+                <option value="2" selected>2 Persons (Couple / Friends)</option>
+                <option value="3">3 Persons</option>
+                <option value="4">4 Persons (Family Special)</option>
+                <option value="5">5 Persons (Private Van)</option>
+                <option value="6">6+ Persons (Group Discount)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Step 2: Passenger & Hotel Pickup -->
+          <div class="form-section-title">
+            <span>👤</span>
+            <span>2. Lead Passenger & Hotel Pickup</span>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <label for="bookFullName" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Full Name (As on Passport/Govt ID)</label>
+            <input type="text" id="bookFullName" placeholder="e.g. Rahul Sharma" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 8px;" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+            <div class="form-group">
+              <label for="bookEmailAddress" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Email Address (For E-Ticket)</label>
+              <input type="email" id="bookEmailAddress" placeholder="name@example.com" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 8px;" required>
+            </div>
+            <div class="form-group">
+              <label for="bookPhone" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Mobile Number (WhatsApp Enabled)</label>
+              <input type="tel" id="bookPhone" placeholder="+91 98765 43210" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 8px;" required>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 2rem;">
+            <label for="bookHotelPickup" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Hotel / Resort / Villa Name in Bali</label>
+            <input type="text" id="bookHotelPickup" placeholder="e.g. W Bali Seminyak / Maya Ubud / Nusa Dua Resort" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 8px;" required>
+            <span style="font-size: 0.78rem; color: #64748b; margin-top: 0.3rem; display: block;">* Our private chauffeur will meet you at the hotel lobby with a name plaque.</span>
+          </div>
+
+          <!-- Step 3: Add-on Options -->
+          <div class="form-section-title">
+            <span>✨</span>
+            <span>3. VIP Add-ons & Upgrades (Optional)</span>
+          </div>
+
+          <div class="addons-list">
+            <label class="addon-item">
+              <div class="addon-left">
+                <input type="checkbox" class="addon-checkbox" data-price="1200" id="addonAirport">
+                <div>
+                  <div class="addon-name">Airport VIP Fast-Track & Transfer</div>
+                  <div class="addon-sub">Meet & greet at Denpasar (DPS) airport with luggage assistance.</div>
+                </div>
+              </div>
+              <span class="addon-price">+₹1,200</span>
+            </label>
+
+            <label class="addon-item">
+              <div class="addon-left">
+                <input type="checkbox" class="addon-checkbox" data-price="2500" id="addonDrone">
+                <div>
+                  <div class="addon-name">Professional Drone & DSLR Photographer</div>
+                  <div class="addon-sub">Dedicated photographer delivering 50+ color-graded photos & reels.</div>
+                </div>
+              </div>
+              <span class="addon-price">+₹2,500</span>
+            </label>
+
+            <label class="addon-item">
+              <div class="addon-left">
+                <input type="checkbox" class="addon-checkbox" data-price="800" id="addonIndianFood">
+                <div>
+                  <div class="addon-name">Authentic Indian Vegetarian Lunch Buffet</div>
+                  <div class="addon-sub">Pure veg & Jain food options at top-rated Indian restaurant in Bali.</div>
+                </div>
+              </div>
+              <span class="addon-price">+₹800</span>
+            </label>
+          </div>
+
+          <!-- Step 4: Payment Method Selection -->
+          <div class="form-section-title">
+            <span>💳</span>
+            <span>4. Payment Method (Indian Rupees ₹)</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <label style="border: 1.5px solid var(--color-border); border-radius: 10px; padding: 1rem; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+              <input type="radio" name="paymentMode" value="UPI / GPay" checked>
+              <div>
+                <strong style="display: block; font-size: 0.92rem;">UPI / GPay / QR</strong>
+                <span style="font-size: 0.75rem; color: #64748b;">Instant zero-fee payment</span>
+              </div>
+            </label>
+
+            <label style="border: 1.5px solid var(--color-border); border-radius: 10px; padding: 1rem; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+              <input type="radio" name="paymentMode" value="Credit Card">
+              <div>
+                <strong style="display: block; font-size: 0.92rem;">Credit / Debit Card</strong>
+                <span style="font-size: 0.75rem; color: #64748b;">Visa, Mastercard, RuPay</span>
+              </div>
+            </label>
+
+            <label style="border: 1.5px solid var(--color-border); border-radius: 10px; padding: 1rem; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+              <input type="radio" name="paymentMode" value="Net Banking">
+              <div>
+                <strong style="display: block; font-size: 0.92rem;">Net Banking</strong>
+                <span style="font-size: 0.75rem; color: #64748b;">All Indian major banks</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 2rem;">
+            <label for="bookSpecialNotes" style="font-weight: 700; margin-bottom: 0.4rem; display: block;">Special Requests or Dietary Requirements</label>
+            <textarea id="bookSpecialNotes" rows="3" placeholder="e.g. Vegetarian food preference, infant car seat, specific pickup time..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 8px; font-family: inherit; font-size: 0.9rem;"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-dark-pill" style="width: 100%; padding: 1.1rem; font-size: 1.1rem; justify-content: center;">
+            <span>Pay & Confirm Reservation &bull; Instant Ticket</span>
+          </button>
+          
+          <p style="text-align: center; font-size: 0.8rem; color: #64748b; margin-top: 1rem;">
+            🔒 By clicking confirm, you agree to our terms. 100% refund available up to 24h prior.
+          </p>
+        </form>
+      </div>
+
+      <!-- RIGHT: STICKY ORDER SUMMARY -->
+      <aside class="booking-summary-col">
+        <div class="order-summary-card">
+          <h3 class="order-summary-title">Booking Summary</h3>
+
+          <div class="order-thumb-row">
+            <img id="summaryTourImg" src="assets/images/featured-uluwatu.jpg" alt="Selected tour" class="order-thumb-img">
+            <div>
+              <h4 id="summaryTourName" class="order-thumb-name">Uluwatu Temple & Sunset Coast</h4>
+              <span id="summaryTourMeta" class="order-thumb-meta">Hindu Temple & Coast • 1 Day</span>
+            </div>
+          </div>
+
+          <!-- Promo Code Box -->
+          <div class="promo-apply-box">
+            <input type="text" id="checkoutPromoInput" class="promo-input" placeholder="Promo code (e.g. BALI20)">
+            <button type="button" id="btnApplyPromo" class="btn-apply-promo">Apply</button>
+          </div>
+
+          <div class="summary-rows">
+            <div class="summary-row">
+              <span>Base Tour Price:</span>
+              <span id="summaryBasePrice">₹1,700</span>
+            </div>
+            <div class="summary-row">
+              <span>VIP Add-ons:</span>
+              <span id="summaryAddonsPrice">₹0</span>
+            </div>
+            <div class="summary-row" id="summaryDiscountRow" style="display: none; color: #16a34a; font-weight: 700;">
+              <span>Promo Discount:</span>
+              <span id="summaryDiscountVal">-₹0</span>
+            </div>
+            <div class="summary-row">
+              <span>Taxes & GST (5%):</span>
+              <span style="color: #16a34a; font-weight: 600;">Included (₹0 Extra)</span>
+            </div>
+            <div class="summary-row total-row">
+              <span>Total Payable:</span>
+              <span id="summaryTotalAmount" style="color: #0f172a; font-size: 1.4rem;">₹1,700</span>
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem; font-size: 0.8rem; color: #64748b; line-height: 1.5;">
+            <p><strong>✅ What's included:</strong></p>
+            <p>&bull; AC Hotel transfers</p>
+            <p>&bull; All entrance fees & sarongs</p>
+            <p>&bull; English & Hindi friendly guide</p>
+            <p>&bull; Instant WhatsApp e-ticket</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <span class="logo-script">travel</span>
+          <span class="logo-sub">THE WORLD</span>
+        </div>
+        <p class="footer-tagline">Making bespoke Indonesian travel accessible, luxurious, and completely effortless.</p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Destinations</h4>
+        <ul>
+          <li><a href="holidays.html">Uluwatu Temples</a></li>
+          <li><a href="holidays.html">Tanah Lot Ocean Shrine</a></li>
+          <li><a href="holidays.html">Mount Batur Trek</a></li>
+          <li><a href="holidays.html">Nusa Penida Coast</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="holidays.html">All Tours</a></li>
+          <li><a href="offers.html">Seasonal Discounts</a></li>
+          <li><a href="reviews.html">Traveler Reviews</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Concierge Desk</h4>
+        <p class="contact-info">📍 Sanur, Bali & New Delhi, India</p>
+        <p class="contact-info">📞 +91 98200 12345</p>
+        <p class="contact-info">✉️ concierge@traveltheworld.bali</p>
+        <div class="secure-badge">
+          🔒 Indonesian Tourism Board Operator #7819/BALI
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom text-center">
+      <p>&copy; 2026 Travel The World. Designed with precision & care. All pricing in Indian Rupees (₹).</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="assets/js/travel-store.js"></script>
+  <script src="assets/js/pages.js"></script>
+</body>
+</html>

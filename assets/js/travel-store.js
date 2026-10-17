@@ -1,0 +1,1100 @@
+/**
+ * Travel The World - Centralized Data Store & State Manager
+ * Shared across all customer-facing pages and Admin Panel via localStorage
+ * All currencies strictly in Indian Rupees (₹)
+ */
+
+(function () {
+  'use strict';
+
+  const STORAGE_KEYS = {
+    TOURS: 'ttw_tours_data',
+    BOOKINGS: 'ttw_bookings_data',
+    INQUIRIES: 'ttw_inquiries_data',
+    REVIEWS: 'ttw_reviews_data',
+    COUPONS: 'ttw_coupons_data',
+    BLOGS: 'ttw_blogs_data',
+    SETTINGS: 'ttw_settings_data',
+    INITIALIZED: 'ttw_data_initialized_v3'
+  };
+
+  // Seed Data: Curated Indonesian / Bali Tours & Experiences
+  const DEFAULT_TOURS = [
+    {
+      id: 'uluwatu',
+      title: 'Uluwatu Temple & Sunset Coast',
+      category: 'Hindu Temple & Coast',
+      price: 850,
+      originalPrice: 1200,
+      duration: '1 Day (8 Hours)',
+      rating: 4.8,
+      reviewsCount: 342,
+      img: 'assets/images/featured-uluwatu.jpg',
+      thumb: 'assets/images/uluwatu.jpg',
+      featured: true,
+      popular: true,
+      description: 'Perched on a dramatic 70-meter cliff overlooking the roaring Indian Ocean, Uluwatu Temple is one of Bali’s nine directional sanctuaries. Experience sunset ocean views, sacred macaques, and the legendary Kecak Fire Dance performance.',
+      highlights: [
+        'Cliffside ocean temple panorama',
+        'Traditional sunset Kecak Fire Dance',
+        'Jimbaran Bay fresh seafood dinner option',
+        'Private AC transport with English-speaking chauffeur'
+      ],
+      itinerary: [
+        { time: '13:00', title: 'Hotel Pickup', desc: 'Air-conditioned private pickup from your resort/villa.' },
+        { time: '14:30', title: 'Padang Padang Beach', desc: 'Visit the famous surf cove featured in Eat Pray Love.' },
+        { time: '16:30', title: 'Uluwatu Cliff Sanctuary', desc: 'Explore the ancient 11th-century cliffside temple.' },
+        { time: '18:00', title: 'Kecak & Fire Dance', desc: 'Dramatic sunset amphitheatric chanting performance.' },
+        { time: '20:00', title: 'Return Transfer', desc: 'Comfortable drop-off back at your hotel.' }
+      ]
+    },
+    {
+      id: 'tanah-lot',
+      title: 'Tanah Lot Ocean Shrine Expedition',
+      category: 'Scenic Shrine & Ocean',
+      price: 1200,
+      originalPrice: 1650,
+      duration: '1 Day (7 Hours)',
+      rating: 4.6,
+      reviewsCount: 289,
+      img: 'assets/images/featured-tanah-lot.jpg',
+      thumb: 'assets/images/tanah-lot.jpg',
+      featured: true,
+      popular: true,
+      description: 'An ancient offshore rock temple standing majestically amidst crashing waves. Tanah Lot is centuries old and offers one of the most photographed sunset vistas in all of Southeast Asia.',
+      highlights: [
+        'Offshore islet temple access at low tide',
+        'Sacred holy water cave blessing',
+        'Spectacular ocean waves crashing on black coral reef',
+        'Traditional Balinese handicraft street market'
+      ],
+      itinerary: [
+        { time: '14:00', title: 'Hotel Departure', desc: 'Scenic drive through western Balinese villages.' },
+        { time: '15:30', title: 'Taman Ayun Royal Temple', desc: 'UNESCO heritage water temple of Mengwi Empire.' },
+        { time: '17:00', title: 'Tanah Lot Sunset Point', desc: 'Witness the iconic sea temple surrounded by sunset tide.' },
+        { time: '19:30', title: 'Return Transfer', desc: 'Safe drop-off at your hotel or dinner restaurant.' }
+      ]
+    },
+    {
+      id: 'waterbom',
+      title: 'Waterbom Bali Tropical Waterpark VIP',
+      category: 'Water Park & Family',
+      price: 2800,
+      originalPrice: 3500,
+      duration: 'Full Day Pass',
+      rating: 4.7,
+      reviewsCount: 512,
+      img: 'assets/images/waterbom.jpg',
+      thumb: 'assets/images/waterbom.jpg',
+      featured: true,
+      popular: true,
+      description: 'Voted Asia’s #1 Waterpark for over 5 consecutive years. Set within 3.8 hectares of lush tropical botanical gardens with world-class exhilarating water rides, lazy rivers, and luxury private cabanas.',
+      highlights: [
+        'All-day VIP priority park admission',
+        '22 world-class water slides & Lazy River',
+        'Eco-friendly saltwater filtered pools',
+        'Kids Fun Zone & FlowRider surf simulator'
+      ],
+      itinerary: [
+        { time: '09:00', title: 'Park Gates Open', desc: 'Direct skip-the-line VIP barcode entry.' },
+        { time: '11:00', title: 'Extreme Slides Session', desc: 'Conquer the Climax drop and Superbowl vortex.' },
+        { time: '13:00', title: 'Botanical Lunch Break', desc: 'Delicious lunch at the Caribbean bistro.' },
+        { time: '15:00', title: 'Lazy River & Relax', desc: 'Chill under tropical forest canopy.' },
+        { time: '18:00', title: 'Park Wrap-up', desc: 'Depart refreshed with indelible memories.' }
+      ]
+    },
+    {
+      id: 'tegallalang',
+      title: 'Tegallalang Terraces & Jungle Swing',
+      category: 'Rice Terrace & Nature',
+      price: 950,
+      originalPrice: 1400,
+      duration: '1 Day (6 Hours)',
+      rating: 4.9,
+      reviewsCount: 620,
+      img: 'assets/images/tegallalang.jpg',
+      thumb: 'assets/images/tegallalang.jpg',
+      featured: true,
+      popular: true,
+      description: 'The green heart of Ubud. Walk through emerald stepped rice fields sculpted across valley ridges using the historic 9th-century Subak irrigation system. Soar high on the world-famous Ubud jungle swing.',
+      highlights: [
+        'UNESCO Subak ancient rice terrace walk',
+        'Iconic Bali giant jungle swing photo session',
+        'Luwak coffee tasting plantation tour',
+        'Artisanal wooden craft workshops of Tegallalang'
+      ],
+      itinerary: [
+        { time: '08:30', title: 'Morning Pickup', desc: 'Scenic drive heading into the artistic Ubud uplands.' },
+        { time: '09:30', title: 'Terrace Trekking', desc: 'Guided trek through emerald green stepped paddies.' },
+        { time: '11:00', title: 'Jungle Swing & Bird Nest', desc: 'High-flying photos with dramatic valley backdrops.' },
+        { time: '12:30', title: 'Organic Farm Lunch', desc: 'Authentic Balinese culinary experience overlooking fields.' },
+        { time: '14:30', title: 'Return Transfer', desc: 'Comfortable air-conditioned hotel return.' }
+      ]
+    },
+    {
+      id: 'mount-batur',
+      title: 'Mount Batur Sunrise Trek & Hot Springs',
+      category: 'Sunrise Trek & Volcano',
+      price: 2400,
+      originalPrice: 3200,
+      duration: '10 Hours (Early Morning)',
+      rating: 4.8,
+      reviewsCount: 418,
+      img: 'assets/images/mount-batur.jpg',
+      thumb: 'assets/images/mount-batur.jpg',
+      featured: true,
+      popular: true,
+      description: 'Hike to the summit of an active volcano at 1,717 meters above sea level. Watch the sun burst through morning clouds above Mount Agung and Lake Batur while enjoying volcanic steam-cooked breakfast.',
+      highlights: [
+        'Pre-dawn guided ascent with licensed local mountaineers',
+        'Golden sunrise over caldera clouds and Lake Batur',
+        'Volcanic steam cooked eggs and hot tea on summit',
+        'Natural volcanic hot spring soak in Toya Devasya'
+      ],
+      itinerary: [
+        { time: '02:00', title: 'Night Hotel Pickup', desc: 'Early transfer to base camp in Kintamani.' },
+        { time: '03:45', title: 'Start Mountain Trek', desc: 'Flashlights provided, steady ascent with guide.' },
+        { time: '06:00', title: 'Summit Sunrise Magic', desc: 'Watch breathtaking sunrise above cloud sea.' },
+        { time: '07:30', title: 'Caldera Descent', desc: 'Walk down around volcanic craters and black lava.' },
+        { time: '09:00', title: 'Natural Hot Springs', desc: 'Rejuvenate muscles in mineral-rich heated pools.' },
+        { time: '12:00', title: 'Return Transfer', desc: 'Arrive back at your hotel for a relaxing afternoon.' }
+      ]
+    },
+    {
+      id: 'nusa-penida',
+      title: 'Nusa Penida T-Rex Cliff & Snorkeling',
+      category: 'Island Coast & Snorkel',
+      price: 3600,
+      originalPrice: 4800,
+      duration: 'Full Day (11 Hours)',
+      rating: 4.9,
+      reviewsCount: 785,
+      img: 'assets/images/nusa-penida.jpg',
+      thumb: 'assets/images/nusa-penida.jpg',
+      featured: true,
+      popular: true,
+      description: 'Sail via speedboat across the Badung Strait to Bali’s rugged outer paradise. Marvel at the dramatic T-Rex shaped Kelingking Cliff, Broken Beach, Angel’s Billabong, and snorkel with giant manta rays.',
+      highlights: [
+        'Fast boat tickets round-trip from Sanur harbor',
+        'Iconic Kelingking T-Rex cliff viewpoint',
+        'Snorkeling with wild Manta Rays in Crystal Bay',
+        'Broken Beach archway & Angel’s Billabong infinity pool'
+      ],
+      itinerary: [
+        { time: '06:30', title: 'Sanur Harbor Pickup', desc: 'Check-in and board premium fast cruise.' },
+        { time: '08:30', title: 'Arrive Nusa Penida', desc: 'Meet private 4WD island driver.' },
+        { time: '09:30', title: 'Kelingking Secret Point', desc: 'Gaze at the legendary emerald T-Rex cliff.' },
+        { time: '12:00', title: 'Cliffside Island Lunch', desc: 'Fresh grilled fish and tropical fruits.' },
+        { time: '13:30', title: 'Broken Beach & Angel Billabong', desc: 'Natural limestone ocean bridge.' },
+        { time: '16:30', title: 'Fast Boat Return', desc: 'Scenic voyage back to mainland Bali.' }
+      ]
+    },
+    {
+      id: 'ulun-danu',
+      title: 'Ulun Danu Beratan Temple & Highlands',
+      category: 'Lake Temple & Mountains',
+      price: 1800,
+      originalPrice: 2400,
+      duration: '1 Day (9 Hours)',
+      rating: 4.9,
+      reviewsCount: 462,
+      img: 'assets/images/hero-ulun-danu.jpg',
+      thumb: 'assets/images/hero-ulun-danu.jpg',
+      featured: false,
+      popular: true,
+      description: 'Set 1,200 meters above sea level on Lake Beratan, this iconic 17th-century floating temple pagoda is dedicated to Dewi Danu, the goddess of water and fertility. Cool mountain air and serene gardens.',
+      highlights: [
+        'Floating lake temple pagoda photography',
+        'Bedugul fruit & spice mountain market',
+        'Wanagiri Hidden Hills twin lake view swing',
+        'Handara Iconic Gate photo opportunity'
+      ],
+      itinerary: [
+        { time: '08:00', title: 'Hotel Pickup', desc: 'Journey towards northern central mountains.' },
+        { time: '10:00', title: 'Ulun Danu Sanctuary', desc: 'Stroll pristine lake shore and temple gardens.' },
+        { time: '12:00', title: 'Handara Gate Landmark', desc: 'Stop at the traditional Balinese stone gate.' },
+        { time: '13:30', title: 'Lakeview Lunch', desc: 'Mountain buffet with views of Lake Buyan.' },
+        { time: '17:00', title: 'Hotel Drop-off', desc: 'Return transfer to south Bali.' }
+      ]
+    },
+    {
+      id: 'lempuyang',
+      title: 'Lempuyang Gates of Heaven & Tirta Gangga',
+      category: 'Spiritual Sanctuary',
+      price: 2200,
+      originalPrice: 3000,
+      duration: '1 Day (10 Hours)',
+      rating: 4.8,
+      reviewsCount: 540,
+      img: 'assets/images/hero-gates.jpg',
+      thumb: 'assets/images/hero-gates.jpg',
+      featured: false,
+      popular: true,
+      description: 'One of Bali’s oldest and most revered sanctuaries on Mount Lempuyang slope. Capture the world-renowned reflection photo framed by Mount Agung, then visit the royal stepping-stone water palace of Tirta Gangga.',
+      highlights: [
+        'Iconic Gates of Heaven mirror photo',
+        'Royal stepping stones over koi ponds at Tirta Gangga',
+        'Tukad Cepung hidden cave waterfall',
+        'Traditional East Bali village countryside'
+      ],
+      itinerary: [
+        { time: '05:30', title: 'Early Departure', desc: 'Beat the crowds for minimal gate queue time.' },
+        { time: '08:00', title: 'Lempuyang Sanctuary', desc: 'Sacred mountain temple and reflection photos.' },
+        { time: '11:30', title: 'Tirta Gangga Water Palace', desc: 'Feed royal golden koi in ornamental pools.' },
+        { time: '13:30', title: 'Indonesian Lunch', desc: 'Authentic local cuisine in Karangasem.' },
+        { time: '15:30', title: 'Tukad Cepung Waterfall', desc: 'Sunbeams piercing through a subterranean canyon.' },
+        { time: '18:30', title: 'Return Transfer', desc: 'Drop-off at your hotel.' }
+      ]
+    }
+  ];
+
+  // Seed Data: Bookings (in ₹ Rupees)
+  const DEFAULT_BOOKINGS = [
+    {
+      id: 'TTW-84920',
+      tourId: 'uluwatu',
+      tourTitle: 'Uluwatu Temple & Sunset Coast',
+      customerName: 'Aarav Sharma',
+      email: 'aarav.sharma@example.in',
+      phone: '+91 98201 43210',
+      hotel: 'The Mulia Nusa Dua',
+      date: '2026-10-24',
+      guests: 2,
+      basePrice: 850,
+      totalAmount: 1700,
+      paymentMethod: 'UPI / GPay',
+      paymentStatus: 'Paid',
+      status: 'Confirmed',
+      specialRequests: 'Vegetarian snacks requested during sunset transfer.',
+      createdAt: '2026-10-15T09:30:00Z'
+    },
+    {
+      id: 'TTW-84921',
+      tourId: 'mount-batur',
+      tourTitle: 'Mount Batur Sunrise Trek & Hot Springs',
+      customerName: 'Pooja Iyer',
+      email: 'pooja.iyer@gmail.com',
+      phone: '+91 97412 88901',
+      hotel: 'Padma Resort Ubud',
+      date: '2026-10-28',
+      guests: 3,
+      basePrice: 2400,
+      totalAmount: 7200,
+      paymentMethod: 'Credit Card',
+      paymentStatus: 'Paid',
+      status: 'Confirmed',
+      specialRequests: 'Trek guide with good photography skills.',
+      createdAt: '2026-10-15T14:12:00Z'
+    },
+    {
+      id: 'TTW-84922',
+      tourId: 'nusa-penida',
+      tourTitle: 'Nusa Penida T-Rex Cliff & Snorkeling',
+      customerName: 'Rohan Deshmukh',
+      email: 'rohan.d@outlook.com',
+      phone: '+91 99120 77456',
+      hotel: 'W Bali - Seminyak',
+      date: '2026-11-02',
+      guests: 2,
+      basePrice: 3600,
+      totalAmount: 7200,
+      paymentMethod: 'Net Banking',
+      paymentStatus: 'Pending',
+      status: 'Pending',
+      specialRequests: 'Need fast boat departure around 7:30 AM.',
+      createdAt: '2026-10-16T08:45:00Z'
+    },
+    {
+      id: 'TTW-84923',
+      tourId: 'waterbom',
+      tourTitle: 'Waterbom Bali Tropical Waterpark VIP',
+      customerName: 'Neha & Vikram Malhotra',
+      email: 'vikram.m@techcorp.in',
+      phone: '+91 98112 00345',
+      hotel: 'Grand Hyatt Bali',
+      date: '2026-11-05',
+      guests: 4,
+      basePrice: 2800,
+      totalAmount: 11200,
+      paymentMethod: 'UPI / GPay',
+      paymentStatus: 'Paid',
+      status: 'Confirmed',
+      specialRequests: 'Family cabana requested near Lazy River.',
+      createdAt: '2026-10-16T11:20:00Z'
+    },
+    {
+      id: 'TTW-84924',
+      tourId: 'tanah-lot',
+      tourTitle: 'Tanah Lot Ocean Shrine Expedition',
+      customerName: 'Ananya Chatterjee',
+      email: 'ananya.c@gmail.com',
+      phone: '+91 98305 61234',
+      hotel: 'Alila Seminyak',
+      date: '2026-10-20',
+      guests: 1,
+      basePrice: 1200,
+      totalAmount: 1200,
+      paymentMethod: 'Credit Card',
+      paymentStatus: 'Refunded',
+      status: 'Cancelled',
+      specialRequests: 'Flight rescheduled, will rebook next week.',
+      createdAt: '2026-10-14T16:00:00Z'
+    }
+  ];
+
+  // Seed Data: Inquiries / Concierge Leads
+  const DEFAULT_INQUIRIES = [
+    {
+      id: 'INQ-101',
+      customerName: 'Dr. Sameer Kulkarni',
+      email: 'sameer.kulkarni@medhospital.org',
+      phone: '+91 98220 54321',
+      subject: 'Custom 6-Day Family Tour with Indian Food',
+      message: 'We are a family of 5 planning to visit Bali in December. Can you arrange pure vegetarian/Jain lunch options throughout all day excursions? Also need private luxury Toyota Innova transfer.',
+      date: '2026-10-16T10:15:00Z',
+      status: 'New'
+    },
+    {
+      id: 'INQ-102',
+      customerName: 'Meera Rajput',
+      email: 'meera.rajput@creativeagency.in',
+      phone: '+91 99712 44332',
+      subject: 'Honeymoon Special Photography Package',
+      message: 'Interested in the Uluwatu and Nusa Penida packages. Do you provide a professional drone photographer who can shoot 4K video clips for our wedding reel?',
+      date: '2026-10-15T18:40:00Z',
+      status: 'In Progress'
+    },
+    {
+      id: 'INQ-103',
+      customerName: 'Kabir Singhania',
+      email: 'kabir.s@singhaniagroup.com',
+      phone: '+91 98100 12345',
+      subject: 'Corporate Team Retreat in Ubud (25 Pax)',
+      message: 'Looking for a customized team building package including Mount Batur trek, river rafting, and private gala dinner overlooking rice terraces. Please send quote in Rupees.',
+      date: '2026-10-14T11:20:00Z',
+      status: 'Replied'
+    }
+  ];
+
+  // Seed Data: Customer Reviews
+  const DEFAULT_REVIEWS = [
+    {
+      id: 'REV-01',
+      reviewerName: 'Priya & Arjun Mehta',
+      origin: 'Mumbai, India',
+      tourId: 'uluwatu',
+      tourTitle: 'Uluwatu Temple & Sunset Coast',
+      avatar: 'PM',
+      rating: 5,
+      date: '2026-10-10',
+      travelType: 'Couple Holiday',
+      comment: 'The interactive cloud view on this website was literally what made us book, and the real experience at Uluwatu was even more majestic! The Kecak fire dance against the setting sun gave us goosebumps. Our driver Ketut was punctual and courteous. 10/10!',
+      approved: true
+    },
+    {
+      id: 'REV-02',
+      reviewerName: 'Marcus Chen',
+      origin: 'Singapore',
+      tourId: 'tanah-lot',
+      tourTitle: 'Tanah Lot Ocean Shrine Expedition',
+      avatar: 'MC',
+      rating: 5,
+      date: '2026-10-08',
+      travelType: 'Family Vacation',
+      comment: 'Booking Tanah Lot was super smooth. Everything was timed to perfection so we arrived right when the ocean tides receded and the sunset illuminated the pagoda. Unforgettable photos!',
+      approved: true
+    },
+    {
+      id: 'REV-03',
+      reviewerName: 'Sarah Jenkins',
+      origin: 'Sydney, Australia',
+      tourId: 'mount-batur',
+      tourTitle: 'Mount Batur Sunrise Trek & Hot Springs',
+      avatar: 'SJ',
+      rating: 5,
+      date: '2026-10-04',
+      travelType: 'Solo Traveler',
+      comment: 'Mount Batur sunrise was on my bucket list for 5 years. The trekking guide provided steaming coffee at 1,717 meters altitude as the sun pierced the clouds. The hot springs afterward were heaven!',
+      approved: true
+    },
+    {
+      id: 'REV-04',
+      reviewerName: 'Rajesh & Suman Gupta',
+      origin: 'New Delhi, India',
+      tourId: 'nusa-penida',
+      tourTitle: 'Nusa Penida T-Rex Cliff & Snorkeling',
+      avatar: 'RG',
+      rating: 5,
+      date: '2026-09-28',
+      travelType: 'Couple Holiday',
+      comment: 'Nusa Penida is out of this world. Snorkeling with giant manta rays was breathtaking. The price in Rupees is completely fair with zero hidden charges. Highly recommended for all Indian travelers.',
+      approved: true
+    }
+  ];
+
+  // Seed Data: Promo Codes
+  const DEFAULT_COUPONS = [
+    { code: 'BALI20', discountPercent: 20, description: 'Flat 20% discount on all tour packages', minSpend: 1000 },
+    { code: 'FIRSTTRIP', discountFlat: 500, description: '₹500 flat off on your first booking with us', minSpend: 1500 },
+    { code: 'MONSOON', discountPercent: 15, description: '15% Monsoon & Festive Season special discount', minSpend: 2000 }
+  ];
+
+  // Seed Data: Blog Articles & Travel Guides
+  const DEFAULT_BLOGS = [
+    {
+      id: 'blog-1',
+      title: 'Complete Bali Travel Guide for Indian Travelers (Visa, Currency & Vegetarian Food)',
+      category: 'Visa & Logistics',
+      date: 'Oct 2026',
+      readTime: '6 Min Read',
+      excerpt: 'Everything an Indian traveler needs to know before boarding: 30-day Visa on Arrival (VoA) breakdown, best SIM cards, cash vs card recommendations, and where to find authentic North/South Indian cuisine in Seminyak and Ubud.',
+      content: 'Bali has emerged as the premier international destination for Indian holidaymakers, couples, and families. With direct flight connectivity from New Delhi, Mumbai, and Bengaluru, traveling to the Island of the Gods is simpler than ever before.\n\nVisa Requirements: Indian passport holders are eligible for a 30-day Visa on Arrival (VoA) at Ngurah Rai International Airport (DPS) for 500,000 IDR (approx ₹2,650). Ensure your passport has at least 6 months validity.\n\nVegetarian & Jain Dining: Contrary to popular belief, Bali is a vegetarian haven. Ubud and Seminyak have dozens of dedicated pure vegetarian and Jain restaurants such as Queen\'s Tandoor, Spice Mantraa, and Ganesha Ek Sanskriti.',
+      img: 'assets/images/hero-ulun-danu.jpg'
+    },
+    {
+      id: 'blog-2',
+      title: 'Mount Batur Sunrise Trek: 7 Crucial Tips Before You Climb',
+      category: 'Adventure & Trek',
+      date: 'Oct 2026',
+      readTime: '5 Min Read',
+      excerpt: 'What gear to pack for the 02:00 AM chilly start, how to prepare physically for the 1,717m ascent, and why taking an organized tour with licensed mountaineers guarantees the best sunrise viewpoint over Lake Batur.',
+      content: 'Standing on the volcanic rim of Mount Batur at 1,717 meters altitude as the first sunbeams pierce through a sea of white clouds is one of the most exhilarating moments Southeast Asia has to offer.\n\nThe climb begins in the crisp predawn air around 03:30 AM from the base camp. Our certified trekking guides provide high-powered torches, trekking poles, and hot volcanic-steam cooked eggs for breakfast at the summit.',
+      img: 'assets/images/mount-batur.jpg'
+    },
+    {
+      id: 'blog-3',
+      title: 'Uluwatu Sunset & Kecak Fire Dance: The Ultimate Insider Guide',
+      category: 'Culture & Temples',
+      date: 'Sep 2026',
+      readTime: '4 Min Read',
+      excerpt: 'Why the 18:00 PM amphitheater sunset show sells out daily, how to dodge playful cliffside monkeys, and where to reserve front-row Jimbaran beach seafood dining afterwards.',
+      content: 'Perched 70 meters above roaring ocean breakers, Pura Luhur Uluwatu is one of Bali\'s nine directional spiritual pillars protecting the island from malevolent sea spirits.\n\nAs the golden sun sets into the horizon, over 70 Balinese chanters create hypnotic rhythmic vocalizations reenacting the epic Ramayana legend and Hanuman\'s triumph over fire.',
+      img: 'assets/images/featured-uluwatu.jpg'
+    },
+    {
+      id: 'blog-4',
+      title: 'Nusa Penida Day Trip: Speedboat Timings, Manta Snorkel & T-Rex Cliff',
+      category: 'Islands & Marine',
+      date: 'Sep 2026',
+      readTime: '7 Min Read',
+      excerpt: 'A realistic itinerary for visiting Kelingking Cliff, Broken Beach, and Angel\'s Billabong in one day from Sanur port without feeling rushed.',
+      content: 'Nusa Penida is a rugged island offshore southeast Bali that feels like an uncharted Jurassic paradise. The 45-minute speedboat from Sanur port takes you straight to Toyapakeh harbor where private 4x4 vehicles await.',
+      img: 'assets/images/nusa-penida.jpg'
+    }
+  ];
+
+  // Seed Data: Site Settings & Live Customizer
+  const DEFAULT_SETTINGS = {
+    // Currency Lock
+    currencySymbol: '₹',
+    currencyCode: 'INR',
+    gstRate: 5,
+
+    // Festival Theme & Announcement Bar ('normal' = Regular clean mode, no festival)
+    activeTheme: 'diwali', // 'normal', 'diwali', 'holi', 'newyear', 'monsoon', 'classic'
+    festivalBannerActive: true,
+    festivalBannerBadge: '🪔 DIWALI SPECIAL',
+    festivalBannerText: 'Shubh Deepawali Celebration: Flat 20% OFF on All Bali Packages with Code BALI20 | Free Uluwatu Sunset Passes',
+    festivalBannerLink: 'offers.html',
+    festivalBannerCta: 'Claim Offer →',
+
+    // Homepage Hero Section Media & Slideshow
+    heroTitle: 'BALI',
+    heroDescription: 'The famed Island of the Gods, with its varied landscape of hills and mountains, rugged coastlines and sandy beaches, lush rice terraces, and volcanic hillsides.',
+    heroVideoUrl: 'assets/videos/hero-bali.mp4',
+    heroPosterUrl: 'assets/images/hero-ulun-danu.jpg',
+    heroSlide1Img: 'assets/images/hero-ulun-danu.jpg',
+    heroSlide1Title: 'BALI',
+    heroSlide1Desc: 'The famed Island of the Gods, with its varied landscape of hills and mountains, rugged coastlines and sandy beaches, lush rice terraces, and volcanic hillsides.',
+    heroSlide2Img: 'assets/images/hero-gates.jpg',
+    heroSlide2Title: 'LEMPUYANG',
+    heroSlide2Desc: 'The iconic Gates of Heaven framing majestic Mount Agung, offering a spiritual threshold between the earthly realm and mystical heavens.',
+    heroSlide3Img: 'assets/images/hero-beach.jpg',
+    heroSlide3Title: 'NUSA DUA',
+    heroSlide3Desc: 'Crystal turquoise waters meeting pristine white shores, where coral reefs flourish beneath the warm tropical Balinese sun.',
+    heroCtaText: 'Discover Location',
+    heroCtaLink: '#explore',
+
+    // Explore Section Scenery Backdrop
+    exploreBackdropImg: 'assets/images/featured-uluwatu.jpg',
+
+    // About Us Page Hero Image
+    aboutHeroImg: 'assets/images/featured-uluwatu.jpg',
+
+    // Explore Section & Mist Canvas
+    exploreTitle: 'EXPLORE BALI\nWITH US',
+    exploreSubtitle: 'We are an online based travel company allowing us to keep our prices competitive. We will take care of the booking process for you from start to finish.',
+    cloudMistHint: '✨ Move mouse to part clouds in 150-200px radius around cursor • Real-time mist',
+
+    // Live Atmospheric Ticker
+    tickerWeather: '☀️ Climate: 29°C Tropical Clear Skies',
+    tickerGoldenHour: '🌅 Uluwatu Golden Hour: Sunset at 18:14 WITA',
+    tickerForex: '🇮🇳 Forex Benchmark: ₹1 INR ≈ 190.5 IDR (Zero conversion fee on all tours)',
+
+    // Brand Identity & Company Info
+    companyName: 'Travel The World',
+    logoScript: 'travel',
+    logoSub: 'THE WORLD',
+    tagline: 'Bespoke Bali & Indonesian Experiences in Indian Rupees',
+    contactEmail: 'concierge@traveltheworld.bali',
+    contactPhone: '+91 98200 12345 / +62 361 720 892',
+    address: 'Jl. Danau Tamblingan No. 42, Sanur, Bali & Connaught Place, New Delhi',
+    licenseNumber: 'Certified Indonesian Tour Operator #7819/BALI',
+    copyrightText: '© 2026 Travel The World. Handcrafted luxury travel & bespoke tours in Indian Rupees.',
+
+    // About Us Page Data
+    aboutStory: 'Founded over 15 years ago, Travel The World began with a singular focus: crafting high-touch, culturally immersive Balinese journeys with utmost transparency in Indian Rupees.',
+    statYears: '15+',
+    statTravelers: '24,000+',
+    statTours: '180+',
+    statRating: '4.95',
+    aboutTeam: [
+      { name: 'Ketut Wijaya', role: 'Head of Balinese Culture & Guiding', origin: 'Denpasar, Bali', exp: '14 Years' },
+      { name: 'Wayan Sudarma', role: 'Chief Expedition Chauffeur', origin: 'Gianyar, Bali', exp: '11 Years' },
+      { name: 'Made Wardana', role: 'Trekking & Volcanic Safety Lead', origin: 'Kintamani, Bali', exp: '9 Years' },
+      { name: 'Putu Ariani', role: 'Concierge & Dietary Coordinator', origin: 'Sanur, Bali', exp: '7 Years' }
+    ],
+
+    // Contact & FAQs Data
+    faqs: [
+      { q: 'Is vegetarian or Jain food easily available during tours?', a: 'Yes! We coordinate directly with top-rated pure vegetarian Indian restaurants across South Bali and Ubud, catering to Jain, Swaminarayan, and vegan dietary preferences.' },
+      { q: 'Are all tour prices strictly in Indian Rupees (₹)?', a: 'Absolutely. Every package, entry pass, and private transfer is priced strictly in Indian Rupees (₹) with zero foreign currency conversion markup.' },
+      { q: 'What is the cancellation policy?', a: 'We offer a 100% full refund up to 24 hours prior to your scheduled tour start time with zero questions asked.' },
+      { q: 'Do your drivers speak English?', a: 'Yes, all our chauffeurs and private guides are government-certified, speak fluent English, and have deep local knowledge of Balinese culture.' }
+    ],
+
+    // Advanced Next-Gen Experience Flags
+    aiConciergeEnabled: true,
+    festiveParticlesEnabled: true,
+    cardTiltPhysicsEnabled: true,
+    virtual360TourEnabled: true
+  };
+
+  // Safe localStorage helper
+  function loadStorage(key, fallback) {
+    try {
+      const data = localStorage.getItem(key);
+      return data ? JSON.parse(data) : fallback;
+    } catch (e) {
+      console.warn('Storage read failed:', key, e);
+      return fallback;
+    }
+  }
+
+  function saveStorage(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {
+      console.error('Storage write failed:', key, e);
+    }
+  }
+
+  // Initialize Data Store
+  function initStore() {
+    const isInitialized = localStorage.getItem(STORAGE_KEYS.INITIALIZED);
+    if (!isInitialized) {
+      saveStorage(STORAGE_KEYS.TOURS, DEFAULT_TOURS);
+      saveStorage(STORAGE_KEYS.BOOKINGS, DEFAULT_BOOKINGS);
+      saveStorage(STORAGE_KEYS.INQUIRIES, DEFAULT_INQUIRIES);
+      saveStorage(STORAGE_KEYS.REVIEWS, DEFAULT_REVIEWS);
+      saveStorage(STORAGE_KEYS.COUPONS, DEFAULT_COUPONS);
+      saveStorage(STORAGE_KEYS.BLOGS, DEFAULT_BLOGS);
+      saveStorage(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS);
+      localStorage.setItem(STORAGE_KEYS.INITIALIZED, 'true');
+    }
+  }
+
+  initStore();
+
+  // Public API Object
+  window.TravelStore = {
+    // Utility: Format currency in Indian Rupees
+    formatRupees: function (num) {
+      const amount = Number(num) || 0;
+      return '₹' + amount.toLocaleString('en-IN');
+    },
+
+    // TOURS
+    getTours: function () {
+      return loadStorage(STORAGE_KEYS.TOURS, DEFAULT_TOURS);
+    },
+    getTourById: function (id) {
+      const tours = this.getTours();
+      return tours.find(t => t.id === id) || null;
+    },
+    saveTour: function (tour) {
+      const tours = this.getTours();
+      const existingIdx = tours.findIndex(t => t.id === tour.id);
+      if (existingIdx >= 0) {
+        tours[existingIdx] = { ...tours[existingIdx], ...tour };
+      } else {
+        if (!tour.id) tour.id = 'tour-' + Date.now();
+        tours.unshift(tour);
+      }
+      saveStorage(STORAGE_KEYS.TOURS, tours);
+      this.triggerUpdate('tours');
+      return tour;
+    },
+    deleteTour: function (id) {
+      let tours = this.getTours();
+      tours = tours.filter(t => t.id !== id);
+      saveStorage(STORAGE_KEYS.TOURS, tours);
+      this.triggerUpdate('tours');
+      return true;
+    },
+
+    // BOOKINGS
+    getBookings: function () {
+      return loadStorage(STORAGE_KEYS.BOOKINGS, DEFAULT_BOOKINGS);
+    },
+    getBookingById: function (id) {
+      const bookings = this.getBookings();
+      return bookings.find(b => b.id === id) || null;
+    },
+    addBooking: function (bookingData) {
+      const bookings = this.getBookings();
+      const newBooking = {
+        id: 'TTW-' + Math.floor(10000 + Math.random() * 90000),
+        status: 'Confirmed',
+        paymentStatus: 'Paid',
+        paymentMethod: bookingData.paymentMethod || 'UPI / GPay',
+        createdAt: new Date().toISOString(),
+        ...bookingData
+      };
+      bookings.unshift(newBooking);
+      saveStorage(STORAGE_KEYS.BOOKINGS, bookings);
+      this.triggerUpdate('bookings');
+      return newBooking;
+    },
+    updateBookingStatus: function (id, newStatus, newPaymentStatus) {
+      const bookings = this.getBookings();
+      const b = bookings.find(item => item.id === id);
+      if (b) {
+        b.status = newStatus;
+        if (newPaymentStatus) b.paymentStatus = newPaymentStatus;
+        saveStorage(STORAGE_KEYS.BOOKINGS, bookings);
+        this.triggerUpdate('bookings');
+        return b;
+      }
+      return null;
+    },
+    deleteBooking: function (id) {
+      let bookings = this.getBookings();
+      bookings = bookings.filter(b => b.id !== id);
+      saveStorage(STORAGE_KEYS.BOOKINGS, bookings);
+      this.triggerUpdate('bookings');
+      return true;
+    },
+
+    // INQUIRIES
+    getInquiries: function () {
+      return loadStorage(STORAGE_KEYS.INQUIRIES, DEFAULT_INQUIRIES);
+    },
+    addInquiry: function (inquiryData) {
+      const inquiries = this.getInquiries();
+      const newInquiry = {
+        id: 'INQ-' + (inquiries.length + 101),
+        date: new Date().toISOString(),
+        status: 'New',
+        ...inquiryData
+      };
+      inquiries.unshift(newInquiry);
+      saveStorage(STORAGE_KEYS.INQUIRIES, inquiries);
+      this.triggerUpdate('inquiries');
+      return newInquiry;
+    },
+    updateInquiryStatus: function (id, status) {
+      const inquiries = this.getInquiries();
+      const inq = inquiries.find(i => i.id === id);
+      if (inq) {
+        inq.status = status;
+        saveStorage(STORAGE_KEYS.INQUIRIES, inquiries);
+        this.triggerUpdate('inquiries');
+        return inq;
+      }
+      return null;
+    },
+    deleteInquiry: function (id) {
+      let inquiries = this.getInquiries();
+      inquiries = inquiries.filter(i => i.id !== id);
+      saveStorage(STORAGE_KEYS.INQUIRIES, inquiries);
+      this.triggerUpdate('inquiries');
+      return true;
+    },
+
+    // REVIEWS
+    getReviews: function () {
+      return loadStorage(STORAGE_KEYS.REVIEWS, DEFAULT_REVIEWS);
+    },
+    addReview: function (reviewData) {
+      const reviews = this.getReviews();
+      const newReview = {
+        id: 'REV-' + Date.now().toString().slice(-4),
+        date: new Date().toISOString().split('T')[0],
+        approved: true, // auto approve in demo
+        avatar: (reviewData.reviewerName || 'TT').split(' ').map(s => s[0]).join('').toUpperCase().slice(0, 2),
+        ...reviewData
+      };
+      reviews.unshift(newReview);
+      saveStorage(STORAGE_KEYS.REVIEWS, reviews);
+      this.triggerUpdate('reviews');
+      return newReview;
+    },
+    toggleReviewApproval: function (id) {
+      const reviews = this.getReviews();
+      const rev = reviews.find(r => r.id === id);
+      if (rev) {
+        rev.approved = !rev.approved;
+        saveStorage(STORAGE_KEYS.REVIEWS, reviews);
+        this.triggerUpdate('reviews');
+        return rev;
+      }
+      return null;
+    },
+    deleteReview: function (id) {
+      let reviews = this.getReviews();
+      reviews = reviews.filter(r => r.id !== id);
+      saveStorage(STORAGE_KEYS.REVIEWS, reviews);
+      this.triggerUpdate('reviews');
+      return true;
+    },
+
+    // COUPONS
+    getCoupons: function () {
+      return loadStorage(STORAGE_KEYS.COUPONS, DEFAULT_COUPONS);
+    },
+    applyCoupon: function (code, amount) {
+      const coupons = this.getCoupons();
+      const cleanCode = (code || '').trim().toUpperCase();
+      const match = coupons.find(c => c.code.toUpperCase() === cleanCode);
+      if (!match) return { valid: false, message: 'Invalid promo code.' };
+      if (match.minSpend && amount < match.minSpend) {
+        return {
+          valid: false,
+          message: `Minimum booking value of ${this.formatRupees(match.minSpend)} required for coupon ${cleanCode}.`
+        };
+      }
+      let discount = 0;
+      if (match.discountPercent) {
+        discount = Math.round((amount * match.discountPercent) / 100);
+      } else if (match.discountFlat) {
+        discount = Math.min(amount, match.discountFlat);
+      }
+      return {
+        valid: true,
+        code: cleanCode,
+        discount,
+        description: match.description,
+        finalAmount: Math.max(0, amount - discount)
+      };
+    },
+    saveCoupon: function (coupon) {
+      const coupons = this.getCoupons();
+      const cleanCode = (coupon.code || '').trim().toUpperCase();
+      if (!cleanCode) return null;
+      coupon.code = cleanCode;
+      const existingIdx = coupons.findIndex(c => c.code === cleanCode);
+      if (existingIdx >= 0) {
+        coupons[existingIdx] = { ...coupons[existingIdx], ...coupon };
+      } else {
+        coupons.push(coupon);
+      }
+      saveStorage(STORAGE_KEYS.COUPONS, coupons);
+      this.triggerUpdate('coupons');
+      return coupon;
+    },
+    deleteCoupon: function (code) {
+      let coupons = this.getCoupons();
+      coupons = coupons.filter(c => c.code.toUpperCase() !== code.toUpperCase());
+      saveStorage(STORAGE_KEYS.COUPONS, coupons);
+      this.triggerUpdate('coupons');
+      return true;
+    },
+
+    // BLOGS & TRAVEL GUIDES
+    getBlogs: function () {
+      return loadStorage(STORAGE_KEYS.BLOGS, DEFAULT_BLOGS);
+    },
+    getBlogById: function (id) {
+      const blogs = this.getBlogs();
+      return blogs.find(b => b.id === id) || null;
+    },
+    saveBlog: function (blog) {
+      const blogs = this.getBlogs();
+      if (!blog.id) blog.id = 'blog-' + Date.now();
+      const existingIdx = blogs.findIndex(b => b.id === blog.id);
+      if (existingIdx >= 0) {
+        blogs[existingIdx] = { ...blogs[existingIdx], ...blog };
+      } else {
+        blogs.unshift(blog);
+      }
+      saveStorage(STORAGE_KEYS.BLOGS, blogs);
+      this.triggerUpdate('blogs');
+      return blog;
+    },
+    deleteBlog: function (id) {
+      let blogs = this.getBlogs();
+      blogs = blogs.filter(b => b.id !== id);
+      saveStorage(STORAGE_KEYS.BLOGS, blogs);
+      this.triggerUpdate('blogs');
+      return true;
+    },
+
+    // SETTINGS
+    getSettings: function () {
+      const stored = loadStorage(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS);
+      return { ...DEFAULT_SETTINGS, ...stored };
+    },
+    saveSettings: function (newSettings) {
+      const current = this.getSettings();
+      const updated = { ...current, ...newSettings };
+      saveStorage(STORAGE_KEYS.SETTINGS, updated);
+      this.triggerUpdate('settings');
+      this.applyActiveThemeAndContent();
+      return updated;
+    },
+
+    // REVEAL & APPLY FESTIVAL THEMES AND EDITABLE CONTENT ACROSS LIVE SITE
+    applyActiveThemeAndContent: function () {
+      if (typeof document === 'undefined' || !document.body) return;
+      const settings = this.getSettings();
+
+      // 1. Theme Class Switcher on Body ('normal' = clean standard mode)
+      const theme = settings.activeTheme || 'normal';
+      const allThemes = ['theme-normal', 'theme-diwali', 'theme-holi', 'theme-newyear', 'theme-monsoon', 'theme-classic'];
+      allThemes.forEach(t => document.body.classList.remove(t));
+      document.body.classList.add('theme-' + theme);
+      document.body.setAttribute('data-active-theme', theme);
+
+      // 2. Sticky Festival Announcement Bar (Universal Across Pages)
+      if (!document.body.classList.contains('admin-body')) {
+        let banner = document.getElementById('festivalAnnouncementBar');
+        if (settings.festivalBannerActive && theme !== 'normal') {
+          if (!banner) {
+            banner = document.createElement('div');
+            banner.id = 'festivalAnnouncementBar';
+            banner.className = 'festival-announcement-bar';
+            document.body.insertAdjacentElement('afterbegin', banner);
+          }
+          banner.style.display = 'flex';
+          banner.innerHTML = `
+            <div class="festival-banner-inner">
+              <span class="festival-banner-badge" id="festiveBadge">${settings.festivalBannerBadge || 'FESTIVE SPECIAL'}</span>
+              <span class="festival-banner-text" id="festiveText">${settings.festivalBannerText || ''}</span>
+              <a href="${settings.festivalBannerLink || 'offers.html'}" class="festival-banner-cta" id="festiveCta">${settings.festivalBannerCta || 'Claim Offer →'}</a>
+              <button class="festival-banner-close" id="festiveCloseBtn" aria-label="Dismiss banner" title="Dismiss banner">&times;</button>
+            </div>
+          `;
+          const closeBtn = banner.querySelector('#festiveCloseBtn');
+          if (closeBtn) {
+            closeBtn.onclick = () => { banner.style.display = 'none'; };
+          }
+        } else if (banner) {
+          banner.style.display = 'none';
+        }
+      }
+
+      // 3. Homepage Hero Video & Poster
+      const heroVideo = document.getElementById('heroVideo');
+      if (heroVideo) {
+        if (settings.heroPosterUrl) {
+          heroVideo.setAttribute('poster', settings.heroPosterUrl);
+        }
+        if (settings.heroVideoUrl) {
+          const source = heroVideo.querySelector('source');
+          if (source && source.getAttribute('src') !== settings.heroVideoUrl) {
+            source.setAttribute('src', settings.heroVideoUrl);
+            heroVideo.src = settings.heroVideoUrl;
+            heroVideo.load();
+          }
+        }
+      }
+
+      // Hero Slides 01, 02, 03 (Background Images & Metadata)
+      const slide0 = document.querySelector('.hero-slide[data-index="0"]');
+      if (slide0) {
+        const s1Title = settings.heroSlide1Title || settings.heroTitle;
+        const s1Desc = settings.heroSlide1Desc || settings.heroDescription;
+        if (s1Title) slide0.setAttribute('data-title', s1Title);
+        if (s1Desc) slide0.setAttribute('data-desc', s1Desc);
+        const bg0 = slide0.querySelector('.slide-bg');
+        if (bg0 && settings.heroSlide1Img) bg0.style.backgroundImage = `url('${settings.heroSlide1Img}')`;
+      }
+
+      const slide1 = document.querySelector('.hero-slide[data-index="1"]');
+      if (slide1) {
+        if (settings.heroSlide2Title) slide1.setAttribute('data-title', settings.heroSlide2Title);
+        if (settings.heroSlide2Desc) slide1.setAttribute('data-desc', settings.heroSlide2Desc);
+        const bg1 = slide1.querySelector('.slide-bg');
+        if (bg1 && settings.heroSlide2Img) bg1.style.backgroundImage = `url('${settings.heroSlide2Img}')`;
+      }
+
+      const slide2 = document.querySelector('.hero-slide[data-index="2"]');
+      if (slide2) {
+        if (settings.heroSlide3Title) slide2.setAttribute('data-title', settings.heroSlide3Title);
+        if (settings.heroSlide3Desc) slide2.setAttribute('data-desc', settings.heroSlide3Desc);
+        const bg2 = slide2.querySelector('.slide-bg');
+        if (bg2 && settings.heroSlide3Img) bg2.style.backgroundImage = `url('${settings.heroSlide3Img}')`;
+      }
+
+      // Initial active slide texts
+      const heroTitle = document.getElementById('heroTitle');
+      const heroDesc = document.getElementById('heroDescription');
+      const activeSlide = document.querySelector('.hero-slide.active');
+      if (activeSlide) {
+        const currIdx = activeSlide.getAttribute('data-index');
+        if (currIdx === '0') {
+          if (heroTitle && (settings.heroSlide1Title || settings.heroTitle)) {
+            heroTitle.textContent = settings.heroSlide1Title || settings.heroTitle;
+          }
+          if (heroDesc && (settings.heroSlide1Desc || settings.heroDescription)) {
+            heroDesc.textContent = settings.heroSlide1Desc || settings.heroDescription;
+          }
+        }
+      }
+
+      const heroCta = document.getElementById('discoverLocationBtn');
+      if (heroCta) {
+        const span = heroCta.querySelector('span');
+        if (span && settings.heroCtaText) span.textContent = settings.heroCtaText;
+        if (settings.heroCtaLink) heroCta.setAttribute('href', settings.heroCtaLink);
+      }
+
+      // Explore Backdrop Image (Under interactive clouds)
+      const featuredMainImg = document.getElementById('featuredMainImg');
+      if (featuredMainImg && settings.exploreBackdropImg) {
+        if (!featuredMainImg.dataset.userSwapped) {
+          featuredMainImg.src = settings.exploreBackdropImg;
+        }
+      }
+
+      // About Us Page Hero Image
+      const aboutHeroImg = document.getElementById('aboutHeroImg');
+      if (aboutHeroImg && settings.aboutHeroImg) {
+        aboutHeroImg.src = settings.aboutHeroImg;
+      }
+
+      // 4. Explore Section Content (if elements exist)
+      const exploreTitleEl = document.querySelector('.explore-text-block .section-title');
+      if (exploreTitleEl && settings.exploreTitle) {
+        exploreTitleEl.innerHTML = settings.exploreTitle.replace(/\n/g, '<br>');
+      }
+
+      const exploreSubEl = document.querySelector('.explore-text-block .section-subtitle');
+      if (exploreSubEl && settings.exploreSubtitle) {
+        exploreSubEl.textContent = settings.exploreSubtitle;
+      }
+
+      const cloudHintEl = document.querySelector('#cloudInteractiveHint span');
+      if (cloudHintEl && settings.cloudMistHint) {
+        cloudHintEl.textContent = settings.cloudMistHint;
+      }
+
+      // 5. Live Atmospheric Ticker Items
+      const tickerContent = document.querySelector('.live-ticker-content');
+      if (tickerContent) {
+        const tickerItems = tickerContent.querySelectorAll('.ticker-item');
+        if (tickerItems.length >= 4) {
+          if (settings.tickerWeather) {
+            tickerItems[1].innerHTML = settings.tickerWeather;
+          }
+          if (settings.tickerGoldenHour) {
+            tickerItems[2].innerHTML = settings.tickerGoldenHour;
+          }
+          if (settings.tickerForex) {
+            tickerItems[3].innerHTML = settings.tickerForex;
+          }
+        }
+      }
+
+      // 6. Brand Logo & Company Info across all pages
+      document.querySelectorAll('.logo-script').forEach(el => {
+        if (settings.logoScript) el.textContent = settings.logoScript;
+      });
+      document.querySelectorAll('.logo-sub').forEach(el => {
+        if (settings.logoSub) el.textContent = settings.logoSub;
+      });
+
+      // Footer contact & copyright
+      const footerBottom = document.querySelector('.footer-bottom p');
+      if (footerBottom && settings.copyrightText) {
+        footerBottom.textContent = settings.copyrightText;
+      }
+    },
+
+    // KPI & STATS COMPUTATION FOR ADMIN
+    getStats: function () {
+      const bookings = this.getBookings();
+      const tours = this.getTours();
+      const inquiries = this.getInquiries();
+      const reviews = this.getReviews();
+
+      const totalRevenue = bookings
+        .filter(b => b.status !== 'Cancelled')
+        .reduce((sum, b) => sum + (Number(b.totalAmount) || 0), 0);
+
+      const confirmedBookings = bookings.filter(b => b.status === 'Confirmed').length;
+      const pendingBookings = bookings.filter(b => b.status === 'Pending').length;
+      const cancelledBookings = bookings.filter(b => b.status === 'Cancelled').length;
+
+      const newInquiries = inquiries.filter(i => i.status === 'New').length;
+
+      const avgRating = reviews.length > 0
+        ? (reviews.reduce((sum, r) => sum + (Number(r.rating) || 5), 0) / reviews.length).toFixed(1)
+        : '4.9';
+
+      return {
+        totalBookings: bookings.length,
+        confirmedBookings,
+        pendingBookings,
+        cancelledBookings,
+        totalRevenue,
+        activeTours: tours.length,
+        totalInquiries: inquiries.length,
+        newInquiries,
+        totalReviews: reviews.length,
+        avgRating
+      };
+    },
+
+    // RESET TO DEMO DATA
+    resetToDefaults: function () {
+      saveStorage(STORAGE_KEYS.TOURS, DEFAULT_TOURS);
+      saveStorage(STORAGE_KEYS.BOOKINGS, DEFAULT_BOOKINGS);
+      saveStorage(STORAGE_KEYS.INQUIRIES, DEFAULT_INQUIRIES);
+      saveStorage(STORAGE_KEYS.REVIEWS, DEFAULT_REVIEWS);
+      saveStorage(STORAGE_KEYS.COUPONS, DEFAULT_COUPONS);
+      saveStorage(STORAGE_KEYS.BLOGS, DEFAULT_BLOGS);
+      saveStorage(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS);
+      this.triggerUpdate('reset');
+      this.applyActiveThemeAndContent();
+      return true;
+    },
+
+    // Event Trigger for Cross-tab / In-page updates
+    triggerUpdate: function (type) {
+      window.dispatchEvent(new CustomEvent('ttw:store-updated', { detail: { type } }));
+    }
+  };
+
+  // Auto-apply active festival theme and live custom content immediately on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.TravelStore.applyActiveThemeAndContent();
+    });
+  } else {
+    window.TravelStore.applyActiveThemeAndContent();
+  }
+
+  // Cross-tab real-time updates: when admin changes settings in another tab, live website reacts instantly
+  window.addEventListener('storage', (e) => {
+    if (e.key === STORAGE_KEYS.SETTINGS) {
+      window.TravelStore.applyActiveThemeAndContent();
+    }
+  });
+
+  // In-tab event listener
+  window.addEventListener('ttw:store-updated', () => {
+    window.TravelStore.applyActiveThemeAndContent();
+  });
+})();

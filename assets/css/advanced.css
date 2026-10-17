@@ -1,0 +1,721 @@
+/* ==========================================================================
+   ADVANCED NEXT-GEN EXPERIENCE STYLESHEET
+   1. Ketut AI Concierge Chatbot Widget & Glassmorphism Drawer
+   2. Festive Particle Canvas (Diwali, Holi, New Year, Monsoon)
+   3. 3D Card Tilt & Holographic Specular Sheen
+   4. Interactive 360° Landmark Panoramic Tour Modal
+   5. Bali Island Region Route Explorer & Live Budget Estimator
+   ========================================================================== */
+
+/* ==========================================================================
+   1. KETUT AI CONCIERGE WIDGET & DRAWER
+   ========================================================================== */
+.ketut-ai-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.ketut-trigger-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 0.6rem 1.15rem 0.6rem 0.75rem;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+}
+
+.ketut-trigger-btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  background: #1e293b;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.45);
+}
+
+body.theme-diwali .ketut-trigger-btn {
+  background: #1f1338;
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 10px 30px rgba(245, 158, 11, 0.25);
+}
+
+body.theme-holi .ketut-trigger-btn {
+  background: #3b0764;
+  border-color: rgba(219, 39, 119, 0.5);
+}
+
+.ketut-avatar-wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  position: relative;
+}
+
+.ketut-pulse-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 9px;
+  height: 9px;
+  background: #10b981;
+  border-radius: 50%;
+  border: 2px solid #0f172a;
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.ketut-btn-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.ketut-badge-ping {
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -0.2rem;
+}
+
+/* AI Drawer / Chat Box */
+.ketut-ai-drawer {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  width: 390px;
+  max-width: calc(100vw - 32px);
+  height: 540px;
+  max-height: calc(100vh - 120px);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.25);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px) scale(0.96);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ketut-ai-drawer.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.ketut-drawer-header {
+  padding: 1rem 1.25rem;
+  background: #0f172a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+body.theme-diwali .ketut-drawer-header {
+  background: linear-gradient(90deg, #1f1338, #3b145a);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.ketut-header-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ketut-header-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.ketut-header-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.ketut-header-status {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ketut-header-status .status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+.ketut-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ketut-btn-clear, .ketut-btn-close {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #ffffff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.ketut-btn-close {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.ketut-btn-clear:hover, .ketut-btn-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Chat Messages */
+.ketut-drawer-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #f8fafc;
+}
+
+.ketut-message {
+  display: flex;
+  flex-direction: column;
+  max-width: 86%;
+}
+
+.ketut-message.bot {
+  align-self: flex-start;
+}
+
+.ketut-message.user {
+  align-self: flex-end;
+}
+
+.ketut-msg-bubble {
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.ketut-message.bot .ketut-msg-bubble {
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  border-bottom-left-radius: 4px;
+}
+
+.ketut-message.user .ketut-msg-bubble {
+  background: #2563eb;
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+}
+
+body.theme-diwali .ketut-message.user .ketut-msg-bubble {
+  background: #2b1055;
+  border: 1px solid #f59e0b;
+}
+
+.ketut-msg-time {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+  padding: 0 0.25rem;
+}
+
+.ketut-message.user .ketut-msg-time {
+  text-align: right;
+}
+
+.ketut-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.ketut-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 0.35rem 0.7rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.ketut-action-btn:hover {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+.ketut-action-btn.whatsapp {
+  background: #25d366;
+  color: #ffffff;
+  border-color: #25d366;
+}
+
+.ketut-action-btn.whatsapp:hover {
+  background: #1eb857;
+}
+
+/* Typing animation */
+.typing-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #94a3b8;
+  margin: 0 2px;
+  animation: typingBlink 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBlink {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* Quick Prompts */
+.ketut-quick-prompts {
+  padding: 0.5rem 1rem;
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  background: #ffffff;
+  border-top: 1px solid #f1f5f9;
+  scrollbar-width: none;
+}
+
+.ketut-quick-prompts::-webkit-scrollbar {
+  display: none;
+}
+
+.quick-prompt-chip {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #475569;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quick-prompt-chip:hover {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+/* Footer & Input */
+.ketut-drawer-footer {
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ketut-drawer-footer input {
+  flex-grow: 1;
+  border: 1.5px solid #e2e8f0;
+  padding: 0.65rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.ketut-drawer-footer input:focus {
+  border-color: #2563eb;
+}
+
+.ketut-send-btn {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ketut-send-btn:hover {
+  background: #1d4ed8;
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   2. FESTIVE PARTICLE CANVAS
+   ========================================================================== */
+.festive-particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 12;
+}
+
+/* ==========================================================================
+   3. 3D CARD PERSPECTIVE TILT
+   ========================================================================== */
+[data-tilt-ready] {
+  transform-style: preserve-3d;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+/* ==========================================================================
+   4. INTERACTIVE 360° LANDMARK PANORAMIC MODAL
+   ========================================================================== */
+.virtual-360-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.virtual-360-modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.virtual-360-box {
+  width: 100%;
+  max-width: 1080px;
+  background: #0f172a;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+}
+
+.virtual-360-header {
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.v360-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.v360-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.v360-close-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Panorama Viewport */
+.virtual-360-viewport {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  background: #000000;
+  cursor: grab;
+  user-select: none;
+}
+
+.virtual-360-viewport.grabbing {
+  cursor: grabbing;
+}
+
+.v360-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.25) translateX(-15%);
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+
+.v360-hud-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+}
+
+.v360-compass {
+  align-self: flex-start;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.v360-compass .compass-pointer {
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+}
+
+.v360-drag-hint {
+  align-self: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.3px;
+}
+
+/* Footer Bar */
+.virtual-360-footer {
+  padding: 1.25rem 1.75rem;
+  background: #090d16;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.v360-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.v360-tab-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.v360-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.v360-tab-btn.active {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.v360-footer-cta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.v360-price {
+  color: #fbbf24;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   5. BALI ISLAND REGION ROUTE EXPLORER & LIVE BUDGET ESTIMATOR
+   ========================================================================== */
+.route-explorer-section {
+  padding: 5rem 0;
+  background: #f8fafc;
+}
+
+.route-explorer-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+}
+
+.regions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.region-tile {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.region-tile:hover {
+  border-color: #0f172a;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.region-tile.active {
+  border-color: #2563eb;
+  background: #f8faff;
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.12);
+}
+
+.region-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.region-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.region-meta {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.region-highlights {
+  font-size: 0.82rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .ketut-ai-drawer {
+    right: 16px;
+    bottom: 80px;
+    height: 480px;
+  }
+
+  .virtual-360-viewport {
+    height: 320px;
+  }
+
+  .v360-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .v360-footer-cta {
+    justify-content: space-between;
+  }
+}

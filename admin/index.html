@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Console | Travel The World</title>
+  <meta name="description" content="Super Admin Dashboard for Travel The World. Manage tour packages, reservations, live inquiries, and traveler reviews.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body class="admin-body">
+
+  <!-- ==============================================
+       SIDEBAR NAVIGATION
+       ============================================== -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-brand">
+      <div style="display: flex; align-items: baseline; gap: 0.5rem;">
+        <span class="sidebar-logo">travel</span>
+        <span class="sidebar-tag">Admin Console</span>
+      </div>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li class="sidebar-item">
+        <a class="sidebar-link active" data-tab="dashboard">
+          <span class="sidebar-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="tours">
+          <span class="sidebar-icon">🗺️</span>
+          <span>Tours & Packages</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="bookings">
+          <span class="sidebar-icon">📋</span>
+          <span>Bookings & Orders</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="coupons">
+          <span class="sidebar-icon">🎟️</span>
+          <span>Coupons & Offers</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="inquiries">
+          <span class="sidebar-icon">✉️</span>
+          <span>Customer Inquiries</span>
+          <span class="sidebar-badge" id="badgeInquiriesCount" style="display: none;">0</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="reviews">
+          <span class="sidebar-icon">⭐</span>
+          <span>Reviews Moderation</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="blog">
+          <span class="sidebar-icon">📖</span>
+          <span>Blog & Guides</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="about">
+          <span class="sidebar-icon">👥</span>
+          <span>About Us & Team</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="contact">
+          <span class="sidebar-icon">📞</span>
+          <span>Contact & FAQs</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="customizer">
+          <span class="sidebar-icon">🎨</span>
+          <span>Festival & Content</span>
+          <span class="sidebar-badge" style="background: #f59e0b; color: #1e1338; font-weight: 800;">LIVE</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="settings">
+          <span class="sidebar-icon">⚙️</span>
+          <span>System Settings</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <a href="../index.html" class="btn-view-site" target="_blank">
+        <span>🌐 View Live Website</span>
+        <span style="font-size: 0.9rem;">&rarr;</span>
+      </a>
+    </div>
+  </aside>
+
+
+  <!-- ==============================================
+       MAIN WORKSPACE
+       ============================================== -->
+  <div class="admin-main">
+    
+    <!-- TOP HEADER -->
+    <header class="admin-header">
+      <div class="header-left">
+        <button class="mobile-sidebar-toggle" id="mobileSidebarToggle" aria-label="Toggle menu">☰</button>
+        <div class="header-title-box">
+          <h1 id="headerPageTitle">📊 Dashboard</h1>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="header-date-badge" id="headerLiveDate">🕒 Live Console</div>
+        <div class="admin-user-pill">
+          <div class="admin-avatar">M</div>
+          <div class="admin-user-info">
+            <span class="admin-user-name">Mahesh</span>
+            <span class="admin-user-role">Super Administrator</span>
+          </div>
+        </div>
+        <button id="btnAdminLogout" class="btn-admin-logout" title="Securely Log Out">
+          <span>🚪</span>
+          <span>Log Out</span>
+        </button>
+      </div>
+    </header>
+
+
+    <!-- CONTENT PANELS -->
+    <main class="admin-content">
+
+      <!-- ==============================================
+           TAB 1: DASHBOARD OVERVIEW
+           ============================================== -->
+      <section class="admin-tab-panel active" id="tab-dashboard">
+        
+        <!-- KPI Metrics Grid -->
+        <div class="kpi-grid">
+          <!-- KPI 1 -->
+          <div class="kpi-card">
+            <div>
+              <div class="kpi-label">Total Revenue (₹)</div>
+              <div class="kpi-value" id="kpiTotalRevenue">₹0</div>
+              <div class="kpi-sub">
+                <span>↑ 18.4%</span>
+                <span style="color: #64748b; font-weight: normal;">vs last month</span>
+              </div>
+            </div>
+            <div class="kpi-icon-box icon-emerald">💰</div>
+          </div>
+
+          <!-- KPI 2 -->
+          <div class="kpi-card">
+            <div>
+              <div class="kpi-label">Total Bookings</div>
+              <div class="kpi-value" id="kpiTotalBookings">0</div>
+              <div class="kpi-sub">
+                <span>↑ 12 new</span>
+                <span style="color: #64748b; font-weight: normal;">this week</span>
+              </div>
+            </div>
+            <div class="kpi-icon-box icon-blue">📋</div>
+          </div>
+
+          <!-- KPI 3 -->
+          <div class="kpi-card">
+            <div>
+              <div class="kpi-label">Active Tours</div>
+              <div class="kpi-value" id="kpiActiveTours">0</div>
+              <div class="kpi-sub" style="color: #2563eb;">
+                <span>● 100% Online</span>
+              </div>
+            </div>
+            <div class="kpi-icon-box icon-purple">🗺️</div>
+          </div>
+
+          <!-- KPI 4 -->
+          <div class="kpi-card">
+            <div>
+              <div class="kpi-label">New Inquiries</div>
+              <div class="kpi-value" id="kpiNewInquiries">0</div>
+              <div class="kpi-sub" style="color: #d97706;">
+                <span>● Pending response</span>
+              </div>
+            </div>
+            <div class="kpi-icon-box icon-amber">✉️</div>
+          </div>
+
+          <!-- KPI 5 -->
+          <div class="kpi-card">
+            <div>
+              <div class="kpi-label">Avg Guest Rating</div>
+              <div class="kpi-value" id="kpiAvgRating">4.9 ★</div>
+              <div class="kpi-sub">
+                <span>★ 98% 5-Star reviews</span>
+              </div>
+            </div>
+            <div class="kpi-icon-box icon-amber">⭐</div>
+          </div>
+        </div>
+
+        <!-- 2 Column Section: Chart + Inquiries -->
+        <div class="dashboard-grid-2">
+          
+          <!-- Monthly Bookings Visual Chart -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3 class="admin-card-title">Monthly Revenue & Bookings Trend (2026)</h3>
+              <span style="font-size: 0.78rem; font-weight: 700; color: #2563eb; background: #eff6ff; padding: 0.2rem 0.6rem; border-radius: 4px;">In Indian Rupees (₹)</span>
+            </div>
+            <div class="admin-card-body">
+              <div class="revenue-chart-mockup">
+                <div class="chart-bar-col">
+                  <div class="chart-bar" style="height: 65px;" title="May: ₹1,40,000"></div>
+                  <span class="chart-month">May</span>
+                </div>
+                <div class="chart-bar-col">
+                  <div class="chart-bar" style="height: 85px;" title="Jun: ₹1,95,000"></div>
+                  <span class="chart-month">Jun</span>
+                </div>
+                <div class="chart-bar-col">
+                  <div class="chart-bar" style="height: 110px;" title="Jul: ₹2,45,000"></div>
+                  <span class="chart-month">Jul</span>
+                </div>
+                <div class="chart-bar-col">
+                  <div class="chart-bar" style="height: 130px;" title="Aug: ₹2,80,000"></div>
+                  <span class="chart-month">Aug</span>
+                </div>
+                <div class="chart-bar-col">
+                  <div class="chart-bar" style="height: 155px;" title="Sep: ₹3,60,000"></div>
+                  <span class="chart-month">Sep</span>
+                </div>
+                <div class="chart-bar-col">
+                  <div class="chart-bar" style="height: 180px; background: #2563eb;" title="Oct (Current): ₹4,20,000+"></div>
+                  <span class="chart-month" style="font-weight: 800; color: #2563eb;">Oct</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-top: 1rem; font-size: 0.82rem; color: #64748b;">
+                <span>🚀 Highest performing package: <strong>Nusa Penida & Snorkeling</strong></span>
+                <span>Average Order Value: <strong>₹4,850</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Inquiries Mini-List -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3 class="admin-card-title">Recent Inquiries</h3>
+              <a href="#" onclick="document.querySelector('.sidebar-link[data-tab=\'inquiries\']').click()" style="font-size: 0.8rem; font-weight: 700; color: #2563eb; text-decoration: none;">View All &rarr;</a>
+            </div>
+            <div class="admin-card-body" style="padding-top: 0.5rem;" id="recentInquiriesList">
+              <!-- Rendered via admin.js -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Recent Bookings Table -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">Recent Customer Reservations</h3>
+            <a href="#" onclick="document.querySelector('.sidebar-link[data-tab=\'bookings\']').click()" style="font-size: 0.8rem; font-weight: 700; color: #2563eb; text-decoration: none;">Manage All Bookings &rarr;</a>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Customer</th>
+                  <th>Tour Package</th>
+                  <th>Tour Date</th>
+                  <th>Total (₹)</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recentBookingsTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ==============================================
+           TAB 2: TOURS & PACKAGES MANAGEMENT
+           ============================================== -->
+      <section class="admin-tab-panel" id="tab-tours">
+        <div class="admin-toolbar">
+          <div class="admin-search-box">
+            <span>🔍</span>
+            <input type="text" id="searchToursInput" placeholder="Search tours by title or category...">
+          </div>
+          <button class="btn-admin-primary" id="btnOpenAddTourModal">
+            <span>➕</span>
+            <span>Add New Tour Package</span>
+          </button>
+        </div>
+
+        <div class="admin-card">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Tour Details</th>
+                  <th>Category</th>
+                  <th>Price (₹)</th>
+                  <th>Duration</th>
+                  <th>Rating</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminToursTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==============================================
+           TAB 3: BOOKINGS & ORDERS MANAGEMENT
+           ============================================== -->
+      <section class="admin-tab-panel" id="tab-bookings">
+        <div class="admin-toolbar">
+          <div class="admin-search-box">
+            <span>🔍</span>
+            <input type="text" id="searchBookingsInput" placeholder="Search by ID, name, email...">
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <label for="filterBookingStatus" style="font-size: 0.82rem; font-weight: 700; color: #64748b;">Filter Status:</label>
+              <select id="filterBookingStatus" class="admin-form-control" style="width: auto; padding: 0.45rem 0.8rem; font-weight: 600;">
+                <option value="all">All Bookings</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Pending">Pending</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+            </div>
+            <button class="btn-admin-primary" id="btnExportBookingsCsv" style="background: #059669;" title="Download bookings as spreadsheet CSV">
+              <span>📊</span>
+              <span>Export CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Guest Info</th>
+                  <th>Tour Package</th>
+                  <th>Tour Date</th>
+                  <th>Party</th>
+                  <th>Amount (₹)</th>
+                  <th>Change Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminBookingsTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           TAB: COUPONS & PROMO OFFERS (for offers.html)
+           ============================================== -->
+      <section class="admin-tab-panel" id="tab-coupons">
+        <div class="admin-section-header">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a;">🎟️ Promo Coupons & Seasonal Deals</h2>
+            <p style="font-size: 0.85rem; color: #64748b;">Manage promo codes, discount percentages, and minimum booking spends in ₹.</p>
+          </div>
+          <button class="btn-admin-primary" id="btnOpenAddCouponModal">
+            <span>+</span>
+            <span>Create Promo Code</span>
+          </button>
+        </div>
+
+        <div class="admin-card">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Coupon Code</th>
+                  <th>Discount Value</th>
+                  <th>Min Spend (₹)</th>
+                  <th>Offer Description</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminCouponsTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==============================================
+           TAB 4: CUSTOMER INQUIRIES & LEADS
+           ============================================== -->
+      <section class="admin-tab-panel" id="tab-inquiries">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">Live Concierge Inquiries (From Contact Form)</h3>
+            <span style="font-size: 0.8rem; color: #64748b;">Instant sync with customer submissions</span>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Lead ID</th>
+                  <th>Customer Info</th>
+                  <th>Subject</th>
+                  <th>Message Preview</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminInquiriesTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==============================================
+           TAB 5: REVIEWS MODERATION
+           ============================================== -->
+      <section class="admin-tab-panel" id="tab-reviews">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">Traveler Reviews Moderation</h3>
+            <span style="font-size: 0.8rem; color: #64748b;">Click status pill to approve or hide reviews</span>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Traveler Name</th>
+                  <th>Origin</th>
+                  <th>Rating</th>
+                  <th>Review Comment</th>
+                  <th>Date</th>
+                  <th>Website Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminReviewsTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           TAB: BLOG & TRAVEL GUIDES (for blog.html)
+           ============================================== -->
+      <section class="admin-tab-panel" id="tab-blog">
+        <div class="admin-section-header">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a;">📖 Travel Articles & Destination Guides</h2>
+            <p style="font-size: 0.85rem; color: #64748b;">Publish and update Bali travel guides, visa tips, and festival itineraries live on blog.html.</p>
+          </div>
+          <button class="btn-admin-primary" id="btnOpenAddBlogModal">
+            <span>+</span>
+            <span>Write New Article</span>
+          </button>
+        </div>
+
+        <div class="admin-card">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Article Cover</th>
+                  <th>Title & Category</th>
+                  <th>Read Time</th>
+                  <th>Author</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminBlogsTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           TAB: ABOUT US & GUIDE TEAM (for about.html)
+           ============================================== -->
+      <section class="admin-tab-panel" id="tab-about">
+        <div class="admin-section-header">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a;">👥 About Us, Milestones & Guide Team</h2>
+            <p style="font-size: 0.85rem; color: #64748b;">Manage company narrative, live counter statistics, and Balinese guide team profiles.</p>
+          </div>
+        </div>
+
+        <form id="adminAboutForm">
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+            
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title">Agency Narrative & Values</h3>
+              </div>
+              <div class="admin-card-body">
+                <div class="admin-form-group">
+                  <label for="aboutHeroStory">Brand Mission & Founding Story</label>
+                  <textarea id="aboutHeroStory" rows="5" class="admin-form-control" placeholder="Tell the authentic story of Travel The World..."></textarea>
+                </div>
+                <div class="admin-form-group">
+                  <label for="aboutHeroImgInput">About Us Story Showcase Image</label>
+                  <div class="media-field-row">
+                    <input type="text" id="aboutHeroImgInput" class="admin-form-control media-field-input" placeholder="assets/images/featured-uluwatu.jpg">
+                    <label class="btn-upload-file">
+                      📷 Upload Image
+                      <input type="file" id="uploadAboutHero" accept="image/*" style="display: none;">
+                    </label>
+                  </div>
+                  <div class="media-preview-container">
+                    <img id="previewAboutHero" src="../assets/images/featured-uluwatu.jpg" alt="About showcase image" class="media-thumb-preview">
+                    <div style="font-size: 0.78rem; color: #64748b;">
+                      <strong>Showcase Image:</strong> Displayed alongside the founding story on about.html
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn-admin-primary" style="padding: 0.75rem 1.5rem;">
+                  <span>💾 Save About Us Narrative & Media</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title">Live Key Metrics & Stats</h3>
+              </div>
+              <div class="admin-card-body">
+                <div class="admin-form-group">
+                  <label for="aboutStatYears">Years of Excellence</label>
+                  <input type="text" id="aboutStatYears" class="admin-form-control" placeholder="14+">
+                </div>
+                <div class="admin-form-group">
+                  <label for="aboutStatTravelers">Happy Indian Travelers</label>
+                  <input type="text" id="aboutStatTravelers" class="admin-form-control" placeholder="42,000+">
+                </div>
+                <div class="admin-form-group">
+                  <label for="aboutStatTours">Curated Island Tours</label>
+                  <input type="text" id="aboutStatTours" class="admin-form-control" placeholder="18+">
+                </div>
+                <div class="admin-form-group">
+                  <label for="aboutStatRating">Guest Satisfaction Rating</label>
+                  <input type="text" id="aboutStatRating" class="admin-form-control" placeholder="4.9 ★">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </section>
+
+      <!-- ==============================================
+           TAB: CONTACT & FAQS (for contact.html)
+           ============================================== -->
+      <section class="admin-tab-panel" id="tab-contact">
+        <div class="admin-section-header">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a;">📞 Contact Details & Frequently Asked Questions</h2>
+            <p style="font-size: 0.85rem; color: #64748b;">Manage customer FAQs and instant contact details reflected across contact.html.</p>
+          </div>
+          <button class="btn-admin-primary" id="btnOpenAddFaqModal">
+            <span>+</span>
+            <span>Add FAQ Item</span>
+          </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+          <!-- FAQ List Table -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3 class="admin-card-title">Active FAQs List</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Question</th>
+                    <th>Answer Preview</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminFaqsTableBody">
+                  <!-- Injected via admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Contact Coordinates Preview -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3 class="admin-card-title">Concierge Helpdesks</h3>
+            </div>
+            <div class="admin-card-body" style="font-size: 0.88rem; color: #475569; display: flex; flex-direction: column; gap: 1rem;">
+              <div>
+                <strong>🇮🇳 New Delhi Desk:</strong>
+                <p style="margin: 0.25rem 0 0; color: #64748b;">Connaught Place Inner Circle, New Delhi 110001<br>Phone: +91 98200 12345</p>
+              </div>
+              <div>
+                <strong>🇮🇩 Bali Desk:</strong>
+                <p style="margin: 0.25rem 0 0; color: #64748b;">Jl. Danau Tamblingan No. 42, Sanur, Bali 80228<br>Phone: +62 361 720 892</p>
+              </div>
+              <div>
+                <strong>✉️ Email Support:</strong>
+                <p style="margin: 0.25rem 0 0; color: #64748b;">concierge@traveltheworld.bali</p>
+              </div>
+              <div style="background: #f1f5f9; padding: 0.75rem; border-radius: 6px; font-size: 0.8rem;">
+                💡 To edit these addresses or numbers, adjust them directly under <strong>Festival & Content</strong> or <strong>System Settings</strong>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="admin-tab-panel" id="tab-settings">
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+          
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3 class="admin-card-title">Site Configuration & Currency</h3>
+            </div>
+            <div class="admin-card-body">
+              <form id="adminSettingsForm">
+                <div class="admin-form-group">
+                  <label for="setCompanyName">Company / Agency Name</label>
+                  <input type="text" id="setCompanyName" class="admin-form-control" required>
+                </div>
+                <div class="admin-form-group">
+                  <label for="setTagline">Site Tagline</label>
+                  <input type="text" id="setTagline" class="admin-form-control" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                  <div class="admin-form-group">
+                    <label for="setCurrencySymbol">Currency Symbol</label>
+                    <input type="text" id="setCurrencySymbol" class="admin-form-control" value="₹" readonly style="background: #f1f5f9; cursor: not-allowed;">
+                    <span style="font-size: 0.72rem; color: #64748b;">* Platform strictly locked to Indian Rupees (₹)</span>
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="setContactPhone">Customer Helpline</label>
+                    <input type="text" id="setContactPhone" class="admin-form-control" required>
+                  </div>
+                </div>
+                <div class="admin-form-group">
+                  <label for="setContactEmail">Concierge Support Email</label>
+                  <input type="email" id="setContactEmail" class="admin-form-control" required>
+                </div>
+                <div class="admin-form-group">
+                  <label for="setAddress">Headquarters Address</label>
+                  <textarea id="setAddress" rows="2" class="admin-form-control" required></textarea>
+                </div>
+                <button type="submit" class="btn-admin-primary" style="padding: 0.75rem 1.5rem;">
+                  <span>💾 Save Settings</span>
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <!-- Database Backup Card -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title">Data Backup & Export</h3>
+              </div>
+              <div class="admin-card-body">
+                <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 1rem;">
+                  Download an offline JSON snapshot of all live bookings, tours, inquiries, and reviews.
+                </p>
+                <button id="btnExportDatabaseJson" class="btn-admin-primary" style="width: 100%; justify-content: center;">
+                  <span>📥 Export Database (JSON)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Danger Zone Reset Card -->
+            <div class="admin-card" style="border-color: #fca5a5;">
+              <div class="admin-card-header" style="background: #fef2f2; border-color: #fca5a5;">
+                <h3 class="admin-card-title" style="color: #dc2626;">Danger Zone</h3>
+              </div>
+              <div class="admin-card-body">
+                <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 1rem;">
+                  Reset all tours, bookings, and customer inquiries back to fresh demo defaults.
+                </p>
+                <button id="btnResetAllDemoData" class="btn-admin-primary" style="width: 100%; justify-content: center; background: #dc2626;">
+                  <span>⚠️ Reset Demo Data</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==============================================
+           TAB 7: FESTIVAL THEMES & LIVE SITE CUSTOMIZER
+           Allows changing theme & all content live on website
+           ============================================== -->
+      <section class="admin-tab-panel" id="tab-customizer">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">🎨 Festival Themes & Live Site Customizer</h2>
+          <p style="font-size: 0.88rem; color: #64748b;">
+            Switch site-wide celebration themes with 1 click & edit any headline, description, ticker, banner, or brand identity live.
+          </p>
+        </div>
+
+        <!-- 1. FESTIVAL THEME SWITCHER CARDS -->
+        <div class="admin-card" style="margin-bottom: 2rem;">
+          <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 class="admin-card-title">1-Click Festival Theme Switcher</h3>
+            <span style="font-size: 0.8rem; color: #2563eb; font-weight: 700;">Instant Live Reflection</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="theme-cards-grid" id="themeCardsGrid">
+              <!-- Theme 0: Normal / Standard Mode (No Festival) -->
+              <div class="theme-card" data-theme="normal">
+                <div class="theme-swatch-bar theme-normal-swatch"></div>
+                <div class="theme-card-header">
+                  <h4 class="theme-card-title">🌿 Normal Mode</h4>
+                  <span class="theme-active-tag">Active Now</span>
+                </div>
+                <p class="theme-card-desc">Standard clean luxury aesthetic. No festival badges, no particle embers, clean royal blue &amp; gold luxury.</p>
+                <button type="button" class="btn-activate-theme" data-theme="normal">Activate Normal Mode</button>
+              </div>
+
+              <!-- Theme 1: Diwali -->
+              <div class="theme-card active" data-theme="diwali">
+                <div class="theme-swatch-bar theme-diwali-swatch"></div>
+                <div class="theme-card-header">
+                  <h4 class="theme-card-title">🪔 Diwali Gold</h4>
+                  <span class="theme-active-tag">Active Now</span>
+                </div>
+                <p class="theme-card-desc">Deep royal indigo & glowing festival gold. Golden button glow, celebratory highlights, and warm diya ambience.</p>
+                <button type="button" class="btn-activate-theme" data-theme="diwali">Activate Theme</button>
+              </div>
+
+              <!-- Theme 2: Holi -->
+              <div class="theme-card" data-theme="holi">
+                <div class="theme-swatch-bar theme-holi-swatch"></div>
+                <div class="theme-card-header">
+                  <h4 class="theme-card-title">🎨 Holi Splash</h4>
+                  <span class="theme-active-tag">Active Now</span>
+                </div>
+                <p class="theme-card-desc">Joyful gulal pink, vibrant violet, and tropical azure colors celebrating spring and joy.</p>
+                <button type="button" class="btn-activate-theme" data-theme="holi">Activate Theme</button>
+              </div>
+
+              <!-- Theme 3: Christmas / New Year -->
+              <div class="theme-card" data-theme="newyear">
+                <div class="theme-swatch-bar theme-newyear-swatch"></div>
+                <div class="theme-card-header">
+                  <h4 class="theme-card-title">🎄 Holiday Festive</h4>
+                  <span class="theme-active-tag">Active Now</span>
+                </div>
+                <p class="theme-card-desc">Evergreen pine forest, festive ruby red, and warm star gold warmth for New Year & Christmas.</p>
+                <button type="button" class="btn-activate-theme" data-theme="newyear">Activate Theme</button>
+              </div>
+
+              <!-- Theme 4: Monsoon -->
+              <div class="theme-card" data-theme="monsoon">
+                <div class="theme-swatch-bar theme-monsoon-swatch"></div>
+                <div class="theme-card-header">
+                  <h4 class="theme-card-title">🌧️ Monsoon Romance</h4>
+                  <span class="theme-active-tag">Active Now</span>
+                </div>
+                <p class="theme-card-desc">Rainforest emerald, deep teal, and soothing cloud mist for romantic tropical escapes.</p>
+                <button type="button" class="btn-activate-theme" data-theme="monsoon">Activate Theme</button>
+              </div>
+
+              <!-- Theme 5: Classic -->
+              <div class="theme-card" data-theme="classic">
+                <div class="theme-swatch-bar theme-classic-swatch"></div>
+                <div class="theme-card-header">
+                  <h4 class="theme-card-title">🌊 Classic Bali</h4>
+                  <span class="theme-active-tag">Active Now</span>
+                </div>
+                <p class="theme-card-desc">Deep obsidian slate, crystal ocean turquoise, and timeless luxury island aesthetic.</p>
+                <button type="button" class="btn-activate-theme" data-theme="classic">Activate Theme</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. EDITABLE CONTENT FORM -->
+        <form id="adminCustomizerForm">
+          
+          <!-- ADVANCED EXPERIENCE FEATURES -->
+          <div class="admin-card" style="margin-bottom: 1.5rem; background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-color: #bfdbfe;">
+            <div class="admin-card-header" style="background: transparent; border-bottom: 1px solid #dbeafe; display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="admin-card-title" style="color: #1e40af;">🚀 Next-Gen Advanced Experience Engine</h3>
+              <span style="font-size: 0.72rem; background: #2563eb; color: #ffffff; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 800;">ACTIVE NOW</span>
+            </div>
+            <div class="admin-card-body">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem;">
+                <div style="display: flex; align-items: flex-start; gap: 0.75rem; background: #ffffff; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                  <input type="checkbox" id="customAiConciergeActive" style="width: 18px; height: 18px; cursor: pointer; margin-top: 2px;">
+                  <div>
+                    <label for="customAiConciergeActive" style="margin: 0; font-weight: 700; cursor: pointer; display: block;">Ketut AI Concierge</label>
+                    <span style="font-size: 0.76rem; color: #64748b;">Smart Balinese Assistant with ₹ Indian budget advice</span>
+                  </div>
+                </div>
+
+                <div style="display: flex; align-items: flex-start; gap: 0.75rem; background: #ffffff; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                  <input type="checkbox" id="customParticlesActive" style="width: 18px; height: 18px; cursor: pointer; margin-top: 2px;">
+                  <div>
+                    <label for="customParticlesActive" style="margin: 0; font-weight: 700; cursor: pointer; display: block;">Theme-Adaptive Particles</label>
+                    <span style="font-size: 0.76rem; color: #64748b;">Floating Diwali embers, Holi gulal, Xmas starlight</span>
+                  </div>
+                </div>
+
+                <div style="display: flex; align-items: flex-start; gap: 0.75rem; background: #ffffff; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                  <input type="checkbox" id="customTiltActive" style="width: 18px; height: 18px; cursor: pointer; margin-top: 2px;">
+                  <div>
+                    <label for="customTiltActive" style="margin: 0; font-weight: 700; cursor: pointer; display: block;">3D Perspective Tilt Physics</label>
+                    <span style="font-size: 0.76rem; color: #64748b;">Interactive card tilt & specular light reflection</span>
+                  </div>
+                </div>
+
+                <div style="display: flex; align-items: flex-start; gap: 0.75rem; background: #ffffff; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                  <input type="checkbox" id="customVirtual360Active" style="width: 18px; height: 18px; cursor: pointer; margin-top: 2px;">
+                  <div>
+                    <label for="customVirtual360Active" style="margin: 0; font-weight: 700; cursor: pointer; display: block;">360° Virtual Island Tour</label>
+                    <span style="font-size: 0.76rem; color: #64748b;">Interactive 360 drag-to-pan landmark panorama</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            
+            <!-- TOP ANNOUNCEMENT BAR -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title">Sticky Festival Announcement Bar</h3>
+              </div>
+              <div class="admin-card-body">
+                <div class="admin-form-group" style="display: flex; align-items: center; gap: 0.75rem; background: #f8fafc; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 1rem;">
+                  <input type="checkbox" id="customFestiveActive" style="width: 18px; height: 18px; cursor: pointer;">
+                  <label for="customFestiveActive" style="margin: 0; font-weight: 700; cursor: pointer;">Show Top Announcement Bar Across Website</label>
+                </div>
+                <div class="admin-form-group">
+                  <label for="customFestiveBadge">Badge Label</label>
+                  <input type="text" id="customFestiveBadge" class="admin-form-control" placeholder="e.g. 🪔 DIWALI SPECIAL">
+                </div>
+                <div class="admin-form-group">
+                  <label for="customFestiveText">Announcement Message</label>
+                  <textarea id="customFestiveText" rows="2" class="admin-form-control" placeholder="Promotional message visible across all pages"></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                  <div class="admin-form-group">
+                    <label for="customFestiveLink">Button Link</label>
+                    <input type="text" id="customFestiveLink" class="admin-form-control" placeholder="offers.html">
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="customFestiveCta">Button Text</label>
+                    <input type="text" id="customFestiveCta" class="admin-form-control" placeholder="Claim Offer →">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- HERO SECTION & CINEMATIC VIDEO CUSTOMIZER -->
+            <div class="admin-card">
+              <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 class="admin-card-title">Homepage Hero Video & Poster</h3>
+                <span style="font-size: 0.75rem; background: #eff6ff; color: #2563eb; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700;">4-5s Intro Video</span>
+              </div>
+              <div class="admin-card-body">
+                <!-- Video Source Path / URL -->
+                <div class="admin-form-group">
+                  <label for="customHeroVideo">Hero Video Path or Custom MP4 URL</label>
+                  <div class="media-field-row">
+                    <input type="text" id="customHeroVideo" class="admin-form-control media-field-input" placeholder="assets/videos/hero-bali.mp4">
+                    <label class="btn-upload-file">
+                      📁 Upload MP4
+                      <input type="file" id="uploadHeroVideo" accept="video/mp4,video/*" style="display: none;">
+                    </label>
+                  </div>
+                  <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem; flex-wrap: wrap;">
+                    <span style="font-size: 0.74rem; color: #64748b; font-weight: 600;">Presets:</span>
+                    <button type="button" class="btn-preset-media" data-target="customHeroVideo" data-val="assets/videos/hero-bali.mp4" style="font-size: 0.72rem; padding: 0.15rem 0.45rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">🎥 Bali 4K Reel (Default)</button>
+                  </div>
+                </div>
+
+                <!-- Video Poster Image -->
+                <div class="admin-form-group">
+                  <label for="customHeroPoster">Video Poster Image (Displayed before play)</label>
+                  <div class="media-field-row">
+                    <input type="text" id="customHeroPoster" class="admin-form-control media-field-input" placeholder="assets/images/hero-ulun-danu.jpg">
+                    <label class="btn-upload-file">
+                      📷 Upload Image
+                      <input type="file" id="uploadHeroPoster" accept="image/*" style="display: none;">
+                    </label>
+                  </div>
+                  <div class="media-preview-container">
+                    <img id="previewHeroPoster" src="../assets/images/hero-ulun-danu.jpg" alt="Poster preview" class="media-thumb-preview">
+                    <div style="font-size: 0.78rem; color: #64748b;">
+                      <strong>Poster Preview:</strong> Loaded before video stream begins
+                    </div>
+                  </div>
+                </div>
+
+                <!-- CTA Button Settings -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                  <div class="admin-form-group">
+                    <label for="customHeroCtaText">CTA Button Text</label>
+                    <input type="text" id="customHeroCtaText" class="admin-form-control" placeholder="Discover Location">
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="customHeroCtaLink">CTA Button Target</label>
+                    <input type="text" id="customHeroCtaLink" class="admin-form-control" placeholder="#explore">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ================================================================
+               HOMEPAGE HERO SLIDESHOW IMAGES & HEADLINES (3 SLIDES)
+               ================================================================ -->
+          <div class="admin-card" style="margin-bottom: 1.5rem;">
+            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="admin-card-title">🖼️ Homepage Hero Slideshow (3 Rotating Slides)</h3>
+              <span style="font-size: 0.75rem; color: #64748b;">Transitions smoothly after 4s video</span>
+            </div>
+            <div class="admin-card-body">
+              <div class="media-slides-grid">
+                
+                <!-- SLIDE 1 -->
+                <div class="media-slide-card">
+                  <div class="media-slide-header">
+                    <span>Slide 01 (Primary)</span>
+                    <span style="font-size: 0.72rem; color: #2563eb; background: #eff6ff; padding: 0.1rem 0.4rem; border-radius: 3px;">Initial Slide</span>
+                  </div>
+                  <div>
+                    <img id="previewHeroSlide1" src="../assets/images/hero-ulun-danu.jpg" alt="Slide 1" style="width: 100%; height: 110px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1;">
+                  </div>
+                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
+                    <label for="customHeroSlide1Img" style="font-size: 0.78rem;">Image Path or URL</label>
+                    <div class="media-field-row">
+                      <input type="text" id="customHeroSlide1Img" class="admin-form-control media-field-input" placeholder="assets/images/hero-ulun-danu.jpg" style="font-size: 0.8rem; padding: 0.4rem;">
+                      <label class="btn-upload-file" style="padding: 0.4rem 0.6rem; font-size: 0.75rem;">
+                        📁 Upload
+                        <input type="file" id="uploadHeroSlide1" accept="image/*" style="display: none;">
+                      </label>
+                    </div>
+                  </div>
+                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
+                    <label for="customHeroSlide1Title" style="font-size: 0.78rem;">Bold Headline (Slide 01)</label>
+                    <input type="text" id="customHeroSlide1Title" class="admin-form-control" placeholder="BALI" style="font-size: 0.82rem; font-weight: 700;">
+                  </div>
+                  <div class="admin-form-group" style="margin: 0;">
+                    <label for="customHeroSlide1Desc" style="font-size: 0.78rem;">Slide 01 Subtitle / Description</label>
+                    <textarea id="customHeroSlide1Desc" rows="2" class="admin-form-control" placeholder="The famed Island of the Gods..." style="font-size: 0.8rem;"></textarea>
+                  </div>
+                </div>
+
+                <!-- SLIDE 2 -->
+                <div class="media-slide-card">
+                  <div class="media-slide-header">
+                    <span>Slide 02</span>
+                    <span style="font-size: 0.72rem; color: #64748b;">Spiritual Landmark</span>
+                  </div>
+                  <div>
+                    <img id="previewHeroSlide2" src="../assets/images/hero-gates.jpg" alt="Slide 2" style="width: 100%; height: 110px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1;">
+                  </div>
+                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
+                    <label for="customHeroSlide2Img" style="font-size: 0.78rem;">Image Path or URL</label>
+                    <div class="media-field-row">
+                      <input type="text" id="customHeroSlide2Img" class="admin-form-control media-field-input" placeholder="assets/images/hero-gates.jpg" style="font-size: 0.8rem; padding: 0.4rem;">
+                      <label class="btn-upload-file" style="padding: 0.4rem 0.6rem; font-size: 0.75rem;">
+                        📁 Upload
+                        <input type="file" id="uploadHeroSlide2" accept="image/*" style="display: none;">
+                      </label>
+                    </div>
+                  </div>
+                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
+                    <label for="customHeroSlide2Title" style="font-size: 0.78rem;">Bold Headline (Slide 02)</label>
+                    <input type="text" id="customHeroSlide2Title" class="admin-form-control" placeholder="LEMPUYANG" style="font-size: 0.82rem; font-weight: 700;">
+                  </div>
+                  <div class="admin-form-group" style="margin: 0;">
+                    <label for="customHeroSlide2Desc" style="font-size: 0.78rem;">Slide 02 Subtitle / Description</label>
+                    <textarea id="customHeroSlide2Desc" rows="2" class="admin-form-control" placeholder="The iconic Gates of Heaven framing majestic Mount Agung..." style="font-size: 0.8rem;"></textarea>
+                  </div>
+                </div>
+
+                <!-- SLIDE 3 -->
+                <div class="media-slide-card">
+                  <div class="media-slide-header">
+                    <span>Slide 03</span>
+                    <span style="font-size: 0.72rem; color: #64748b;">Coastal Paradise</span>
+                  </div>
+                  <div>
+                    <img id="previewHeroSlide3" src="../assets/images/hero-beach.jpg" alt="Slide 3" style="width: 100%; height: 110px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1;">
+                  </div>
+                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
+                    <label for="customHeroSlide3Img" style="font-size: 0.78rem;">Image Path or URL</label>
+                    <div class="media-field-row">
+                      <input type="text" id="customHeroSlide3Img" class="admin-form-control media-field-input" placeholder="assets/images/hero-beach.jpg" style="font-size: 0.8rem; padding: 0.4rem;">
+                      <label class="btn-upload-file" style="padding: 0.4rem 0.6rem; font-size: 0.75rem;">
+                        📁 Upload
+                        <input type="file" id="uploadHeroSlide3" accept="image/*" style="display: none;">
+                      </label>
+                    </div>
+                  </div>
+                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
+                    <label for="customHeroSlide3Title" style="font-size: 0.78rem;">Bold Headline (Slide 03)</label>
+                    <input type="text" id="customHeroSlide3Title" class="admin-form-control" placeholder="NUSA DUA" style="font-size: 0.82rem; font-weight: 700;">
+                  </div>
+                  <div class="admin-form-group" style="margin: 0;">
+                    <label for="customHeroSlide3Desc" style="font-size: 0.78rem;">Slide 03 Subtitle / Description</label>
+                    <textarea id="customHeroSlide3Desc" rows="2" class="admin-form-control" placeholder="Crystal turquoise waters meeting pristine white shores..." style="font-size: 0.8rem;"></textarea>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            
+            <!-- EXPLORE SECTION & MIST CANVAS -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title">Explore Section & Cloud Mist Canvas</h3>
+              </div>
+              <div class="admin-card-body">
+                <div class="admin-form-group">
+                  <label for="customExploreTitle">Section Headline (Use newline for 2-line layout)</label>
+                  <textarea id="customExploreTitle" rows="2" class="admin-form-control" placeholder="EXPLORE BALI&#10;WITH US"></textarea>
+                </div>
+                <div class="admin-form-group">
+                  <label for="customExploreSubtitle">Section Subtitle</label>
+                  <textarea id="customExploreSubtitle" rows="3" class="admin-form-control" placeholder="We are an online based travel company..."></textarea>
+                </div>
+                <div class="admin-form-group">
+                  <label for="customExploreBackdropImg">Explore Scenery Image (Behind Real-Time Cloud Mist)</label>
+                  <div class="media-field-row">
+                    <input type="text" id="customExploreBackdropImg" class="admin-form-control media-field-input" placeholder="assets/images/featured-uluwatu.jpg">
+                    <label class="btn-upload-file">
+                      📷 Upload Image
+                      <input type="file" id="uploadExploreBackdrop" accept="image/*" style="display: none;">
+                    </label>
+                  </div>
+                  <div class="media-preview-container">
+                    <img id="previewExploreBackdrop" src="../assets/images/featured-uluwatu.jpg" alt="Explore backdrop preview" class="media-thumb-preview">
+                    <div style="font-size: 0.78rem; color: #64748b;">
+                      <strong>Scenery Preview:</strong> Unveiled when traveler moves mouse over cloud mist
+                    </div>
+                  </div>
+                </div>
+                <div class="admin-form-group">
+                  <label for="customCloudHint">Cloud Parting Radius Hint</label>
+                  <input type="text" id="customCloudHint" class="admin-form-control" placeholder="✨ Move mouse to part clouds in 150-200px radius around cursor • Real-time mist">
+                </div>
+              </div>
+            </div>
+
+            <!-- ATMOSPHERIC TICKER & FOREX (₹ INR) -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title">Live Atmospheric Ticker (Locked to ₹ INR)</h3>
+              </div>
+              <div class="admin-card-body">
+                <div class="admin-form-group">
+                  <label for="customTickerWeather">Climate & Temperature Status</label>
+                  <input type="text" id="customTickerWeather" class="admin-form-control" placeholder="☀️ Climate: 29°C Tropical Clear Skies">
+                </div>
+                <div class="admin-form-group">
+                  <label for="customTickerGoldenHour">Golden Hour / Sunset Timing</label>
+                  <input type="text" id="customTickerGoldenHour" class="admin-form-control" placeholder="🌅 Uluwatu Golden Hour: Sunset at 18:14 WITA">
+                </div>
+                <div class="admin-form-group">
+                  <label for="customTickerForex">Forex Benchmark Text</label>
+                  <input type="text" id="customTickerForex" class="admin-form-control" placeholder="🇮🇳 Forex Benchmark: ₹1 INR ≈ 190.5 IDR (Zero conversion fee on all tours)">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- BRAND IDENTITY & CONTACT DETAILS -->
+          <div class="admin-card" style="margin-bottom: 2rem;">
+            <div class="admin-card-header">
+              <h3 class="admin-card-title">Brand Identity & Global Concierge Info</h3>
+            </div>
+            <div class="admin-card-body">
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div class="admin-form-group">
+                  <label for="customLogoScript">Logo Cursive Word</label>
+                  <input type="text" id="customLogoScript" class="admin-form-control" placeholder="travel">
+                </div>
+                <div class="admin-form-group">
+                  <label for="customLogoSub">Logo Sub-Word</label>
+                  <input type="text" id="customLogoSub" class="admin-form-control" placeholder="THE WORLD">
+                </div>
+                <div class="admin-form-group">
+                  <label for="customCompanyName">Company Name</label>
+                  <input type="text" id="customCompanyName" class="admin-form-control" placeholder="Travel The World">
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div class="admin-form-group">
+                  <label for="customContactPhone">Helpline Phone Numbers</label>
+                  <input type="text" id="customContactPhone" class="admin-form-control" placeholder="+91 98200 12345 / +62 361 720 892">
+                </div>
+                <div class="admin-form-group">
+                  <label for="customContactEmail">Concierge Email</label>
+                  <input type="email" id="customContactEmail" class="admin-form-control" placeholder="concierge@traveltheworld.bali">
+                </div>
+              </div>
+
+              <div class="admin-form-group">
+                <label for="customAddress">Headquarters Address</label>
+                <input type="text" id="customAddress" class="admin-form-control" placeholder="Jl. Danau Tamblingan No. 42, Sanur, Bali & Connaught Place, New Delhi">
+              </div>
+
+              <div class="admin-form-group">
+                <label for="customCopyright">Footer Copyright Text</label>
+                <input type="text" id="customCopyright" class="admin-form-control" placeholder="© 2026 Travel The World. Handcrafted luxury travel & bespoke tours in Indian Rupees.">
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBMIT ACTION BAR -->
+          <div style="display: flex; gap: 1rem; align-items: center; justify-content: flex-end; background: #ffffff; padding: 1.25rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <button type="button" id="btnResetCustomizer" class="btn-admin-primary" style="background: #64748b;">
+              <span>🔄 Restore Defaults</span>
+            </button>
+            <a href="../index.html" target="_blank" class="btn-admin-primary" style="background: #0f172a; text-decoration: none;">
+              <span>🌐 Open Live Website &rarr;</span>
+            </a>
+            <button type="submit" class="btn-admin-primary" style="background: #2563eb; padding: 0.85rem 2rem; font-size: 0.95rem;">
+              <span>💾 Save & Publish Live Changes</span>
+            </button>
+          </div>
+        </form>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- ==============================================
+       MODAL: ADD / EDIT TOUR PACKAGE
+       ============================================== -->
+  <div class="admin-modal-backdrop" id="tourEditModal">
+    <div class="admin-modal-box">
+      <div class="admin-modal-header">
+        <h3 id="tourModalTitle">Add Tour Package</h3>
+        <button class="admin-modal-close" onclick="document.getElementById('tourEditModal').classList.remove('active')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form id="adminTourForm">
+          <input type="hidden" id="formTourId">
+
+          <div class="admin-form-group">
+            <label for="formTourTitle">Tour Title</label>
+            <input type="text" id="formTourTitle" class="admin-form-control" placeholder="e.g. Uluwatu Temple & Sunset Coast" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="admin-form-group">
+              <label for="formTourCategory">Category</label>
+              <select id="formTourCategory" class="admin-form-control">
+                <option value="Hindu Temple & Coast">Hindu Temple & Coast</option>
+                <option value="Scenic Shrine & Ocean">Scenic Shrine & Ocean</option>
+                <option value="Water Park & Family">Water Park & Family</option>
+                <option value="Rice Terrace & Nature">Rice Terrace & Nature</option>
+                <option value="Sunrise Trek & Volcano">Sunrise Trek & Volcano</option>
+                <option value="Island Coast & Snorkel">Island Coast & Snorkel</option>
+                <option value="Lake Temple & Mountains">Lake Temple & Mountains</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label for="formTourDuration">Duration</label>
+              <input type="text" id="formTourDuration" class="admin-form-control" placeholder="e.g. 1 Day (8 Hours)" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+            <div class="admin-form-group">
+              <label for="formTourPrice">Price in Rupees (₹)</label>
+              <input type="number" id="formTourPrice" class="admin-form-control" placeholder="850" required>
+            </div>
+            <div class="admin-form-group">
+              <label for="formTourOrigPrice">Original Price (₹)</label>
+              <input type="number" id="formTourOrigPrice" class="admin-form-control" placeholder="1200">
+            </div>
+            <div class="admin-form-group">
+              <label for="formTourRating">Rating (1-5)</label>
+              <input type="number" id="formTourRating" step="0.1" max="5.0" min="1.0" class="admin-form-control" value="4.9" required>
+            </div>
+          </div>
+
+          <div class="admin-form-group">
+            <label for="formTourImg">Image Asset Path / URL</label>
+            <select id="formTourImg" class="admin-form-control">
+              <option value="assets/images/featured-uluwatu.jpg">featured-uluwatu.jpg</option>
+              <option value="assets/images/featured-tanah-lot.jpg">featured-tanah-lot.jpg</option>
+              <option value="assets/images/waterbom.jpg">waterbom.jpg</option>
+              <option value="assets/images/tegallalang.jpg">tegallalang.jpg</option>
+              <option value="assets/images/mount-batur.jpg">mount-batur.jpg</option>
+              <option value="assets/images/nusa-penida.jpg">nusa-penida.jpg</option>
+              <option value="assets/images/hero-ulun-danu.jpg">hero-ulun-danu.jpg</option>
+              <option value="assets/images/hero-gates.jpg">hero-gates.jpg</option>
+            </select>
+          </div>
+
+          <div class="admin-form-group">
+            <label for="formTourDesc">Tour Description</label>
+            <textarea id="formTourDesc" rows="3" class="admin-form-control" placeholder="Describe the highlights and traveler experience..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-admin-primary" style="width: 100%; justify-content: center; padding: 0.8rem;">
+            <span>Save & Publish Tour Package</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==============================================
+       MODAL: ADD / EDIT COUPON
+       ============================================== -->
+  <div class="admin-modal-backdrop" id="couponModal">
+    <div class="admin-modal-box">
+      <div class="admin-modal-header">
+        <h3 id="couponModalTitle">Create Promo Code</h3>
+        <button class="admin-modal-close" onclick="document.getElementById('couponModal').classList.remove('active')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form id="adminCouponForm">
+          <input type="hidden" id="couponOriginalCode">
+          <div class="admin-form-group">
+            <label for="formCouponCode">Coupon Code (Uppercase)</label>
+            <input type="text" id="formCouponCode" class="admin-form-control" placeholder="e.g. BALIWELCOME25" style="text-transform: uppercase;" required>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="admin-form-group">
+              <label for="formCouponType">Discount Type</label>
+              <select id="formCouponType" class="admin-form-control">
+                <option value="percent">Percentage (%)</option>
+                <option value="fixed">Fixed Amount (₹)</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label for="formCouponValue">Discount Value</label>
+              <input type="number" id="formCouponValue" class="admin-form-control" placeholder="25" required>
+            </div>
+          </div>
+          <div class="admin-form-group">
+            <label for="formCouponMinSpend">Minimum Booking Amount (₹)</label>
+            <input type="number" id="formCouponMinSpend" class="admin-form-control" placeholder="2000" value="0" required>
+          </div>
+          <div class="admin-form-group">
+            <label for="formCouponDesc">Promo Description</label>
+            <textarea id="formCouponDesc" rows="2" class="admin-form-control" placeholder="Special offer for early bookings..." required></textarea>
+          </div>
+          <button type="submit" class="btn-admin-primary" style="width: 100%; justify-content: center; padding: 0.8rem;">
+            <span>Save Promo Coupon</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==============================================
+       MODAL: ADD / EDIT BLOG ARTICLE
+       ============================================== -->
+  <div class="admin-modal-backdrop" id="blogModal">
+    <div class="admin-modal-box" style="max-width: 650px;">
+      <div class="admin-modal-header">
+        <h3 id="blogModalTitle">Write Travel Article</h3>
+        <button class="admin-modal-close" onclick="document.getElementById('blogModal').classList.remove('active')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form id="adminBlogForm">
+          <input type="hidden" id="formBlogId">
+          <div class="admin-form-group">
+            <label for="formBlogTitle">Article Title</label>
+            <input type="text" id="formBlogTitle" class="admin-form-control" placeholder="e.g. Ultimate 7-Day Bali Itinerary for First-Time Indian Travelers" required>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="admin-form-group">
+              <label for="formBlogCategory">Category</label>
+              <select id="formBlogCategory" class="admin-form-control">
+                <option value="Travel Guide">Travel Guide</option>
+                <option value="Food & Dining">Food & Dining</option>
+                <option value="Culture & Temples">Culture & Temples</option>
+                <option value="Visa & Tips">Visa & Tips</option>
+                <option value="Festival Specials">Festival Specials</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label for="formBlogReadTime">Read Time</label>
+              <input type="text" id="formBlogReadTime" class="admin-form-control" placeholder="6 min read" required>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="admin-form-group">
+              <label for="formBlogAuthor">Author Name</label>
+              <input type="text" id="formBlogAuthor" class="admin-form-control" placeholder="Priya Sharma" required>
+            </div>
+            <div class="admin-form-group">
+              <label for="formBlogImage">Cover Image</label>
+              <select id="formBlogImage" class="admin-form-control">
+                <option value="assets/images/featured-uluwatu.jpg">featured-uluwatu.jpg</option>
+                <option value="assets/images/tegallalang.jpg">tegallalang.jpg</option>
+                <option value="assets/images/nusa-penida.jpg">nusa-penida.jpg</option>
+                <option value="assets/images/mount-batur.jpg">mount-batur.jpg</option>
+                <option value="assets/images/hero-ulun-danu.jpg">hero-ulun-danu.jpg</option>
+              </select>
+            </div>
+          </div>
+          <div class="admin-form-group">
+            <label for="formBlogSummary">Article Summary / Excerpt</label>
+            <textarea id="formBlogSummary" rows="3" class="admin-form-control" placeholder="Brief enticing preview for the blog card..." required></textarea>
+          </div>
+          <button type="submit" class="btn-admin-primary" style="width: 100%; justify-content: center; padding: 0.8rem;">
+            <span>Publish Article to Blog</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==============================================
+       MODAL: ADD / EDIT FAQ
+       ============================================== -->
+  <div class="admin-modal-backdrop" id="faqModal">
+    <div class="admin-modal-box">
+      <div class="admin-modal-header">
+        <h3 id="faqModalTitle">Add FAQ Item</h3>
+        <button class="admin-modal-close" onclick="document.getElementById('faqModal').classList.remove('active')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form id="adminFaqForm">
+          <input type="hidden" id="formFaqIndex">
+          <div class="admin-form-group">
+            <label for="formFaqQuestion">Frequently Asked Question</label>
+            <input type="text" id="formFaqQuestion" class="admin-form-control" placeholder="e.g. Do you accept payments in Indian Rupees (₹)?" required>
+          </div>
+          <div class="admin-form-group">
+            <label for="formFaqAnswer">Helpful Detailed Answer</label>
+            <textarea id="formFaqAnswer" rows="4" class="admin-form-control" placeholder="Yes, all our prices are strictly in Indian Rupees (₹) with UPI, net banking..." required></textarea>
+          </div>
+          <button type="submit" class="btn-admin-primary" style="width: 100%; justify-content: center; padding: 0.8rem;">
+            <span>Save FAQ</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==============================================
+       ADMIN AUTHENTICATION GATE (SECURITY MODAL)
+       ============================================== -->
+  <div class="admin-auth-overlay active" id="adminAuthOverlay">
+    <div class="admin-auth-card">
+      <div class="admin-auth-icon">🛡️</div>
+      <h2>Admin Portal</h2>
+      <p class="auth-sub">Enter administrator credentials to manage Travel The World console.</p>
+      
+      <div class="admin-auth-error" id="adminAuthError">
+        ❌ Invalid username or password. Please try again.
+      </div>
+
+      <form id="adminLoginForm">
+        <div class="admin-form-group" style="text-align: left; margin-bottom: 1.1rem;">
+          <label for="adminAuthUsername" style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.4rem;">Username</label>
+          <input type="text" id="adminAuthUsername" class="admin-form-control" placeholder="Enter username (e.g. admin)" required autocomplete="username">
+        </div>
+
+        <div class="admin-form-group" style="text-align: left; margin-bottom: 1.5rem;">
+          <label for="adminAuthPassword" style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.4rem;">Password</label>
+          <input type="password" id="adminAuthPassword" class="admin-form-control" placeholder="Enter password" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn-admin-primary" style="width: 100%; justify-content: center; padding: 0.85rem; font-size: 0.95rem;">
+          <span>🔓 Unlock Admin Console</span>
+        </button>
+      </form>
+
+      <div class="admin-auth-hint">
+        🔐 <strong>Admin Access:</strong> Username: <code>admin</code> &bull; Password: <code>admin123</code>
+      </div>
+
+      <div>
+        <a href="../index.html" class="admin-auth-back-link">&larr; Return to Website</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="adminToastContainer"></div>
+
+  <!-- Shared Store and Admin Script -->
+  <script src="../assets/js/travel-store.js"></script>
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>
