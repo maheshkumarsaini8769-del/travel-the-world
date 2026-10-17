@@ -245,8 +245,8 @@
         
         <!-- Header Text directly matching screenshot -->
         <div class="explore-text-block">
-          <h2 class="section-title">EXPLORE BALI<br>WITH US</h2>
-          <p class="section-subtitle">
+          <h2 class="section-title" id="exploreSectionTitle">EXPLORE BALI<br>WITH US</h2>
+          <p class="section-subtitle" id="exploreSectionSubtitle">
             We are an online based travel company allowing us to keep our prices competitive. We will take care of the booking process for you from start to finish.
           </p>
         </div>
@@ -418,9 +418,9 @@
       <!-- Section Header with Filter Pills -->
       <div class="packages-header">
         <div>
-          <span class="section-tag">CURATED EXPERIENCES</span>
-          <h2 class="section-heading">Bali Tour Packages & Reviews</h2>
-          <p class="section-desc">All-inclusive guided expeditions featuring private transportation, local Balinese guides, and authentic cultural encounters.</p>
+          <span class="section-tag" id="packagesSectionTag">CURATED EXPERIENCES</span>
+          <h2 class="section-heading" id="packagesSectionHeading">Bali Tour Packages & Reviews</h2>
+          <p class="section-desc" id="packagesSectionDesc">All-inclusive guided expeditions featuring private transportation, local Balinese guides, and authentic cultural encounters.</p>
         </div>
 
         <div class="filter-pills" id="filterPills">
@@ -656,11 +656,11 @@
       <div class="route-explorer-card">
         <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
           <div>
-            <span class="section-tag" style="background: rgba(37, 99, 235, 0.1); color: #2563eb; padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">ISLAND ROUTE & TRAVEL TIME EXPLORER</span>
-            <h2 style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-top: 0.5rem;">Explore Bali Region by Region</h2>
-            <p style="font-size: 0.95rem; color: #64748b; max-width: 650px;">Click any quadrant to view airport drive times, highlight sights, and instant package booking in Indian Rupees.</p>
+            <span class="section-tag" id="routeExplorerTag" style="background: rgba(37, 99, 235, 0.1); color: #2563eb; padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">ISLAND ROUTE & TRAVEL TIME EXPLORER</span>
+            <h2 id="routeExplorerTitle" style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-top: 0.5rem;">Explore Bali Region by Region</h2>
+            <p id="routeExplorerSubtitle" style="font-size: 0.95rem; color: #64748b; max-width: 650px;">Click any quadrant to view airport drive times, highlight sights, and instant package booking in Indian Rupees.</p>
           </div>
-          <button class="btn btn-dark-pill" onclick="window.openVirtual360Modal('uluwatu')" style="padding: 0.75rem 1.4rem;">
+          <button class="btn btn-dark-pill" id="routeExplorerBtnText" onclick="window.openVirtual360Modal('uluwatu')" style="padding: 0.75rem 1.4rem;">
             <span>🌀 Launch 360° Panorama &rarr;</span>
           </button>
         </div>
@@ -707,9 +707,9 @@
         <!-- Live Currency & Trip Budget Estimator -->
         <div id="liveTripBudgetEstimator" style="margin-top: 2.5rem; background: #0f172a; color: #ffffff; border-radius: 16px; padding: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; align-items: center;">
           <div>
-            <span style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; letter-spacing: 0.6px; text-transform: uppercase;">INTERACTIVE COST ENGINE</span>
-            <h3 style="font-size: 1.4rem; font-weight: 800; margin-top: 0.35rem; color: #ffffff;">Calculate Your Trip Cost in ₹</h3>
-            <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem;">Real-time benchmark: ₹1 INR ≈ 190.5 IDR with zero conversion markup.</p>
+            <span id="budgetCalcTag" style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; letter-spacing: 0.6px; text-transform: uppercase;">INTERACTIVE COST ENGINE</span>
+            <h3 id="budgetCalcTitle" style="font-size: 1.4rem; font-weight: 800; margin-top: 0.35rem; color: #ffffff;">Calculate Your Trip Cost in ₹</h3>
+            <p id="budgetCalcSubtitle" style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem;">Real-time benchmark: ₹1 INR ≈ 190.5 IDR with zero conversion markup.</p>
 
             <div style="display: flex; gap: 1rem; margin-top: 1.25rem; flex-wrap: wrap;">
               <div style="flex: 1; min-width: 140px;">
@@ -731,15 +731,15 @@
             <div id="calcBudgetIdr" style="font-size: 1.6rem; font-weight: 800; color: #fbbf24; margin: 0.35rem 0 0.75rem;">≈ Rp 5,715,000 IDR</div>
             
             <div id="calcPlanBreakdown" style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 0.75rem;">
-              <div style="font-size: 0.85rem; color: #38bdf8; font-weight: 700;">● Ideal for 4-Star Resort + 3 Day Guided Island Tours</div>
-              <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.25rem;">Includes private AC transport, English driver, all entry passes & taxes.</div>
+              <div id="budgetCalcPlanHighlight" style="font-size: 0.85rem; color: #38bdf8; font-weight: 700;">● Ideal for 4-Star Resort + 3 Day Guided Island Tours</div>
+              <div id="budgetCalcPlanDesc" style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.25rem;">Includes private AC transport, English driver, all entry passes & taxes.</div>
             </div>
 
             <div style="margin-top: 1.25rem; display: flex; gap: 0.75rem;">
-              <a href="booking.html" class="btn btn-white-pill" style="padding: 0.6rem 1.2rem; font-size: 0.82rem; flex: 1; text-align: center;">
+              <a href="booking.html" class="btn btn-white-pill" id="budgetCalcBookBtn" style="padding: 0.6rem 1.2rem; font-size: 0.82rem; flex: 1; text-align: center;">
                 <span>Book This Plan &rarr;</span>
               </a>
-              <a href="https://wa.me/919820012345?text=Hi%20Travel%20The%20World%2C%20please%20plan%20my%20Bali%20trip%20budget%20quote" target="_blank" class="btn btn-outline-pill" style="border-color: #25d366; color: #25d366; padding: 0.6rem 1rem; font-size: 0.82rem;">
+              <a href="https://wa.me/919820012345?text=Hi%20Travel%20The%20World%2C%20please%20plan%20my%20Bali%20trip%20budget%20quote" target="_blank" class="btn btn-outline-pill" id="budgetCalcWhatsappBtn" style="border-color: #25d366; color: #25d366; padding: 0.6rem 1rem; font-size: 0.82rem;">
                 <span>WhatsApp Quote</span>
               </a>
             </div>
@@ -756,9 +756,9 @@
   <section class="reviews-section" id="reviews">
     <div class="container">
       <div class="reviews-header text-center">
-        <span class="section-tag">TRAVELER TESTIMONIALS</span>
-        <h2 class="section-heading">Loved By Over 24,000 Adventurers</h2>
-        <p class="section-desc">Authentic experiences shared by travelers who booked their Bali adventures through us.</p>
+        <span class="section-tag" id="reviewsSectionTag">TRAVELER TESTIMONIALS</span>
+        <h2 class="section-heading" id="reviewsSectionHeading">Loved By Over 24,000 Adventurers</h2>
+        <p class="section-desc" id="reviewsSectionDesc">Authentic experiences shared by travelers who booked their Bali adventures through us.</p>
       </div>
 
       <div class="reviews-carousel">

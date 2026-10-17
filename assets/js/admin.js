@@ -1560,6 +1560,185 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
+  // TAB 6B: WORD MASTER & SITE COPY CMS (100% GRANULAR COPY CONTROL)
+  // =========================================================================
+  const wordFieldMap = {
+    wordHeroVideoBadge: 'heroVideoBadge',
+    wordQuickSearchBtnText: 'quickSearchBtnText',
+    wordExploreTag: 'exploreTag',
+    wordCloudMistHint: 'cloudMistHint',
+    wordExploreTitle: 'exploreTitle',
+    wordExploreSubtitle: 'exploreSubtitle',
+    wordPackagesTag: 'packagesTag',
+    wordPackagesHeading: 'packagesHeading',
+    wordPackagesDesc: 'packagesDesc',
+    wordRouteExplorerTag: 'routeExplorerTag',
+    wordRouteExplorerTitle: 'routeExplorerTitle',
+    wordRouteExplorerBtnText: 'routeExplorerBtnText',
+    wordRouteExplorerSubtitle: 'routeExplorerSubtitle',
+    wordBudgetCalcTag: 'budgetCalcTag',
+    wordBudgetCalcTitle: 'budgetCalcTitle',
+    wordBudgetCalcPlanHighlight: 'budgetCalcPlanHighlight',
+    wordBudgetCalcPlanDesc: 'budgetCalcPlanDesc',
+    wordReviewsTag: 'reviewsTag',
+    wordReviewsHeading: 'reviewsHeading',
+    wordReviewsSubtitle: 'reviewsSubtitle',
+    wordHolidaysPageBadge: 'holidaysPageBadge',
+    wordHolidaysPageTitle: 'holidaysPageTitle',
+    wordHolidaysPageSubtitle: 'holidaysPageSubtitle',
+    wordOffersPageBadge: 'offersPageBadge',
+    wordOffersPageTitle: 'offersPageTitle',
+    wordOffersPageSubtitle: 'offersPageSubtitle',
+    wordAboutPageBadge: 'aboutPageBadge',
+    wordAboutPageTitle: 'aboutPageTitle',
+    wordAboutPageSubtitle: 'aboutPageSubtitle',
+    wordAboutExperienceTag: 'aboutExperienceTag',
+    wordAboutExperienceHeading: 'aboutExperienceHeading',
+    wordAboutStoryLead: 'aboutStoryLead',
+    wordAboutStoryPara2: 'aboutStoryPara2',
+    wordAboutStatYearsVal: 'aboutStatYearsVal',
+    wordAboutStatTravelersVal: 'aboutStatTravelersVal',
+    wordAboutStatToursVal: 'aboutStatToursVal',
+    wordAboutStatRatingVal: 'aboutStatRatingVal',
+    wordContactPageBadge: 'contactPageBadge',
+    wordContactPageTitle: 'contactPageTitle',
+    wordContactPageSubtitle: 'contactPageSubtitle',
+    wordContactFormTag: 'contactFormTag',
+    wordContactFormHeading: 'contactFormHeading',
+    wordContactFormSubtitle: 'contactFormSubtitle',
+    wordContactFormSubmitBtn: 'contactFormSubmitBtn',
+    wordContactFaqHeading: 'contactFaqHeading',
+    wordContactFaqSubtitle: 'contactFaqSubtitle',
+    wordReviewsPageBadge: 'reviewsPageBadge',
+    wordReviewsPageTitle: 'reviewsPageTitle',
+    wordReviewsPageSubtitle: 'reviewsPageSubtitle',
+    wordBlogPageBadge: 'blogPageBadge',
+    wordBlogPageTitle: 'blogPageTitle',
+    wordBlogPageSubtitle: 'blogPageSubtitle',
+    wordLogoScript: 'logoScript',
+    wordLogoSub: 'logoSub',
+    wordCompanyName: 'companyName',
+    wordFooterTagline: 'footerTagline',
+    wordFooterSecureBadge: 'footerSecureBadge',
+    wordCopyright: 'copyrightText'
+  };
+
+  function populateWords() {
+    const s = window.TravelStore.getSettings() || {};
+    Object.keys(wordFieldMap).forEach(elemId => {
+      const el = document.getElementById(elemId);
+      const storeKey = wordFieldMap[elemId];
+      if (el && s[storeKey] !== undefined) {
+        el.value = s[storeKey];
+      }
+    });
+  }
+
+  function setupWordMaster() {
+    // 1. Instant Live Search Filter across all 50+ word fields
+    const searchInput = document.getElementById('wordMasterSearchInput');
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        const q = searchInput.value.trim().toLowerCase();
+        const activeCatBtn = document.querySelector('#wordCategoryFilters .btn-time-filter.active');
+        const selectedCat = activeCatBtn ? activeCatBtn.getAttribute('data-word-cat') : 'all';
+
+        const cards = document.querySelectorAll('#tab-words .word-section-card');
+        cards.forEach(card => {
+          const cardCat = card.getAttribute('data-cat');
+          const catMatches = (selectedCat === 'all' || cardCat === selectedCat);
+
+          if (!catMatches) {
+            card.style.display = 'none';
+            return;
+          }
+
+          let visibleItemsInCard = 0;
+          const items = card.querySelectorAll('.word-field-item');
+          items.forEach(item => {
+            const text = (item.textContent || '').toLowerCase();
+            const input = item.querySelector('input, textarea');
+            const val = input ? (input.value || '').toLowerCase() : '';
+            const placeholder = input ? (input.placeholder || '').toLowerCase() : '';
+
+            if (!q || text.includes(q) || val.includes(q) || placeholder.includes(q)) {
+              item.style.display = '';
+              visibleItemsInCard++;
+            } else {
+              item.style.display = 'none';
+            }
+          });
+
+          card.style.display = (visibleItemsInCard > 0) ? '' : 'none';
+        });
+      });
+    }
+
+    // 2. Category Filter Pills Navigation
+    const catButtons = document.querySelectorAll('#wordCategoryFilters .btn-time-filter');
+    catButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        catButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (searchInput) {
+          searchInput.dispatchEvent(new Event('input'));
+        } else {
+          const selectedCat = btn.getAttribute('data-word-cat');
+          const cards = document.querySelectorAll('#tab-words .word-section-card');
+          cards.forEach(card => {
+            const cardCat = card.getAttribute('data-cat');
+            if (selectedCat === 'all' || cardCat === selectedCat) {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        }
+      });
+    });
+
+    // 3. Form Submit - Saves all copy directly to TravelStore
+    const wordsForm = document.getElementById('adminWordsForm');
+    if (wordsForm) {
+      wordsForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newWords = {};
+        Object.keys(wordFieldMap).forEach(elemId => {
+          const el = document.getElementById(elemId);
+          if (el) {
+            const storeKey = wordFieldMap[elemId];
+            newWords[storeKey] = el.value;
+          }
+        });
+
+        window.TravelStore.saveSettings(newWords);
+        showAdminToast('✍️ All website words & copy updated live across all 8 pages!');
+      });
+    }
+
+    // 4. Restore Defaults
+    const btnResetWords = document.getElementById('btnResetWords');
+    if (btnResetWords) {
+      btnResetWords.addEventListener('click', () => {
+        if (confirm('Restore all 50+ website words and headings to original default copy?')) {
+          const defs = window.TravelStore.DEFAULT_SETTINGS || {};
+          const resetObj = {};
+          Object.keys(wordFieldMap).forEach(elemId => {
+            const storeKey = wordFieldMap[elemId];
+            if (defs[storeKey] !== undefined) {
+              resetObj[storeKey] = defs[storeKey];
+            }
+          });
+          window.TravelStore.saveSettings(resetObj);
+          populateWords();
+          showAdminToast('🔄 Factory default words restored across all pages!');
+        }
+      });
+    }
+  }
+
+  // =========================================================================
   // MEDIA UPLOADS & LIVE PREVIEW HELPERS
   // =========================================================================
   function updateMediaPreview(imgId, url) {
@@ -1651,6 +1830,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderFaqsTable();
     populateSettings();
     populateCustomizer();
+    populateWords();
   }
 
   // Listen to cross-page updates
@@ -1734,6 +1914,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial Run
   setupMediaHelpers();
+  setupWordMaster();
   if (checkAdminAuth()) {
     renderAll();
   }

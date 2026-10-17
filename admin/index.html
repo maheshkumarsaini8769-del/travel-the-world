@@ -90,9 +90,16 @@
         </a>
       </li>
       <li class="sidebar-item">
+        <a class="sidebar-link" data-tab="words">
+          <span class="sidebar-icon">✍️</span>
+          <span>Word Master & Site Copy</span>
+          <span class="sidebar-badge" style="background: #2563eb; color: #ffffff; font-weight: 800;">CMS</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
         <a class="sidebar-link" data-tab="customizer">
           <span class="sidebar-icon">🎨</span>
-          <span>Festival & Content</span>
+          <span>Festival & Media</span>
           <span class="sidebar-badge" style="background: #f59e0b; color: #1e1338; font-weight: 800;">LIVE</span>
         </a>
       </li>
@@ -809,6 +816,495 @@
           </div>
 
         </div>
+      </section>
+
+      <!-- ==============================================
+           TAB: ADVANCED WORD MASTER & SITE COPY CMS
+           Complete granular word-by-word control across entire website
+           ============================================== -->
+      <section class="admin-tab-panel" id="tab-words">
+        
+        <!-- Header Banner with Stats & Instant Search -->
+        <div style="background: #ffffff; border: 1px solid var(--admin-border); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
+                <span style="font-size: 1.6rem;">✍️</span>
+                <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin: 0;">Word Master &amp; Site Copy CMS</h2>
+                <span style="background: #eff6ff; color: #2563eb; font-size: 0.75rem; font-weight: 800; padding: 0.2rem 0.65rem; border-radius: 9999px; border: 1px solid #bfdbfe;">ADVANCE GRANULAR CONTROL</span>
+              </div>
+              <p style="font-size: 0.88rem; color: #64748b; margin: 0;">
+                Control, rewrite, and customize every single word, title, badge, button, and paragraph across all pages. Changes reflect live instantly.
+              </p>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+              <span class="status-online" style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 0.35rem 0.75rem; border-radius: 8px; font-weight: 700; font-size: 0.82rem;">
+                <span class="live-pulse-dot"></span> 50+ Granular Word Controllers Active
+              </span>
+            </div>
+          </div>
+
+          <!-- Instant Live Word Search Filter Bar -->
+          <div style="position: relative; margin-bottom: 1rem;">
+            <input type="text" id="wordMasterSearchInput" class="admin-form-control" placeholder="🔍 Instant Word Search: Type any word or phrase on website (e.g. 'Explore', 'Budget', 'Rupees', 'Wonder', 'Sanur', 'WhatsApp')..." style="padding-left: 1rem; height: 46px; font-size: 0.95rem; border-color: #cbd5e1; border-radius: 10px;">
+          </div>
+
+          <!-- Category Quick-Filter Navigation Pills -->
+          <div class="filter-btn-group" id="wordCategoryFilters" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 6px; border-radius: 10px; display: flex; flex-wrap: wrap; gap: 6px;">
+            <button type="button" class="btn-time-filter active" data-word-cat="all">All Words (50+)</button>
+            <button type="button" class="btn-time-filter" data-word-cat="home">🏠 Homepage</button>
+            <button type="button" class="btn-time-filter" data-word-cat="holidays">🗺️ Holidays</button>
+            <button type="button" class="btn-time-filter" data-word-cat="offers">🎟️ Offers</button>
+            <button type="button" class="btn-time-filter" data-word-cat="about">ℹ️ About Us</button>
+            <button type="button" class="btn-time-filter" data-word-cat="contact">📞 Contact &amp; FAQs</button>
+            <button type="button" class="btn-time-filter" data-word-cat="reviews-blog">⭐ Reviews &amp; Blog</button>
+            <button type="button" class="btn-time-filter" data-word-cat="brand-footer">🌐 Brand &amp; Footer</button>
+          </div>
+        </div>
+
+        <form id="adminWordsForm">
+          
+          <!-- SECTION 1: HOMEPAGE WORDS -->
+          <div class="admin-card word-section-card" data-cat="home" style="margin-bottom: 1.5rem;">
+            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="admin-card-title">🏠 Homepage Section Words &amp; Headings</h3>
+              <span style="font-size: 0.76rem; background: #eff6ff; color: #2563eb; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700;">index.html</span>
+            </div>
+            <div class="admin-card-body">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordHeroVideoBadge">Hero Video Badge Label</label>
+                  <input type="text" id="wordHeroVideoBadge" class="admin-form-control" placeholder="Cinematic Video (4s)">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Pulsing badge next to Play Video button</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordQuickSearchBtnText">Quick Search Button Text</label>
+                  <input type="text" id="wordQuickSearchBtnText" class="admin-form-control" placeholder="Search Tours 🔍">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Hero sticky booking search finder bar</span>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordExploreTag">Explore Section Eyebrow Tag</label>
+                  <input type="text" id="wordExploreTag" class="admin-form-control" placeholder="FEATURED LANDMARKS">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Above Explore Bali headline</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordCloudMistHint">Cloud Mist Interactive Hint Text</label>
+                  <input type="text" id="wordCloudMistHint" class="admin-form-control" placeholder="✨ Move mouse to part clouds in 150-200px radius around cursor • Real-time mist">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Floating hint badge above cloud canvas</span>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordExploreTitle">Explore Bali Headline (Newline = &lt;br&gt;)</label>
+                  <textarea id="wordExploreTitle" rows="2" class="admin-form-control" placeholder="EXPLORE BALI&#10;WITH US"></textarea>
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Big artistic heading in explore section</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordExploreSubtitle">Explore Bali Subtitle / Paragraph</label>
+                  <textarea id="wordExploreSubtitle" rows="2" class="admin-form-control" placeholder="We are an online based travel company..."></textarea>
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Lead paragraph under explore headline</span>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordPackagesTag">Packages Section Eyebrow Tag</label>
+                  <input type="text" id="wordPackagesTag" class="admin-form-control" placeholder="CURATED EXPERIENCES">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Tag pill above packages heading</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordPackagesHeading">Packages Section Main Heading</label>
+                  <input type="text" id="wordPackagesHeading" class="admin-form-control" placeholder="Bali Tour Packages &amp; Reviews">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Main packages section title</span>
+                </div>
+              </div>
+
+              <div class="admin-form-group word-field-item">
+                <label for="wordPackagesDesc">Packages Section Description</label>
+                <textarea id="wordPackagesDesc" rows="2" class="admin-form-control" placeholder="All-inclusive guided expeditions featuring private transportation, local Balinese guides, and authentic cultural encounters."></textarea>
+                <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Description paragraph under packages heading</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordRouteExplorerTag">Route Explorer Eyebrow Tag</label>
+                  <input type="text" id="wordRouteExplorerTag" class="admin-form-control" placeholder="ISLAND ROUTE &amp; TRAVEL TIME EXPLORER">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Regional route explorer badge</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordRouteExplorerTitle">Route Explorer Main Heading</label>
+                  <input type="text" id="wordRouteExplorerTitle" class="admin-form-control" placeholder="Explore Bali Region by Region">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Heading of route &amp; time explorer card</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordRouteExplorerBtnText">360° Panorama Button Text</label>
+                  <input type="text" id="wordRouteExplorerBtnText" class="admin-form-control" placeholder="🌀 Launch 360° Panorama →">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Button launching 360 virtual viewer</span>
+                </div>
+              </div>
+
+              <div class="admin-form-group word-field-item">
+                <label for="wordRouteExplorerSubtitle">Route Explorer Subtitle</label>
+                <input type="text" id="wordRouteExplorerSubtitle" class="admin-form-control" placeholder="Click any quadrant to view airport drive times, highlight sights, and instant package booking in Indian Rupees.">
+                <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Paragraph under route explorer heading</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordBudgetCalcTag">Budget Calculator Eyebrow Tag</label>
+                  <input type="text" id="wordBudgetCalcTag" class="admin-form-control" placeholder="INTERACTIVE COST ENGINE">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Tag above trip budget calculator</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordBudgetCalcTitle">Budget Calculator Heading</label>
+                  <input type="text" id="wordBudgetCalcTitle" class="admin-form-control" placeholder="Calculate Your Trip Cost in ₹">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Heading inside black calculator card</span>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordBudgetCalcPlanHighlight">Calculator Breakdown Highlight</label>
+                  <input type="text" id="wordBudgetCalcPlanHighlight" class="admin-form-control" placeholder="● Ideal for 4-Star Resort + 3 Day Guided Island Tours">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Blue highlight line in budget preview</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordBudgetCalcPlanDesc">Calculator Inclusions Note</label>
+                  <input type="text" id="wordBudgetCalcPlanDesc" class="admin-form-control" placeholder="Includes private AC transport, English driver, all entry passes &amp; taxes.">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Subtitle under budget breakdown</span>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordReviewsTag">Reviews Section Tag</label>
+                  <input type="text" id="wordReviewsTag" class="admin-form-control" placeholder="TRAVELER TESTIMONIALS">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Testimonials section badge</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordReviewsHeading">Reviews Section Heading</label>
+                  <input type="text" id="wordReviewsHeading" class="admin-form-control" placeholder="Loved By Over 24,000 Adventurers">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Testimonials section title</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordReviewsSubtitle">Reviews Section Subtitle</label>
+                  <input type="text" id="wordReviewsSubtitle" class="admin-form-control" placeholder="Authentic experiences shared by travelers who booked their Bali adventures through us.">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Subtitle under testimonials heading</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 2: HOLIDAYS & TOUR PACKAGES PAGE -->
+          <div class="admin-card word-section-card" data-cat="holidays" style="margin-bottom: 1.5rem;">
+            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="admin-card-title">🗺️ Holidays &amp; Tour Packages Page Words</h3>
+              <span style="font-size: 0.76rem; background: #eff6ff; color: #2563eb; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700;">holidays.html</span>
+            </div>
+            <div class="admin-card-body">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordHolidaysPageBadge">Page Hero Badge</label>
+                  <input type="text" id="wordHolidaysPageBadge" class="admin-form-control" placeholder="✨ Handcrafted Itineraries">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Floating badge on holidays hero banner</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordHolidaysPageTitle">Page Hero Title</label>
+                  <input type="text" id="wordHolidaysPageTitle" class="admin-form-control" placeholder="BALI HOLIDAYS &amp; TOURS">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Main H1 title on holidays page banner</span>
+                </div>
+              </div>
+              <div class="admin-form-group word-field-item">
+                <label for="wordHolidaysPageSubtitle">Page Hero Subtitle / Lead Description</label>
+                <textarea id="wordHolidaysPageSubtitle" rows="2" class="admin-form-control" placeholder="Immerse yourself in sacred ocean temples, mist-shrouded volcanic ridges, lush stepped rice valleys, and private island speedboat expeditions."></textarea>
+                <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Paragraph text on holidays hero banner</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 3: OFFERS & PROMO CODES PAGE -->
+          <div class="admin-card word-section-card" data-cat="offers" style="margin-bottom: 1.5rem;">
+            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="admin-card-title">🎟️ Offers &amp; Promo Codes Page Words</h3>
+              <span style="font-size: 0.76rem; background: #eff6ff; color: #2563eb; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700;">offers.html</span>
+            </div>
+            <div class="admin-card-body">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordOffersPageBadge">Offers Page Hero Badge</label>
+                  <input type="text" id="wordOffersPageBadge" class="admin-form-control" placeholder="🎁 Festival Season Deals">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Badge on offers page hero</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordOffersPageTitle">Offers Page Hero Title</label>
+                  <input type="text" id="wordOffersPageTitle" class="admin-form-control" placeholder="EXCLUSIVE OFFERS &amp; COUPONS">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: H1 title on offers hero</span>
+                </div>
+              </div>
+              <div class="admin-form-group word-field-item">
+                <label for="wordOffersPageSubtitle">Offers Page Hero Subtitle</label>
+                <textarea id="wordOffersPageSubtitle" rows="2" class="admin-form-control" placeholder="Unlock limited-time discounts and voucher codes for your next Bali getaway. All discounts applied directly at checkout in Indian Rupees."></textarea>
+                <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Description on offers hero</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 4: ABOUT US PAGE -->
+          <div class="admin-card word-section-card" data-cat="about" style="margin-bottom: 1.5rem;">
+            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="admin-card-title">ℹ️ About Us Story &amp; Key Statistics Words</h3>
+              <span style="font-size: 0.76rem; background: #eff6ff; color: #2563eb; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700;">about.html</span>
+            </div>
+            <div class="admin-card-body">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordAboutPageBadge">About Page Hero Badge</label>
+                  <input type="text" id="wordAboutPageBadge" class="admin-form-control" placeholder="🌴 Our Journey &amp; Vision">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Badge on about page hero banner</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordAboutPageTitle">About Page Hero Title</label>
+                  <input type="text" id="wordAboutPageTitle" class="admin-form-control" placeholder="ABOUT TRAVEL THE WORLD">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Main H1 title on about page banner</span>
+                </div>
+              </div>
+
+              <div class="admin-form-group word-field-item">
+                <label for="wordAboutPageSubtitle">About Page Hero Subtitle</label>
+                <textarea id="wordAboutPageSubtitle" rows="2" class="admin-form-control" placeholder="Bridging the warmth of Balinese ancestral culture with effortless, transparent travel designed specifically for curious globetrotters and Indian families."></textarea>
+                <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Subtitle under about hero title</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordAboutExperienceTag">Experience Tag</label>
+                  <input type="text" id="wordAboutExperienceTag" class="admin-form-control" placeholder="15+ Years of Passion">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Small blue tag above story heading</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordAboutExperienceHeading">Experience Main Heading</label>
+                  <input type="text" id="wordAboutExperienceHeading" class="admin-form-control" placeholder="We Believe Travel Should Be Pure Wonder, Not A Booking Chore.">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Major story headline on about page</span>
+                </div>
+              </div>
+
+              <div class="admin-form-group word-field-item">
+                <label for="wordAboutStoryLead">Story Lead Paragraph 1</label>
+                <textarea id="wordAboutStoryLead" rows="2" class="admin-form-control" placeholder="Founded in 2011 on the tranquil shores of Sanur, Bali..."></textarea>
+                <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: First paragraph of story section</span>
+              </div>
+
+              <div class="admin-form-group word-field-item">
+                <label for="wordAboutStoryPara2">Story Follow-up Paragraph 2</label>
+                <textarea id="wordAboutStoryPara2" rows="2" class="admin-form-control" placeholder="Today, we have escorted over 50,000 satisfied adventurers from India..."></textarea>
+                <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Second paragraph of story section</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordAboutStatYearsVal">Stat 1: Years Active</label>
+                  <input type="text" id="wordAboutStatYearsVal" class="admin-form-control" placeholder="15+">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Years figure</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordAboutStatTravelersVal">Stat 2: Travelers Guided</label>
+                  <input type="text" id="wordAboutStatTravelersVal" class="admin-form-control" placeholder="50k+">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Travelers count</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordAboutStatToursVal">Stat 3: Curated Tours</label>
+                  <input type="text" id="wordAboutStatToursVal" class="admin-form-control" placeholder="120+">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Tours count</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordAboutStatRatingVal">Stat 4: Average Rating</label>
+                  <input type="text" id="wordAboutStatRatingVal" class="admin-form-control" placeholder="4.9 ★">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Rating score</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 5: CONTACT US & FAQS PAGE -->
+          <div class="admin-card word-section-card" data-cat="contact" style="margin-bottom: 1.5rem;">
+            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="admin-card-title">📞 Contact Us &amp; Helpdesk Page Words</h3>
+              <span style="font-size: 0.76rem; background: #eff6ff; color: #2563eb; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700;">contact.html</span>
+            </div>
+            <div class="admin-card-body">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordContactPageBadge">Contact Page Hero Badge</label>
+                  <input type="text" id="wordContactPageBadge" class="admin-form-control" placeholder="💬 24/7 Ground Assistance">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Floating badge on contact hero banner</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordContactPageTitle">Contact Page Hero Title</label>
+                  <input type="text" id="wordContactPageTitle" class="admin-form-control" placeholder="WE ARE HERE FOR YOU">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: H1 title on contact page banner</span>
+                </div>
+              </div>
+
+              <div class="admin-form-group word-field-item">
+                <label for="wordContactPageSubtitle">Contact Page Hero Subtitle</label>
+                <textarea id="wordContactPageSubtitle" rows="2" class="admin-form-control" placeholder="Whether you are planning a bespoke honeymoon, requesting pure vegetarian cuisine, or need private transport, our concierge is at your service."></textarea>
+                <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Description paragraph on contact hero</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordContactFormTag">Inquiry Form Tag</label>
+                  <input type="text" id="wordContactFormTag" class="admin-form-control" placeholder="Direct Concierge Dispatch">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Blue tag above inquiry form</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordContactFormHeading">Inquiry Form Heading</label>
+                  <input type="text" id="wordContactFormHeading" class="admin-form-control" placeholder="Send Us an Inquiry">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Major heading on inquiry form</span>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordContactFormSubtitle">Inquiry Form Subtitle</label>
+                  <input type="text" id="wordContactFormSubtitle" class="admin-form-control" placeholder="Fill out the form below. Inquiries are sent directly to our on-duty travel specialist and appear in our Admin panel for instant follow-up.">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Subtitle text above inquiry inputs</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordContactFormSubmitBtn">Inquiry Form Submit Button Text</label>
+                  <input type="text" id="wordContactFormSubmitBtn" class="admin-form-control" placeholder="Submit Inquiry • 2-Hour Response Guaranteed">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Text on inquiry submit button</span>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordContactFaqHeading">FAQ Section Heading</label>
+                  <input type="text" id="wordContactFaqHeading" class="admin-form-control" placeholder="Frequently Asked Questions">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Title of FAQ accordion section</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordContactFaqSubtitle">FAQ Section Subtitle</label>
+                  <input type="text" id="wordContactFaqSubtitle" class="admin-form-control" placeholder="Everything you need to know about traveling to Bali from India.">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Description under FAQ heading</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 6: REVIEWS & BLOG PAGES -->
+          <div class="admin-card word-section-card" data-cat="reviews-blog" style="margin-bottom: 1.5rem;">
+            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="admin-card-title">⭐ Reviews &amp; Travel Blog Page Words</h3>
+              <span style="font-size: 0.76rem; background: #eff6ff; color: #2563eb; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700;">reviews.html &bull; blog.html</span>
+            </div>
+            <div class="admin-card-body">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordReviewsPageBadge">Reviews Page Hero Badge</label>
+                  <input type="text" id="wordReviewsPageBadge" class="admin-form-control" placeholder="⭐ 100% Real Travelers">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Badge on customer reviews page hero</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordReviewsPageTitle">Reviews Page Hero Title</label>
+                  <input type="text" id="wordReviewsPageTitle" class="admin-form-control" placeholder="TRAVELER STORIES &amp; REVIEWS">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: H1 title on reviews page hero</span>
+                </div>
+              </div>
+
+              <div class="admin-form-group word-field-item">
+                <label for="wordReviewsPageSubtitle">Reviews Page Hero Subtitle</label>
+                <textarea id="wordReviewsPageSubtitle" rows="2" class="admin-form-control" placeholder="Real stories from couples, honeymooners, solo trekkers, and families who trusted us with their once-in-a-lifetime Bali holiday."></textarea>
+                <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Lead paragraph on reviews hero</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordBlogPageBadge">Blog Page Hero Badge</label>
+                  <input type="text" id="wordBlogPageBadge" class="admin-form-control" placeholder="📖 Insider Knowledge">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Badge on travel blog hero banner</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordBlogPageTitle">Blog Page Hero Title</label>
+                  <input type="text" id="wordBlogPageTitle" class="admin-form-control" placeholder="BALI TRAVEL BLOG &amp; GUIDES">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: H1 title on blog page banner</span>
+                </div>
+              </div>
+
+              <div class="admin-form-group word-field-item">
+                <label for="wordBlogPageSubtitle">Blog Page Hero Subtitle</label>
+                <textarea id="wordBlogPageSubtitle" rows="2" class="admin-form-control" placeholder="Curated by our veteran on-ground concierge team to help you navigate visas, sunrise treks, sacred customs, and vegetarian dining across Indonesia."></textarea>
+                <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Subtitle on travel blog page banner</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 7: GLOBAL BRAND & FOOTER WORDS -->
+          <div class="admin-card word-section-card" data-cat="brand-footer" style="margin-bottom: 1.5rem;">
+            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="admin-card-title">🌐 Brand Identity, Footer &amp; Disclaimers</h3>
+              <span style="font-size: 0.76rem; background: #eff6ff; color: #2563eb; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700;">Global Footer on All Pages</span>
+            </div>
+            <div class="admin-card-body">
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordLogoScript">Logo Cursive Word</label>
+                  <input type="text" id="wordLogoScript" class="admin-form-control" placeholder="travel">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Cursive script in header logo</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordLogoSub">Logo Sub-Word</label>
+                  <input type="text" id="wordLogoSub" class="admin-form-control" placeholder="THE WORLD">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Capitalized subtitle in header logo</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordCompanyName">Company Official Name</label>
+                  <input type="text" id="wordCompanyName" class="admin-form-control" placeholder="Travel The World">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Brand title throughout console</span>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordFooterTagline">Footer Brand Tagline</label>
+                  <input type="text" id="wordFooterTagline" class="admin-form-control" placeholder="Making bespoke Indonesian travel accessible, luxurious, and completely effortless.">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Slogan under footer logo</span>
+                </div>
+                <div class="admin-form-group word-field-item">
+                  <label for="wordFooterSecureBadge">Footer Security / License Badge</label>
+                  <input type="text" id="wordFooterSecureBadge" class="admin-form-control" placeholder="🔒 Certified Indonesian Tour Operator #7819/BALI">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Trust badge in footer contact column</span>
+                </div>
+              </div>
+
+              <div class="admin-form-group word-field-item">
+                <label for="wordCopyright">Footer Copyright Text</label>
+                <input type="text" id="wordCopyright" class="admin-form-control" placeholder="© 2026 Travel The World. Handcrafted luxury travel &amp; bespoke tours in Indian Rupees.">
+                <span style="font-size: 0.72rem; color: #94a3b8;">📍 Target: Bottom copyright line across all 8 pages</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FLOATING ACTION SUBMIT BAR -->
+          <div style="display: flex; gap: 1rem; align-items: center; justify-content: space-between; background: #ffffff; padding: 1.25rem 1.5rem; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.06); position: sticky; bottom: 20px; z-index: 50;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <button type="button" id="btnResetWords" class="btn-admin-primary" style="background: #64748b; padding: 0.65rem 1.1rem; font-size: 0.85rem;">
+                <span>🔄 Restore Factory Words</span>
+              </button>
+              <span style="font-size: 0.8rem; color: #64748b;">Instant live updates to all 8 website pages</span>
+            </div>
+
+            <button type="submit" class="btn-admin-primary" style="padding: 0.75rem 2rem; font-size: 0.95rem;">
+              <span>💾 Publish All Words to Live Website</span>
+            </button>
+          </div>
+
+        </form>
       </section>
 
       <!-- ==============================================

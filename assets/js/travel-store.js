@@ -782,6 +782,79 @@
       { q: 'Do your drivers speak English?', a: 'Yes, all our chauffeurs and private guides are government-certified, speak fluent English, and have deep local knowledge of Balinese culture.' }
     ],
 
+    // =========================================================================
+    // ADVANCED SITE COPY & WORD MASTER CMS (Granular Word-by-Word Control)
+    // =========================================================================
+    // 1. Homepage Words
+    heroVideoBadge: 'Cinematic Video (4s)',
+    quickSearchBtnText: 'Search Tours 🔍',
+    exploreTag: 'FEATURED LANDMARKS',
+    packagesTag: 'CURATED EXPERIENCES',
+    packagesHeading: 'Bali Tour Packages & Reviews',
+    packagesDesc: 'All-inclusive guided expeditions featuring private transportation, local Balinese guides, and authentic cultural encounters.',
+    routeExplorerTag: 'ISLAND ROUTE & TRAVEL TIME EXPLORER',
+    routeExplorerTitle: 'Explore Bali Region by Region',
+    routeExplorerSubtitle: 'Click any quadrant to view airport drive times, highlight sights, and instant package booking in Indian Rupees.',
+    routeExplorerBtnText: '🌀 Launch 360° Panorama →',
+    budgetCalcTag: 'INTERACTIVE COST ENGINE',
+    budgetCalcTitle: 'Calculate Your Trip Cost in ₹',
+    budgetCalcSubtitle: 'Real-time benchmark: ₹1 INR ≈ 190.5 IDR with zero conversion markup.',
+    budgetCalcPlanHighlight: '● Ideal for 4-Star Resort + 3 Day Guided Island Tours',
+    budgetCalcPlanDesc: 'Includes private AC transport, English driver, all entry passes & taxes.',
+    budgetCalcBookBtn: 'Book This Plan →',
+    budgetCalcWhatsappBtn: 'WhatsApp Quote',
+    reviewsTag: 'TRAVELER TESTIMONIALS',
+    reviewsHeading: 'Loved By Over 24,000 Adventurers',
+    reviewsSubtitle: 'Authentic experiences shared by travelers who booked their Bali adventures through us.',
+
+    // 2. Holidays Page Words
+    holidaysPageBadge: '✨ Handcrafted Itineraries',
+    holidaysPageTitle: 'BALI HOLIDAYS & TOURS',
+    holidaysPageSubtitle: 'Immerse yourself in sacred ocean temples, mist-shrouded volcanic ridges, lush stepped rice valleys, and private island speedboat expeditions.',
+
+    // 3. Offers Page Words
+    offersPageBadge: '🎁 Festival Season Deals',
+    offersPageTitle: 'EXCLUSIVE OFFERS & COUPONS',
+    offersPageSubtitle: 'Unlock limited-time discounts and voucher codes for your next Bali getaway. All discounts applied directly at checkout in Indian Rupees.',
+
+    // 4. About Us Page Words
+    aboutPageBadge: '🌴 Our Journey & Vision',
+    aboutPageTitle: 'ABOUT TRAVEL THE WORLD',
+    aboutPageSubtitle: 'Bridging the warmth of Balinese ancestral culture with effortless, transparent travel designed specifically for curious globetrotters and Indian families.',
+    aboutExperienceTag: '15+ Years of Passion',
+    aboutExperienceHeading: 'We Believe Travel Should Be Pure Wonder, Not A Booking Chore.',
+    aboutStoryLead: 'Founded in 2011 on the tranquil shores of Sanur, Bali, Travel The World started with a single 4WD jeep and a desire to take travelers beyond commercial souvenir stops into the sacred heart of the Island of the Gods.',
+    aboutStoryPara2: 'Today, we have escorted over 50,000 satisfied adventurers from India, Southeast Asia, Australia, and Europe. By operating directly online without third-party aggregator markups, we deliver competitive Indian Rupee (₹) pricing, private air-conditioned vehicles, and certified guides who treat you like family.',
+    aboutStatYearsVal: '15+',
+    aboutStatTravelersVal: '50k+',
+    aboutStatToursVal: '120+',
+    aboutStatRatingVal: '4.9 ★',
+
+    // 5. Contact Us Page Words
+    contactPageBadge: '💬 24/7 Ground Assistance',
+    contactPageTitle: 'WE ARE HERE FOR YOU',
+    contactPageSubtitle: 'Whether you are planning a bespoke honeymoon, requesting pure vegetarian cuisine, or need private transport, our concierge is at your service.',
+    contactFormTag: 'Direct Concierge Dispatch',
+    contactFormHeading: 'Send Us an Inquiry',
+    contactFormSubtitle: 'Fill out the form below. Inquiries are sent directly to our on-duty travel specialist and appear in our Admin panel for instant follow-up.',
+    contactFormSubmitBtn: 'Send Inquiry to Concierge →',
+    contactFaqHeading: 'Frequently Asked Questions',
+    contactFaqSubtitle: 'Everything you need to know about traveling to Bali from India.',
+
+    // 6. Reviews Page Words
+    reviewsPageBadge: '⭐ 4.95 Rating • 24,000+ Travelers',
+    reviewsPageTitle: 'REAL TRAVELER REVIEWS',
+    reviewsPageSubtitle: 'Verified stories and feedback from adventurers across India and the globe who explored Bali with us.',
+
+    // 7. Blog Page Words
+    blogPageBadge: '📖 Insider Destination Guides',
+    blogPageTitle: 'BALI TRAVEL STORIES & ADVICE',
+    blogPageSubtitle: 'Expert tips, culinary itineraries, temple etiquette, and packing guides curated by our licensed Balinese guides.',
+
+    // 8. Brand & Footer Words
+    footerTagline: 'Making bespoke Indonesian travel accessible, luxurious, and completely effortless.',
+    footerSecureBadge: '🔒 Certified Indonesian Tour Operator #7819/BALI',
+
     // Advanced Next-Gen Experience Flags
     aiConciergeEnabled: true,
     festiveParticlesEnabled: true,
@@ -827,6 +900,7 @@
 
   // Public API Object
   window.TravelStore = {
+    DEFAULT_SETTINGS: DEFAULT_SETTINGS,
     // Utility: Format currency in Indian Rupees
     formatRupees: function (num) {
       const amount = Number(num) || 0;
@@ -1282,6 +1356,90 @@
       if (footerBottom && settings.copyrightText) {
         footerBottom.textContent = settings.copyrightText;
       }
+
+      // 7. GRANULAR WORD MASTER APPLIER (Universal Site-Wide Dynamic Copy)
+      const setText = (target, text, isHtml = false) => {
+        if (!text) return;
+        let el = null;
+        if (typeof target === 'string') {
+          if (target.startsWith('#') || target.startsWith('.')) {
+            el = document.querySelector(target);
+          } else {
+            el = document.getElementById(target) || document.querySelector('.' + target) || document.querySelector(target);
+          }
+        }
+        if (el) {
+          if (isHtml) el.innerHTML = text.replace(/\n/g, '<br>');
+          else el.textContent = text;
+        }
+      };
+
+      // Homepage Words
+      setText('mediaBadgeText', settings.heroVideoBadge);
+      setText('#quickFinderSubmitBtn span', settings.quickSearchBtnText);
+      setText('exploreSectionTag', settings.exploreTag);
+      setText('exploreSectionTitle', settings.exploreTitle, true);
+      setText('exploreSectionSubtitle', settings.exploreSubtitle);
+      setText('packagesSectionTag', settings.packagesTag);
+      setText('packagesSectionHeading', settings.packagesHeading);
+      setText('packagesSectionDesc', settings.packagesDesc);
+      setText('routeExplorerTag', settings.routeExplorerTag);
+      setText('routeExplorerTitle', settings.routeExplorerTitle);
+      setText('routeExplorerSubtitle', settings.routeExplorerSubtitle);
+      setText('routeExplorerBtnText', settings.routeExplorerBtnText);
+      setText('budgetCalcTag', settings.budgetCalcTag);
+      setText('budgetCalcTitle', settings.budgetCalcTitle);
+      setText('budgetCalcSubtitle', settings.budgetCalcSubtitle);
+      setText('budgetCalcPlanHighlight', settings.budgetCalcPlanHighlight);
+      setText('budgetCalcPlanDesc', settings.budgetCalcPlanDesc);
+      setText('budgetCalcBookBtn', settings.budgetCalcBookBtn);
+      setText('budgetCalcWhatsappBtn', settings.budgetCalcWhatsappBtn);
+      setText('reviewsSectionTag', settings.reviewsTag);
+      setText('reviewsSectionHeading', settings.reviewsHeading);
+      setText('reviewsSectionDesc', settings.reviewsSubtitle);
+
+      // Inner Pages Hero Words
+      setText('holidaysPageBadge', settings.holidaysPageBadge);
+      setText('holidaysPageTitle', settings.holidaysPageTitle);
+      setText('holidaysPageSubtitle', settings.holidaysPageSubtitle);
+
+      setText('offersPageBadge', settings.offersPageBadge);
+      setText('offersPageTitle', settings.offersPageTitle);
+      setText('offersPageSubtitle', settings.offersPageSubtitle);
+
+      setText('aboutPageBadge', settings.aboutPageBadge);
+      setText('aboutPageTitle', settings.aboutPageTitle);
+      setText('aboutPageSubtitle', settings.aboutPageSubtitle);
+      setText('aboutExperienceTag', settings.aboutExperienceTag);
+      setText('aboutExperienceHeading', settings.aboutExperienceHeading);
+      setText('aboutStoryLead', settings.aboutStoryLead || settings.aboutStory);
+      setText('aboutStoryPara2', settings.aboutStoryPara2);
+      setText('aboutStatYearsVal', settings.aboutStatYearsVal || settings.statYears);
+      setText('aboutStatTravelersVal', settings.aboutStatTravelersVal || settings.statTravelers);
+      setText('aboutStatToursVal', settings.aboutStatToursVal || settings.statTours);
+      setText('aboutStatRatingVal', settings.aboutStatRatingVal || settings.statRating);
+
+      setText('contactPageBadge', settings.contactPageBadge);
+      setText('contactPageTitle', settings.contactPageTitle);
+      setText('contactPageSubtitle', settings.contactPageSubtitle);
+      setText('contactFormTag', settings.contactFormTag);
+      setText('contactFormHeading', settings.contactFormHeading);
+      setText('contactFormSubtitle', settings.contactFormSubtitle);
+      setText('contactFormSubmitBtn', settings.contactFormSubmitBtn);
+      setText('contactFaqHeading', settings.contactFaqHeading);
+      setText('contactFaqSubtitle', settings.contactFaqSubtitle);
+
+      setText('reviewsPageBadge', settings.reviewsPageBadge);
+      setText('reviewsPageTitle', settings.reviewsPageTitle);
+      setText('reviewsPageSubtitle', settings.reviewsPageSubtitle);
+
+      setText('blogPageBadge', settings.blogPageBadge);
+      setText('blogPageTitle', settings.blogPageTitle);
+      setText('blogPageSubtitle', settings.blogPageSubtitle);
+
+      // Brand & Footer Words
+      setText('footerTagline', settings.footerTagline || settings.tagline);
+      setText('footerSecureBadge', settings.footerSecureBadge || settings.licenseNumber);
     },
 
     // KPI & STATS COMPUTATION FOR ADMIN WITH TIME-PERIOD FILTERING (1d, 7d, month, all)
