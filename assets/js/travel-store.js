@@ -862,28 +862,39 @@
     virtual360TourEnabled: true
   };
 
+  // In-memory fallback cache if localStorage is unavailable
+  const memoryCache = {};
+
   // Safe localStorage helper
   function loadStorage(key, fallback) {
     try {
-      const data = localStorage.getItem(key);
-      return data ? JSON.parse(data) : fallback;
+      if (typeof localStorage !== 'undefined' && localStorage !== null) {
+        const data = localStorage.getItem(key);
+        if (data !== null) return JSON.parse(data);
+      }
     } catch (e) {
       console.warn('Storage read failed:', key, e);
-      return fallback;
     }
+    if (memoryCache[key] !== undefined) {
+      return memoryCache[key];
+    }
+    return fallback;
   }
 
   function saveStorage(key, value) {
+    memoryCache[key] = value;
     try {
-      localStorage.setItem(key, JSON.stringify(value));
+      if (typeof localStorage !== 'undefined' && localStorage !== null) {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
     } catch (e) {
-      console.error('Storage write failed:', key, e);
+      console.warn('Storage write failed:', key, e);
     }
   }
 
   // Initialize Data Store
   function initStore() {
-    const isInitialized = localStorage.getItem(STORAGE_KEYS.INITIALIZED);
+    const isInitialized = loadStorage(STORAGE_KEYS.INITIALIZED, null);
     if (!isInitialized) {
       saveStorage(STORAGE_KEYS.TOURS, DEFAULT_TOURS);
       saveStorage(STORAGE_KEYS.BOOKINGS, DEFAULT_BOOKINGS);
@@ -892,7 +903,7 @@
       saveStorage(STORAGE_KEYS.COUPONS, DEFAULT_COUPONS);
       saveStorage(STORAGE_KEYS.BLOGS, DEFAULT_BLOGS);
       saveStorage(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS);
-      localStorage.setItem(STORAGE_KEYS.INITIALIZED, 'true');
+      saveStorage(STORAGE_KEYS.INITIALIZED, 'true');
     }
   }
 
@@ -901,6 +912,18 @@
   // Public API Object
   window.TravelStore = {
     DEFAULT_SETTINGS: DEFAULT_SETTINGS,
+
+    // Utility: HTML Sanitizer / Escape helper
+    escapeHtml: function (text) {
+      if (text === null || text === undefined) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    },
+
     // Utility: Format currency in Indian Rupees
     formatRupees: function (num) {
       const amount = Number(num) || 0;
@@ -946,13 +969,19 @@
     },
     addBooking: function (bookingData) {
       const bookings = this.getBookings();
+      const guestName = bookingData.customerName || bookingData.guestName || bookingData.name || 'Traveler';
+      const netAmount = Number(bookingData.totalAmount !== undefined ? bookingData.totalAmount : (bookingData.totalPrice !== undefined ? bookingData.totalPrice : 0));
       const newBooking = {
         id: 'TTW-' + Math.floor(10000 + Math.random() * 90000),
         status: 'Confirmed',
         paymentStatus: 'Paid',
         paymentMethod: bookingData.paymentMethod || 'UPI / GPay',
         createdAt: new Date().toISOString(),
-        ...bookingData
+        ...bookingData,
+        customerName: guestName,
+        guestName: guestName,
+        totalAmount: netAmount,
+        totalPrice: netAmount
       };
       bookings.unshift(newBooking);
       saveStorage(STORAGE_KEYS.BOOKINGS, bookings);
@@ -985,11 +1014,15 @@
     },
     addInquiry: function (inquiryData) {
       const inquiries = this.getInquiries();
+      const senderName = inquiryData.customerName || inquiryData.name || 'Inquirer';
       const newInquiry = {
         id: 'INQ-' + (inquiries.length + 101),
         date: new Date().toISOString(),
         status: 'New',
-        ...inquiryData
+        ...inquiryData,
+        customerName: senderName,
+        name: senderName,
+        subject: inquiryData.subject || 'Bali Custom Tour Inquiry'
       };
       inquiries.unshift(newInquiry);
       saveStorage(STORAGE_KEYS.INQUIRIES, inquiries);
@@ -1021,12 +1054,17 @@
     },
     addReview: function (reviewData) {
       const reviews = this.getReviews();
+      const reviewerName = reviewData.reviewerName || reviewData.author || reviewData.customerName || reviewData.name || 'Traveler';
       const newReview = {
         id: 'REV-' + Date.now().toString().slice(-4),
         date: new Date().toISOString().split('T')[0],
-        approved: true, // auto approve in demo
-        avatar: (reviewData.reviewerName || 'TT').split(' ').map(s => s[0]).join('').toUpperCase().slice(0, 2),
-        ...reviewData
+        approved: reviewData.approved !== undefined ? reviewData.approved : true,
+        avatar: (reviewerName || 'TT').split(' ').map(s => s[0]).join('').toUpperCase().slice(0, 2),
+        ...reviewData,
+        reviewerName: reviewerName,
+        author: reviewerName,
+        name: reviewerName,
+        comment: reviewData.comment || reviewData.text || ''
       };
       reviews.unshift(newReview);
       saveStorage(STORAGE_KEYS.REVIEWS, reviews);
@@ -1057,28 +1095,33 @@
       return loadStorage(STORAGE_KEYS.COUPONS, DEFAULT_COUPONS);
     },
     applyCoupon: function (code, amount) {
+      const numAmount = Number(amount) || 0;
+      if (numAmount <= 0) {
+        return { valid: false, message: 'Invalid booking amount.' };
+      }
       const coupons = this.getCoupons();
       const cleanCode = (code || '').trim().toUpperCase();
       const match = coupons.find(c => c.code.toUpperCase() === cleanCode);
       if (!match) return { valid: false, message: 'Invalid promo code.' };
-      if (match.minSpend && amount < match.minSpend) {
+      const minRequired = Number(match.minSpend !== undefined ? match.minSpend : (match.minAmount !== undefined ? match.minAmount : 0)) || 0;
+      if (minRequired > 0 && numAmount < minRequired) {
         return {
           valid: false,
-          message: `Minimum booking value of ${this.formatRupees(match.minSpend)} required for coupon ${cleanCode}.`
+          message: `Minimum booking value of ${this.formatRupees(minRequired)} required for coupon ${cleanCode}.`
         };
       }
       let discount = 0;
       if (match.discountPercent) {
-        discount = Math.round((amount * match.discountPercent) / 100);
+        discount = Math.round((numAmount * match.discountPercent) / 100);
       } else if (match.discountFlat) {
-        discount = Math.min(amount, match.discountFlat);
+        discount = Math.min(numAmount, match.discountFlat);
       }
       return {
         valid: true,
         code: cleanCode,
         discount,
         description: match.description,
-        finalAmount: Math.max(0, amount - discount)
+        finalAmount: Math.max(0, numAmount - discount)
       };
     },
     saveCoupon: function (coupon) {
@@ -1616,28 +1659,39 @@
 
     // Event Trigger for Cross-tab / In-page updates
     triggerUpdate: function (type) {
-      window.dispatchEvent(new CustomEvent('ttw:store-updated', { detail: { type } }));
+      if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+        try {
+          const evt = typeof CustomEvent === 'function' ? new CustomEvent('ttw:store-updated', { detail: { type } }) : { type: 'ttw:store-updated', detail: { type } };
+          window.dispatchEvent(evt);
+        } catch (e) {
+          // ignore dispatch failures in non-DOM contexts
+        }
+      }
     }
   };
 
   // Auto-apply active festival theme and live custom content immediately on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        window.TravelStore.applyActiveThemeAndContent();
+      });
+    } else {
       window.TravelStore.applyActiveThemeAndContent();
-    });
-  } else {
-    window.TravelStore.applyActiveThemeAndContent();
+    }
   }
 
   // Cross-tab real-time updates: when admin changes settings in another tab, live website reacts instantly
-  window.addEventListener('storage', (e) => {
-    if (e.key === STORAGE_KEYS.SETTINGS) {
-      window.TravelStore.applyActiveThemeAndContent();
-    }
-  });
+  if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEYS.SETTINGS) {
+        window.TravelStore.applyActiveThemeAndContent();
+      }
+    });
 
-  // In-tab event listener
-  window.addEventListener('ttw:store-updated', () => {
-    window.TravelStore.applyActiveThemeAndContent();
-  });
+    // In-tab event listener
+    window.addEventListener('ttw:store-updated', () => {
+      window.TravelStore.applyActiveThemeAndContent();
+    });
+  }
 })();

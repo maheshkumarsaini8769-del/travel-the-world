@@ -12,6 +12,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  // Helper: Format asset URLs relative to admin subdirectory
+  function formatAdminAssetUrl(url) {
+    if (!url) return '../assets/images/featured-uluwatu.jpg';
+    const u = String(url).trim();
+    if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:') || u.startsWith('/')) {
+      return u;
+    }
+    if (u.startsWith('../')) {
+      return u;
+    }
+    return '../' + u;
+  }
+
+  const sanitize = (window.TravelStore && window.TravelStore.escapeHtml)
+    ? window.TravelStore.escapeHtml
+    : (t) => (t === null || t === undefined ? '' : String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[c]));
+
   // 1. Toast Notification Helper for Admin
   function showAdminToast(msg, isError = false) {
     let container = document.getElementById('adminToastContainer');
@@ -423,15 +440,15 @@ document.addEventListener('DOMContentLoaded', () => {
     toursTableBody.innerHTML = tours.map(t => `
       <tr>
         <td>
-          <img src="${t.thumb || t.img}" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;" alt="${t.title}">
+          <img src="${formatAdminAssetUrl(t.thumb || t.img)}" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;" alt="${sanitize(t.title)}">
         </td>
         <td>
-          <strong style="font-size: 0.95rem; color: #0f172a; display: block;">${t.title}</strong>
-          <span style="font-size: 0.78rem; color: #64748b;">ID: ${t.id}</span>
+          <strong style="font-size: 0.95rem; color: #0f172a; display: block;">${sanitize(t.title)}</strong>
+          <span style="font-size: 0.78rem; color: #64748b;">ID: ${sanitize(t.id)}</span>
         </td>
-        <td><span class="status-pill status-in-progress">${t.category}</span></td>
+        <td><span class="status-pill status-in-progress">${sanitize(t.category)}</span></td>
         <td><strong style="font-size: 1rem; color: #0f172a;">₹${t.price.toLocaleString('en-IN')}</strong></td>
-        <td><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${t.duration}</td>
+        <td><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${sanitize(t.duration)}</td>
         <td><svg class="ui-icon ui-icon-fill" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${t.rating}</td>
         <td>
           <div style="display: flex; gap: 0.4rem;">
@@ -560,10 +577,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (q) {
       bookings = bookings.filter(b =>
-        b.id.toLowerCase().includes(q) ||
-        b.customerName.toLowerCase().includes(q) ||
-        b.email.toLowerCase().includes(q) ||
-        b.tourTitle.toLowerCase().includes(q)
+        (b.id || '').toLowerCase().includes(q) ||
+        (b.customerName || b.guestName || '').toLowerCase().includes(q) ||
+        (b.email || '').toLowerCase().includes(q) ||
+        (b.tourTitle || '').toLowerCase().includes(q)
       );
     }
 
@@ -574,14 +591,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bookingsTableBody.innerHTML = bookings.map(b => `
       <tr>
-        <td><strong style="font-family: monospace; color: #2563eb;">${b.id}</strong></td>
+        <td><strong style="font-family: monospace; color: #2563eb;">${sanitize(b.id)}</strong></td>
         <td>
-          <div style="font-weight: 700;">${b.customerName}</div>
-          <div style="font-size: 0.75rem; color: #64748b;">${b.email} &bull; ${b.phone || ''}</div>
-          <div style="font-size: 0.72rem; color: #059669;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${b.hotel || 'Hotel pickup'}</div>
+          <div style="font-weight: 700;">${sanitize(b.customerName || b.guestName || 'Traveler')}</div>
+          <div style="font-size: 0.75rem; color: #64748b;">${sanitize(b.email)} &bull; ${sanitize(b.phone || '')}</div>
+          <div style="font-size: 0.72rem; color: #059669;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${sanitize(b.hotel || 'Hotel pickup')}</div>
         </td>
-        <td><strong>${b.tourTitle}</strong></td>
-        <td><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> ${b.date}</td>
+        <td><strong>${sanitize(b.tourTitle)}</strong></td>
+        <td><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> ${sanitize(b.date)}</td>
         <td><svg class="ui-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ${b.guests} Pax</td>
         <td><strong style="color: #0f172a; font-size: 1rem;">₹${(b.totalAmount || 0).toLocaleString('en-IN')}</strong></td>
         <td>
@@ -1049,15 +1066,15 @@ document.addEventListener('DOMContentLoaded', () => {
     blogsTableBody.innerHTML = blogs.map(b => `
       <tr>
         <td>
-          <img src="../${b.image || 'assets/images/featured-uluwatu.jpg'}" alt="${b.title}" style="width: 55px; height: 38px; object-fit: cover; border-radius: 4px;">
+          <img src="${formatAdminAssetUrl(b.image)}" alt="${sanitize(b.title)}" style="width: 55px; height: 38px; object-fit: cover; border-radius: 4px;">
         </td>
         <td style="max-width: 320px;">
-          <div style="font-weight: 700; color: #0f172a; line-height: 1.3;">${b.title}</div>
-          <span style="font-size: 0.72rem; color: #2563eb; background: #eff6ff; padding: 0.1rem 0.4rem; border-radius: 3px; font-weight: 600;">${b.category}</span>
+          <div style="font-weight: 700; color: #0f172a; line-height: 1.3;">${sanitize(b.title)}</div>
+          <span style="font-size: 0.72rem; color: #2563eb; background: #eff6ff; padding: 0.1rem 0.4rem; border-radius: 3px; font-weight: 600;">${sanitize(b.category)}</span>
         </td>
-        <td>${b.readTime || '5 min read'}</td>
-        <td>${b.author || 'Editorial'}</td>
-        <td>${b.date || 'Recent'}</td>
+        <td>${sanitize(b.readTime || '5 min read')}</td>
+        <td>${sanitize(b.author || 'Editorial')}</td>
+        <td>${sanitize(b.date || 'Recent')}</td>
         <td>
           <div style="display: flex; gap: 0.4rem;">
             <button class="btn-action-icon edit-blog-btn" data-id="${b.id}" title="Edit Article"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>

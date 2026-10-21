@@ -30,6 +30,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3800);
   };
 
+  // Helper: Safe HTML Escaping
+  const esc = function (str) {
+    if (window.TravelStore && typeof window.TravelStore.escapeHtml === 'function') {
+      return window.TravelStore.escapeHtml(str);
+    }
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  };
+
   // 2. Mobile Menu Toggle
   const mobileToggleBtn = document.getElementById('mobileToggleBtn');
   const navMenu = document.getElementById('navMenu');
@@ -37,6 +51,22 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileToggleBtn.addEventListener('click', () => {
       mobileToggleBtn.classList.toggle('active');
       navMenu.classList.toggle('open');
+    });
+
+    // Close when clicking any nav link
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileToggleBtn.classList.remove('active');
+        navMenu.classList.remove('open');
+      });
+    });
+
+    // Close when clicking outside menu
+    document.addEventListener('click', (e) => {
+      if (!navMenu.contains(e.target) && !mobileToggleBtn.contains(e.target)) {
+        mobileToggleBtn.classList.remove('active');
+        navMenu.classList.remove('open');
+      }
     });
   }
 
@@ -46,7 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchClearBtn = document.getElementById('searchClearBtn');
 
   if (searchInput && searchDropdown) {
-    const tours = window.TravelStore ? window.TravelStore.getTours() : [];
+    function getSearchTours() {
+      return window.TravelStore ? window.TravelStore.getTours() : [];
+    }
 
     function renderSearchResults(term) {
       const q = term.trim().toLowerCase();
@@ -58,23 +90,24 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (searchClearBtn) searchClearBtn.classList.add('visible');
+      const tours = getSearchTours();
       const matches = tours.filter(t =>
-        t.title.toLowerCase().includes(q) ||
-        t.category.toLowerCase().includes(q) ||
-        t.description.toLowerCase().includes(q)
+        (t.title && t.title.toLowerCase().includes(q)) ||
+        (t.category && t.category.toLowerCase().includes(q)) ||
+        (t.description && t.description.toLowerCase().includes(q))
       );
 
       if (matches.length === 0) {
-        searchDropdown.innerHTML = `<div class="search-item no-match">No destinations matching "${term}"</div>`;
+        searchDropdown.innerHTML = `<div class="search-item no-match">No destinations matching "${esc(term)}"</div>`;
       } else {
         searchDropdown.innerHTML = matches.map(m => `
-          <a href="booking.html?tour=${m.id}" class="search-item">
-            <img src="${m.thumb || m.img}" alt="${m.title}" class="search-thumb">
+          <a href="booking.html?tour=${encodeURIComponent(m.id)}" class="search-item">
+            <img src="${esc(m.thumb || m.img)}" alt="${esc(m.title)}" class="search-thumb">
             <div class="search-info">
-              <span class="search-title">${m.title}</span>
-              <span class="search-meta">${m.category} &bull; ${m.duration}</span>
+              <span class="search-title">${esc(m.title)}</span>
+              <span class="search-meta">${esc(m.category)} &bull; ${esc(m.duration)}</span>
             </div>
-            <span class="search-price">₹${m.price.toLocaleString('en-IN')}</span>
+            <span class="search-price">₹${Number(m.price || 0).toLocaleString('en-IN')}</span>
           </a>
         `).join('');
       }
@@ -270,13 +303,13 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.appendChild(modal);
     }
 
-    const highlightsList = (tour.highlights || []).map(h => `<li><svg class="ui-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ${h}</li>`).join('');
+    const highlightsList = (tour.highlights || []).map(h => `<li><svg class="ui-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ${esc(h)}</li>`).join('');
     const itineraryList = (tour.itinerary || []).map(item => `
       <div style="display: flex; gap: 1rem; margin-bottom: 1.25rem;">
-        <span style="font-family: monospace; font-weight: 800; color: #2563eb; background: #eff6ff; padding: 0.2rem 0.5rem; border-radius: 4px; height: fit-content;">${item.time}</span>
+        <span style="font-family: monospace; font-weight: 800; color: #2563eb; background: #eff6ff; padding: 0.2rem 0.5rem; border-radius: 4px; height: fit-content;">${esc(item.time)}</span>
         <div>
-          <h5 style="font-weight: 700; margin-bottom: 0.2rem;">${item.title}</h5>
-          <p style="font-size: 0.88rem; color: #64748b; line-height: 1.5;">${item.desc}</p>
+          <h5 style="font-weight: 700; margin-bottom: 0.2rem;">${esc(item.title)}</h5>
+          <p style="font-size: 0.88rem; color: #64748b; line-height: 1.5;">${esc(item.desc)}</p>
         </div>
       </div>
     `).join('');
@@ -285,8 +318,8 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="modal-box" style="max-width: 680px;">
         <button class="modal-close-btn" onclick="document.getElementById('itineraryModal').classList.remove('active')">&times;</button>
         <div style="padding: 2rem;">
-          <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: #2563eb;">${tour.category}</span>
-          <h3 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; margin: 0.3rem 0 1rem;">${tour.title}</h3>
+          <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: #2563eb;">${esc(tour.category)}</span>
+          <h3 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; margin: 0.3rem 0 1rem;">${esc(tour.title)}</h3>
           
           <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
             <h5 style="font-weight: 800; margin-bottom: 0.6rem;">Key Highlights:</h5>
@@ -303,9 +336,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <div style="margin-top: 2rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #e2e8f0; padding-top: 1.25rem;">
             <div>
               <span style="font-size: 0.8rem; color: #64748b;">Total Price</span>
-              <div style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; color: #0f172a;">₹${tour.price.toLocaleString('en-IN')} <span style="font-size: 0.8rem; font-weight: 500; color: #64748b;">/ person</span></div>
+              <div style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; color: #0f172a;">₹${Number(tour.price || 0).toLocaleString('en-IN')} <span style="font-size: 0.8rem; font-weight: 500; color: #64748b;">/ person</span></div>
             </div>
-            <a href="booking.html?tour=${tour.id}" class="btn btn-dark-pill" style="padding: 0.65rem 1.5rem;">Proceed to Book &rarr;</a>
+            <a href="booking.html?tour=${encodeURIComponent(tour.id)}" class="btn btn-dark-pill" style="padding: 0.65rem 1.5rem;">Proceed to Book &rarr;</a>
           </div>
         </div>
       </div>
@@ -550,43 +583,43 @@ document.addEventListener('DOMContentLoaded', () => {
           <div>
             <span style="font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.8;">Verified Reservation</span>
             <h3 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 800; margin: 0.2rem 0;">Booking Confirmed!</h3>
-            <span style="font-family: monospace; font-size: 0.95rem; color: #38bdf8;">Booking ID: ${booking.id}</span>
+            <span style="font-family: monospace; font-size: 0.95rem; color: #38bdf8;">Booking ID: ${esc(booking.id)}</span>
           </div>
           <button class="modal-close-btn" style="position: static; color: #fff;" onclick="document.getElementById('voucherModal').classList.remove('active')">&times;</button>
         </div>
         <div class="voucher-body">
           <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 0.75rem 1rem; border-radius: 8px; color: #065f46;">
             <span><svg class="ui-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
-            <span style="font-size: 0.88rem; font-weight: 600;">E-Ticket generated & sent to <strong>${booking.email}</strong></span>
+            <span style="font-size: 0.88rem; font-weight: 600;">E-Ticket generated & sent to <strong>${esc(booking.email)}</strong></span>
           </div>
 
-          <h4 style="font-weight: 800; font-size: 1.2rem; margin-bottom: 0.25rem;">${booking.tourTitle}</h4>
+          <h4 style="font-weight: 800; font-size: 1.2rem; margin-bottom: 0.25rem;">${esc(booking.tourTitle)}</h4>
           <span style="font-size: 0.85rem; color: #64748b;">Bali Island of the Gods, Indonesia</span>
 
           <div class="voucher-details-grid">
             <div>
               <span class="voucher-field-label">Lead Traveler</span>
-              <div class="voucher-field-val">${booking.customerName}</div>
+              <div class="voucher-field-val">${esc(booking.customerName)}</div>
             </div>
             <div>
               <span class="voucher-field-label">Tour Date</span>
-              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> ${booking.date}</div>
+              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> ${esc(booking.date)}</div>
             </div>
             <div>
               <span class="voucher-field-label">Party Size</span>
-              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ${booking.guests} Person(s)</div>
+              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ${Number(booking.guests || 1)} Person(s)</div>
             </div>
             <div>
               <span class="voucher-field-label">Pickup Location</span>
-              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${booking.hotel}</div>
+              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${esc(booking.hotel)}</div>
             </div>
             <div>
               <span class="voucher-field-label">Payment Mode</span>
-              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M6 3h12M6 8h12M6 13l8.5 8M6 13h3a4 4 0 0 0 0-8"/></svg> ${booking.paymentMethod}</div>
+              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M6 3h12M6 8h12M6 13l8.5 8M6 13h3a4 4 0 0 0 0-8"/></svg> ${esc(booking.paymentMethod)}</div>
             </div>
             <div>
               <span class="voucher-field-label">Total Amount Paid</span>
-              <div class="voucher-field-val" style="color: #059669; font-size: 1.2rem;">₹${booking.totalAmount.toLocaleString('en-IN')}</div>
+              <div class="voucher-field-val" style="color: #059669; font-size: 1.2rem;">₹${Number(booking.totalAmount || 0).toLocaleString('en-IN')}</div>
             </div>
           </div>
 
@@ -649,17 +682,17 @@ document.addEventListener('DOMContentLoaded', () => {
       reviewsContainer.innerHTML = reviews.map(r => `
         <div class="review-bubble" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.8rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem;">
-            <div style="color: #f59e0b; font-size: 1.1rem;">${/* star */ '&#9733;'.repeat(r.rating || 5)}</div>
-            <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 600;">${r.date || 'Recent'}</span>
+            <div style="color: #f59e0b; font-size: 1.1rem;">${/* star */ '&#9733;'.repeat(Math.max(1, Math.min(5, Number(r.rating) || 5)))}</div>
+            <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 600;">${esc(r.date || 'Recent')}</span>
           </div>
-          <p style="font-size: 0.95rem; line-height: 1.6; color: #334155; margin-bottom: 1.25rem;">"${r.comment}"</p>
+          <p style="font-size: 0.95rem; line-height: 1.6; color: #334155; margin-bottom: 1.25rem;">"${esc(r.comment)}"</p>
           <div style="display: flex; align-items: center; gap: 0.85rem; border-top: 1px solid #f1f5f9; padding-top: 1rem;">
             <div style="width: 42px; height: 42px; border-radius: 50%; background: #0f172a; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem;">
-              ${r.avatar || 'TT'}
+              ${esc(r.avatar || 'TT')}
             </div>
             <div>
-              <h5 style="font-weight: 700; margin-bottom: 0.15rem;">${r.reviewerName}</h5>
-              <span style="font-size: 0.78rem; color: #64748b;">${r.origin} &bull; ${r.travelType || 'Verified Traveler'}</span>
+              <h5 style="font-weight: 700; margin-bottom: 0.15rem;">${esc(r.reviewerName || r.author || r.name)}</h5>
+              <span style="font-size: 0.78rem; color: #64748b;">${esc(r.origin || 'India')} &bull; ${esc(r.travelType || 'Verified Traveler')}</span>
             </div>
           </div>
         </div>

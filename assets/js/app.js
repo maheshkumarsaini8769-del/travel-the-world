@@ -1019,6 +1019,25 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'nusa-penida', name: 'Nusa Penida', type: 'Kelingking T-Rex Beach', price: '₹3,600', img: 'assets/images/nusa-penida.jpg' }
   ];
 
+  const esc = (s) => (window.TravelStore && window.TravelStore.escapeHtml ? window.TravelStore.escapeHtml(s) : String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+
+  function getSearchableList() {
+    if (window.TravelStore && typeof window.TravelStore.getTours === 'function') {
+      const tours = window.TravelStore.getTours();
+      if (tours && tours.length > 0) {
+        return tours.map(t => ({
+          id: t.id,
+          name: t.title,
+          type: t.category,
+          price: `₹${Number(t.price || 0).toLocaleString('en-IN')}`,
+          img: t.thumb || t.img || 'assets/images/uluwatu.jpg',
+          isTour: true
+        }));
+      }
+    }
+    return searchableDestinations;
+  }
+
   if (searchInput && searchResultsDropdown) {
     searchInput.addEventListener('input', (e) => {
       const query = e.target.value.trim().toLowerCase();
@@ -1034,17 +1053,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const matches = searchableDestinations.filter(d => 
-        d.name.toLowerCase().includes(query) || d.type.toLowerCase().includes(query)
+      const items = getSearchableList();
+      const matches = items.filter(d => 
+        (d.name && d.name.toLowerCase().includes(query)) ||
+        (d.type && d.type.toLowerCase().includes(query))
       );
 
       if (matches.length > 0) {
         searchResultsDropdown.innerHTML = matches.map(m => `
-          <div class="search-item" data-id="${m.id}">
-            <img src="${m.img}" alt="${m.name}" class="search-item-thumb">
+          <div class="search-item" data-id="${esc(m.id)}" ${m.isTour ? `data-tour-id="${encodeURIComponent(m.id)}"` : ''}>
+            <img src="${esc(m.img)}" alt="${esc(m.name)}" class="search-item-thumb">
             <div class="search-item-info">
-              <h5>${m.name}</h5>
-              <span>${m.type} &bull; ${m.price}</span>
+              <h5>${esc(m.name)}</h5>
+              <span>${esc(m.type)} &bull; ${esc(m.price)}</span>
             </div>
           </div>
         `).join('');
@@ -1057,6 +1078,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (targetCard) {
               selectLocationCard(targetCard);
               targetCard.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+            } else {
+              window.location.href = `booking.html?tour=${encodeURIComponent(locId)}`;
             }
             searchResultsDropdown.classList.remove('active');
             searchInput.value = '';
@@ -1064,7 +1087,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         });
       } else {
-        searchResultsDropdown.innerHTML = `<div style="padding: 0.8rem; font-size: 0.85rem; color: #94a3b8; text-align: center;">No destinations found matching "${query}"</div>`;
+        searchResultsDropdown.innerHTML = `<div style="padding: 0.8rem; font-size: 0.85rem; color: #94a3b8; text-align: center;">No destinations found matching "${esc(query)}"</div>`;
         searchResultsDropdown.classList.add('active');
       }
     });
@@ -1094,13 +1117,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (mobileToggleBtn && navMenu) {
     mobileToggleBtn.addEventListener('click', () => {
+      mobileToggleBtn.classList.toggle('active');
       navMenu.classList.toggle('open');
     });
 
     navMenu.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', () => {
+        mobileToggleBtn.classList.remove('active');
         navMenu.classList.remove('open');
       });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navMenu.contains(e.target) && !mobileToggleBtn.contains(e.target)) {
+        mobileToggleBtn.classList.remove('active');
+        navMenu.classList.remove('open');
+      }
     });
   }
 
