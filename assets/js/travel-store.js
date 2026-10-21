@@ -774,6 +774,14 @@
       { name: 'Putu Ariani', role: 'Concierge & Dietary Coordinator', origin: 'Sanur, Bali', exp: '7 Years' }
     ],
 
+    // Booking Add-on Prices (₹ INR) — Admin editable
+    addonAirportPrice: 1200,
+    addonDronePrice: 2500,
+    addonFoodPrice: 800,
+    addonAirportLabel: 'Airport VIP Fast-Track & Transfer',
+    addonDroneLabel: 'Professional Drone & DSLR Photographer',
+    addonFoodLabel: 'Authentic Indian Vegetarian Lunch Buffet',
+
     // Contact & FAQs Data
     faqs: [
       { question: 'Is vegetarian or Jain food easily available during tours?', answer: 'Yes! We coordinate directly with top-rated pure vegetarian Indian restaurants across South Bali and Ubud, catering to Jain, Swaminarayan, and vegan dietary preferences.', q: 'Is vegetarian or Jain food easily available during tours?', a: 'Yes! We coordinate directly with top-rated pure vegetarian Indian restaurants across South Bali and Ubud, catering to Jain, Swaminarayan, and vegan dietary preferences.' },
@@ -1410,8 +1418,9 @@
       }
 
       // 7. GRANULAR WORD MASTER APPLIER (Universal Site-Wide Dynamic Copy)
+      // Smart setText: preserve leading SVG icons inside buttons/links
       const setText = (target, text, isHtml = false) => {
-        if (!text) return;
+        if (text === undefined || text === null || text === '') return;
         let el = null;
         if (typeof target === 'string') {
           if (target.startsWith('#') || target.startsWith('.')) {
@@ -1420,15 +1429,30 @@
             el = document.getElementById(target) || document.querySelector('.' + target) || document.querySelector(target);
           }
         }
-        if (el) {
-          if (isHtml) el.innerHTML = text.replace(/\n/g, '<br>');
-          else el.textContent = text;
+        if (!el) return;
+
+        // If element has a leading SVG icon child, preserve it and only replace trailing text
+        const firstEl = el.firstElementChild;
+        const hasLeadingIcon = firstEl && (firstEl.tagName === 'svg' || firstEl.tagName === 'SVG' || (firstEl.classList && firstEl.classList.contains('ui-icon')));
+
+        if (hasLeadingIcon && !isHtml) {
+          // Preserve icon, replace only the text after it
+          const iconHTML = firstEl.outerHTML;
+          el.innerHTML = iconHTML + ' ' + String(text);
+        } else if (isHtml) {
+          el.innerHTML = String(text).replace(/\n/g, '<br>');
+        } else {
+          el.textContent = String(text);
         }
       };
 
       // Homepage Words
       setText('mediaBadgeText', settings.heroVideoBadge);
-      setText('#quickFinderSubmitBtn span', settings.quickSearchBtnText);
+      const qfBtn = document.getElementById('quickFinderSubmitBtn');
+      if (qfBtn && settings.quickSearchBtnText) {
+        const sp = qfBtn.querySelector('span');
+        if (sp) sp.textContent = settings.quickSearchBtnText;
+      }
       setText('exploreSectionTag', settings.exploreTag);
       setText('exploreSectionTitle', settings.exploreTitle, true);
       setText('exploreSectionSubtitle', settings.exploreSubtitle);
@@ -1439,6 +1463,7 @@
       setText('routeExplorerTitle', settings.routeExplorerTitle);
       setText('routeExplorerSubtitle', settings.routeExplorerSubtitle);
       setText('routeExplorerBtnText', settings.routeExplorerBtnText);
+      setText('routeExplorerBtnLabel', settings.routeExplorerBtnText);
       setText('budgetCalcTag', settings.budgetCalcTag);
       setText('budgetCalcTitle', settings.budgetCalcTitle);
       setText('budgetCalcSubtitle', settings.budgetCalcSubtitle);
@@ -1492,6 +1517,38 @@
       // Brand & Footer Words
       setText('footerTagline', settings.footerTagline || settings.tagline);
       setText('footerSecureBadge', settings.footerSecureBadge || settings.licenseNumber);
+      setText('footerCompanyName', settings.companyName);
+
+      // ===== CONTACT PAGE OFFICE ADDRESS / PHONE BINDINGS =====
+      if (document.getElementById('baliAddressText') && settings.address) {
+        document.getElementById('baliAddressText').textContent = settings.address;
+      }
+      if (document.getElementById('baliPhoneText') && settings.contactPhone) {
+        const phones = settings.contactPhone.split('/').map(s => s.trim());
+        document.getElementById('baliPhoneText').textContent = phones[phones.length - 1] || settings.contactPhone;
+      }
+      if (document.getElementById('indiaPhoneText') && settings.contactPhone) {
+        const phones = settings.contactPhone.split('/').map(s => s.trim());
+        document.getElementById('indiaPhoneText').textContent = phones[0] || settings.contactPhone;
+      }
+      if (document.getElementById('contactEmailText') && settings.contactEmail) {
+        document.getElementById('contactEmailText').textContent = settings.contactEmail;
+      }
+
+      // ===== ABOUT PAGE TEAM RENDERING =====
+      const aboutTeamGrid = document.getElementById('aboutTeamGrid');
+      if (aboutTeamGrid && Array.isArray(settings.aboutTeam)) {
+        aboutTeamGrid.innerHTML = settings.aboutTeam.map(member => `
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; text-align: center;">
+            <div style="width: 80px; height: 80px; border-radius: 50%; background: #0f172a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; margin: 0 auto 1rem;">
+              ${(member.name || 'TT').split(' ').map(s => s[0]).join('').slice(0, 2).toUpperCase()}
+            </div>
+            <h4 style="font-weight: 800; font-size: 1.1rem; margin-bottom: 0.2rem;">${window.TravelStore ? window.TravelStore.escapeHtml(member.name || '') : member.name}</h4>
+            <span style="font-size: 0.8rem; color: #2563eb; font-weight: 700; text-transform: uppercase;">${window.TravelStore ? window.TravelStore.escapeHtml(member.role || '') : member.role}</span>
+            <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; line-height: 1.5;">${window.TravelStore ? window.TravelStore.escapeHtml(member.origin || '') : member.origin} &bull; ${window.TravelStore ? window.TravelStore.escapeHtml(member.exp || '') : member.exp} experience</p>
+          </div>
+        `).join('');
+      }
     },
 
     // KPI & STATS COMPUTATION FOR ADMIN WITH TIME-PERIOD FILTERING (1d, 7d, month, all)

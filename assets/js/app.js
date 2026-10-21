@@ -976,6 +976,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const guestName = document.getElementById('bookName')?.value || 'Guest';
       const guestEmail = document.getElementById('bookEmail')?.value || '';
+      const guestPhone = document.getElementById('bookPhone')?.value || '';
       const guestHotel = document.getElementById('bookHotel')?.value || '';
       const tourDate = document.getElementById('bookDate')?.value || 'Upcoming date';
       const travelersCount = bookTravelers ? parseInt(bookTravelers.value, 10) || 1 : 1;
@@ -986,6 +987,7 @@ document.addEventListener('DOMContentLoaded', () => {
           tourTitle: modalImgTitle?.textContent || 'Bali Tour Experience',
           customerName: guestName,
           email: guestEmail,
+          phone: guestPhone,
           hotel: guestHotel,
           date: tourDate,
           guests: travelersCount,

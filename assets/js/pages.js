@@ -231,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderHolidays();
+    window.__renderHolidays = renderHolidays;
 
     // Custom Trip Planner Logic on holidays.html
     const tripOptionsList = document.getElementById('customTripOptionsList');
@@ -430,6 +431,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentDiscount = 0;
     let appliedCouponCode = '';
+
+    // Sync add-on prices from Admin settings (dynamic, no hardcoding)
+    const _bSettings = window.TravelStore.getSettings();
+    const _aPrices = {
+      addonAirport: _bSettings.addonAirportPrice ?? 1200,
+      addonDrone: _bSettings.addonDronePrice ?? 2500,
+      addonIndianFood: _bSettings.addonFoodPrice ?? 800
+    };
+    const _aElMap = {
+      addonAirport: { priceEl: 'addonAirportPrice', labelEl: 'addonAirportLabel', label: _bSettings.addonAirportLabel },
+      addonDrone: { priceEl: 'addonDronePrice', labelEl: 'addonDroneLabel', label: _bSettings.addonDroneLabel },
+      addonIndianFood: { priceEl: 'addonFoodPrice', labelEl: 'addonFoodLabel', label: _bSettings.addonFoodLabel }
+    };
+    addonCheckboxes.forEach(cb => {
+      const id = cb.id;
+      if (_aPrices[id] !== undefined) {
+        cb.setAttribute('data-price', String(_aPrices[id]));
+        const priceSpan = document.getElementById(_aElMap[id]?.priceEl);
+        if (priceSpan) priceSpan.textContent = `+₹${_aPrices[id].toLocaleString('en-IN')}`;
+        const labelEl = document.getElementById(_aElMap[id]?.labelEl);
+        if (labelEl && _aElMap[id]?.label) labelEl.textContent = _aElMap[id].label;
+      }
+    });
 
     // Populate Tour Dropdown
     const allTours = window.TravelStore.getTours();
@@ -700,6 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderReviews();
+    window.__renderReviews = renderReviews;
 
     if (submitReviewForm) {
       submitReviewForm.addEventListener('submit', (e) => {
@@ -767,6 +792,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     renderOffersCoupons();
+    window.__renderCoupons = renderOffersCoupons;
   }
 
   // =========================================================================
@@ -774,9 +800,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   const faqsContainer = document.getElementById('faqsAccordionContainer');
   if (faqsContainer && window.TravelStore) {
-    const settings = window.TravelStore.getSettings();
-    const faqs = settings.faqs || [];
-    if (faqs.length > 0) {
+    function renderFaqsList() {
+      const settings = window.TravelStore.getSettings();
+      const faqs = settings.faqs || [];
+      if (faqs.length === 0) return;
       faqsContainer.innerHTML = faqs.map((f, idx) => `
         <div class="faq-item ${idx === 0 ? 'active' : ''}">
           <div class="faq-question">
@@ -794,6 +821,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
     }
+    renderFaqsList();
+    window.__renderFaqs = renderFaqsList;
   }
 
   // =========================================================================
@@ -899,6 +928,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     renderDynamicBlogs();
+    window.__renderBlogs = renderDynamicBlogs;
   } else {
     // Static fallback triggers
     document.querySelectorAll('.read-article-btn').forEach(btn => {
@@ -914,4 +944,58 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // =========================================================================
+  // LIVE CROSS-TAB SYNC — Admin changes reflect here WITHOUT refresh
+  // =========================================================================
+  window.addEventListener('storage', (e) => {
+    if (!e.key) return;
+
+    // -- Tours changed (Admin added/edited/deleted tour)
+    if (e.key === 'ttw_tours_data') {
+      const grid = document.getElementById('holidaysToursGrid');
+      if (grid) {
+        if (typeof window.__renderHolidays === 'function') {
+          window.__renderHolidays();
+        } else {
+          location.reload();
+        }
+      }
+    }
+
+    // -- Reviews changed (Admin approved/hidden/edited review)
+    if (e.key === 'ttw_reviews_data') {
+      const container = document.getElementById('reviewsListContainer');
+      if (container && typeof window.__renderReviews === 'function') {
+        window.__renderReviews();
+      }
+    }
+
+    // -- Coupons changed
+    if (e.key === 'ttw_coupons_data') {
+      const grid = document.getElementById('offersCouponsGrid');
+      if (grid && typeof window.__renderCoupons === 'function') {
+        window.__renderCoupons();
+      }
+    }
+
+    // -- Blogs changed
+    if (e.key === 'ttw_blogs_data') {
+      const grid = document.getElementById('mainBlogGrid');
+      if (grid && typeof window.__renderBlogs === 'function') {
+        window.__renderBlogs();
+      }
+    }
+
+    // -- Settings / FAQs changed
+    if (e.key === 'ttw_settings_data') {
+      const faqBox = document.getElementById('faqsAccordionContainer');
+      if (faqBox && typeof window.__renderFaqs === 'function') {
+        window.__renderFaqs();
+      }
+      if (window.TravelStore && typeof window.TravelStore.applyActiveThemeAndContent === 'function') {
+        window.TravelStore.applyActiveThemeAndContent();
+      }
+    }
+  });
 });

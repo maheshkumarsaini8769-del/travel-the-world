@@ -1172,6 +1172,32 @@ document.addEventListener('DOMContentLoaded', () => {
     if (previewAbout && settings.aboutHeroImg) {
       previewAbout.src = (settings.aboutHeroImg.startsWith('assets/') ? `../${settings.aboutHeroImg}` : settings.aboutHeroImg);
     }
+
+    const teamEditor = document.getElementById('aboutTeamEditor');
+    if (teamEditor) {
+      const teamList = settings.aboutTeam || [];
+      teamEditor.value = teamList.map(t => `${t.name} | ${t.role} | ${t.origin || 'Bali Native'} | ${t.years || '8 Yrs Guiding'}`).join('\n');
+    }
+  }
+
+  const btnSaveTeam = document.getElementById('btnSaveTeam');
+  if (btnSaveTeam) {
+    btnSaveTeam.addEventListener('click', () => {
+      const teamEditor = document.getElementById('aboutTeamEditor');
+      if (!teamEditor) return;
+      const lines = teamEditor.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      const parsedTeam = lines.map(line => {
+        const parts = line.split('|').map(p => p.trim());
+        return {
+          name: parts[0] || 'Guide Expert',
+          role: parts[1] || 'Senior Guide',
+          origin: parts[2] || 'Bali Native',
+          years: parts[3] || '5+ Yrs Guiding'
+        };
+      });
+      window.TravelStore.saveSettings({ aboutTeam: parsedTeam });
+      showAdminToast(`Saved ${parsedTeam.length} Balinese team member(s)!`);
+    });
   }
 
   if (aboutForm) {
@@ -1301,6 +1327,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('setContactEmail').value = settings.contactEmail || '';
     document.getElementById('setContactPhone').value = settings.contactPhone || '';
     document.getElementById('setAddress').value = settings.address || '';
+
+    const airportEl = document.getElementById('setAddonAirport');
+    const droneEl = document.getElementById('setAddonDrone');
+    const foodEl = document.getElementById('setAddonFood');
+    if (airportEl) airportEl.value = settings.addonAirportPrice !== undefined ? settings.addonAirportPrice : 2500;
+    if (droneEl) droneEl.value = settings.addonDronePrice !== undefined ? settings.addonDronePrice : 4500;
+    if (foodEl) foodEl.value = settings.addonFoodPrice !== undefined ? settings.addonFoodPrice : 6000;
   }
 
   if (settingsForm) {
@@ -1312,7 +1345,10 @@ document.addEventListener('DOMContentLoaded', () => {
         currencySymbol: document.getElementById('setCurrencySymbol').value,
         contactEmail: document.getElementById('setContactEmail').value,
         contactPhone: document.getElementById('setContactPhone').value,
-        address: document.getElementById('setAddress').value
+        address: document.getElementById('setAddress').value,
+        addonAirportPrice: parseInt(document.getElementById('setAddonAirport')?.value, 10) || 2500,
+        addonDronePrice: parseInt(document.getElementById('setAddonDrone')?.value, 10) || 4500,
+        addonFoodPrice: parseInt(document.getElementById('setAddonFood')?.value, 10) || 6000
       });
       showAdminToast('System settings saved successfully!');
     });

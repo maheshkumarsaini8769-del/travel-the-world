@@ -676,6 +676,21 @@
 
           </div>
         </form>
+
+        <div class="admin-card" style="margin-top: 1.5rem;">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">Balinese Team Members (about.html)</h3>
+          </div>
+          <div class="admin-card-body">
+            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.75rem;">
+              Format per line: <code>Name | Role | Origin | Years</code> (e.g. <code>Wayan Sudarma | Senior Expedition Leader | Ubud Native | 12 Yrs Guiding</code>)
+            </p>
+            <textarea id="aboutTeamEditor" rows="6" class="admin-form-control" style="font-family: monospace; font-size: 0.85rem;" placeholder="Wayan Sudarma | Senior Expedition Leader | Ubud Native | 12 Yrs Guiding"></textarea>
+            <button type="button" id="btnSaveTeam" class="btn-admin-primary" style="margin-top: 0.75rem; padding: 0.65rem 1.3rem;">
+              <svg class="ui-icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> <span>Save Team Members</span>
+            </button>
+          </div>
+        </div>
       </section>
 
       <!-- ==============================================
@@ -775,6 +790,23 @@
                 <div class="admin-form-group">
                   <label for="setAddress">Headquarters Address</label>
                   <textarea id="setAddress" rows="2" class="admin-form-control" required></textarea>
+                </div>
+                <div style="border-top: 1px solid #e2e8f0; padding-top: 1rem; margin-top: 1rem;">
+                  <h4 style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 0.75rem;">Booking Add-On Pricing (booking.html)</h4>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
+                    <div class="admin-form-group">
+                      <label for="setAddonAirport">Airport VIP Transfer (₹)</label>
+                      <input type="number" id="setAddonAirport" class="admin-form-control" min="0" placeholder="2500">
+                    </div>
+                    <div class="admin-form-group">
+                      <label for="setAddonDrone">Drone Pilot (₹)</label>
+                      <input type="number" id="setAddonDrone" class="admin-form-control" min="0" placeholder="4500">
+                    </div>
+                    <div class="admin-form-group">
+                      <label for="setAddonFood">All-Inclusive Dining (₹)</label>
+                      <input type="number" id="setAddonFood" class="admin-form-control" min="0" placeholder="6000">
+                    </div>
+                  </div>
                 </div>
                 <button type="submit" class="btn-admin-primary" style="padding: 0.75rem 1.5rem;">
                   <svg class="ui-icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> <span>Save Settings</span>

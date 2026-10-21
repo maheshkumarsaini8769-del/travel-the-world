@@ -147,38 +147,13 @@
       </div>
     </div>
 
-    <!-- MEET THE TEAM -->
+    <!-- MEET THE TEAM (Dynamic from Admin Settings) -->
     <div style="margin: 4.5rem 0 6rem;">
       <h3 style="font-family: var(--font-heading); font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem;">Meet Your Travel Concierge Team</h3>
       <p style="color: #64748b; text-align: center; margin-bottom: 3rem;">Local Balinese hospitality backed by international travel veterans.</p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; text-align: center;">
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem;">
-          <div style="width: 80px; height: 80px; border-radius: 50%; background: #0f172a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; margin: 0 auto 1rem;">
-            WS
-          </div>
-          <h4 style="font-weight: 800; font-size: 1.1rem; margin-bottom: 0.2rem;">Wayan Sukarta</h4>
-          <span style="font-size: 0.8rem; color: #2563eb; font-weight: 700; text-transform: uppercase;">Head of Field Operations (Bali)</span>
-          <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; line-height: 1.5;">20+ years navigating Bali’s secret paths and sacred directional ceremonies.</p>
-        </div>
-
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem;">
-          <div style="width: 80px; height: 80px; border-radius: 50%; background: #2563eb; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; margin: 0 auto 1rem;">
-            AK
-          </div>
-          <h4 style="font-weight: 800; font-size: 1.1rem; margin-bottom: 0.2rem;">Ananya Kulkarni</h4>
-          <span style="font-size: 0.8rem; color: #2563eb; font-weight: 700; text-transform: uppercase;">Guest Relations & India Liaison</span>
-          <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; line-height: 1.5;">Specialist in custom family itineraries, culinary preferences, and flight coordination.</p>
-        </div>
-
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem;">
-          <div style="width: 80px; height: 80px; border-radius: 50%; background: #059669; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; margin: 0 auto 1rem;">
-            KW
-          </div>
-          <h4 style="font-weight: 800; font-size: 1.1rem; margin-bottom: 0.2rem;">Ketut Widana</h4>
-          <span style="font-size: 0.8rem; color: #2563eb; font-weight: 700; text-transform: uppercase;">Chief Mountain Trekking Guide</span>
-          <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; line-height: 1.5;">Summited Mount Batur over 1,400 times with impeccable mountain safety records.</p>
-        </div>
+      <div id="aboutTeamGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; text-align: center;">
+        <!-- Rendered dynamically via TravelStore.applyActiveThemeAndContent() -->
       </div>
     </div>
 
@@ -192,7 +167,7 @@
           <span class="logo-script">travel</span>
           <span class="logo-sub">THE WORLD</span>
         </div>
-        <p class="footer-tagline">Making bespoke Indonesian travel accessible, luxurious, and completely effortless.</p>
+        <p class="footer-tagline" id="footerTagline">Making bespoke Indonesian travel accessible, luxurious, and completely effortless.</p>
       </div>
 
       <div class="footer-links-col">
@@ -220,7 +195,7 @@
         <p class="contact-info"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Sanur, Bali &amp; New Delhi, India</p>
         <p class="contact-info"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +91 98200 12345</p>
         <p class="contact-info"><svg class="ui-icon" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> concierge@traveltheworld.bali</p>
-        <div class="secure-badge">
+        <div class="secure-badge" id="footerSecureBadge">
           <svg class="ui-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg> Indonesian Tourism Board Operator #7819/BALI
         </div>
       </div>
@@ -235,5 +210,6 @@
 
   <script src="assets/js/travel-store.js"></script>
   <script src="assets/js/pages.js"></script>
+  <script src="assets/js/advanced-features.js"></script>
 </body>
 </html>
