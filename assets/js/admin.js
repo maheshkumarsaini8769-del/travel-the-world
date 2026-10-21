@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (headerDateEl) {
     function updateClock() {
       const now = new Date();
-      headerDateEl.textContent = '🕒 ' + now.toLocaleDateString('en-IN', {
+      headerDateEl.textContent = '<svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ' + now.toLocaleDateString('en-IN', {
         weekday: 'short',
         day: 'numeric',
         month: 'short',
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
       kpiInquiriesSub.textContent = `● ${stats.newInquiries} pending response`;
     }
 
-    if (kpiRating) kpiRating.textContent = `${stats.avgRating} ★`;
+    if (kpiRating) kpiRating.textContent = `${stats.avgRating} / 5`;
     if (kpiRatingSub) {
       kpiRatingSub.textContent = `Average Order: ₹${(stats.avgOrderValue || 0).toLocaleString('en-IN')}`;
     }
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const topTourBadge = document.getElementById('dashboardTopTourBadge');
     if (topTourBadge) {
-      topTourBadge.innerHTML = `🚀 Highest performing package: <strong>${stats.topPerformingTour}</strong>`;
+      topTourBadge.innerHTML = `Highest performing package: <strong>${stats.topPerformingTour}</strong>`;
     }
 
     const avgOrderBadge = document.getElementById('dashboardAvgOrderBadge');
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="user-avatar-badge">${(u.name || 'U').split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
               <div>
                 <div style="font-weight: 700; color: #0f172a; font-size: 0.85rem;">${u.name}</div>
-                <div style="font-size: 0.72rem; color: #64748b;">📍 ${u.location} &bull; ${u.lastActive}</div>
+                <div style="font-size: 0.72rem; color: #64748b;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${u.location} &bull; ${u.lastActive}</div>
               </div>
             </div>
             <div>
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <div style="font-size: 0.75rem; color: #64748b;">${b.email}</div>
             </td>
             <td>${b.tourTitle}</td>
-            <td>📅 ${b.date}</td>
+            <td><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> ${b.date}</td>
             <td><strong style="color: #0f172a;">₹${(b.totalAmount || 0).toLocaleString('en-IN')}</strong></td>
             <td>
               <span class="status-pill status-${(b.status || '').toLowerCase()}">${b.status}</span>
@@ -376,10 +376,10 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </td>
         <td>
-          <div style="font-weight: 600; color: #334155;">✉️ ${u.email}</div>
-          <div style="font-size: 0.78rem; color: #64748b;">📞 ${u.phone || 'N/A'}</div>
+          <div style="font-weight: 600; color: #334155;"><svg class="ui-icon" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> ${u.email}</div>
+          <div style="font-size: 0.78rem; color: #64748b;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> ${u.phone || 'N/A'}</div>
         </td>
-        <td>📍 ${u.location || 'India'}</td>
+        <td><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${u.location || 'India'}</td>
         <td>
           <span style="font-size: 0.82rem; color: #475569; font-weight: 600;">
             ${u.currentActivity || 'Active'}
@@ -431,12 +431,12 @@ document.addEventListener('DOMContentLoaded', () => {
         </td>
         <td><span class="status-pill status-in-progress">${t.category}</span></td>
         <td><strong style="font-size: 1rem; color: #0f172a;">₹${t.price.toLocaleString('en-IN')}</strong></td>
-        <td>⏱ ${t.duration}</td>
-        <td>⭐ ${t.rating}</td>
+        <td><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${t.duration}</td>
+        <td><svg class="ui-icon ui-icon-fill" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${t.rating}</td>
         <td>
           <div style="display: flex; gap: 0.4rem;">
-            <button class="btn-action-icon edit-tour-btn" data-id="${t.id}" title="Edit Tour">✏️</button>
-            <button class="btn-action-icon delete delete-tour-btn" data-id="${t.id}" title="Delete Tour">🗑️</button>
+            <button class="btn-action-icon edit-tour-btn" data-id="${t.id}" title="Edit Tour"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+            <button class="btn-action-icon delete delete-tour-btn" data-id="${t.id}" title="Delete Tour"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>
           </div>
         </td>
       </tr>
@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
         description
       });
 
-      showAdminToast(id ? 'Tour package updated successfully!' : '🎉 New tour package published live!');
+      showAdminToast(id ? 'Tour package updated successfully!' : 'New tour package published live!');
       tourModal.classList.remove('active');
       renderToursTable();
       renderDashboard();
@@ -578,11 +578,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>
           <div style="font-weight: 700;">${b.customerName}</div>
           <div style="font-size: 0.75rem; color: #64748b;">${b.email} &bull; ${b.phone || ''}</div>
-          <div style="font-size: 0.72rem; color: #059669;">📍 ${b.hotel || 'Hotel pickup'}</div>
+          <div style="font-size: 0.72rem; color: #059669;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${b.hotel || 'Hotel pickup'}</div>
         </td>
         <td><strong>${b.tourTitle}</strong></td>
-        <td>📅 ${b.date}</td>
-        <td>👥 ${b.guests} Pax</td>
+        <td><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> ${b.date}</td>
+        <td><svg class="ui-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ${b.guests} Pax</td>
         <td><strong style="color: #0f172a; font-size: 1rem;">₹${(b.totalAmount || 0).toLocaleString('en-IN')}</strong></td>
         <td>
           <select class="admin-form-control update-status-select" data-id="${b.id}" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; font-weight: 700;">
@@ -593,8 +593,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </td>
         <td>
           <div style="display: flex; gap: 0.4rem;">
-            <button class="btn-action-icon view-voucher-btn" data-id="${b.id}" title="View Full Invoice / Voucher">📄</button>
-            <button class="btn-action-icon delete delete-booking-btn" data-id="${b.id}" title="Delete Booking">🗑️</button>
+            <button class="btn-action-icon view-voucher-btn" data-id="${b.id}" title="View Full Invoice / Voucher"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></button>
+            <button class="btn-action-icon delete delete-booking-btn" data-id="${b.id}" title="Delete Booking"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>
           </div>
         </td>
       </tr>
@@ -668,7 +668,7 @@ document.addEventListener('DOMContentLoaded', () => {
       link.download = `travel-the-world-bookings-${new Date().toISOString().split('T')[0]}.csv`;
       link.click();
       URL.revokeObjectURL(url);
-      showAdminToast('📊 Bookings spreadsheet exported to CSV!');
+      showAdminToast('Bookings spreadsheet exported to CSV!');
     });
   }
 
@@ -715,7 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div><strong>Email:</strong> ${booking.email}</div>
             <div><strong>Contact:</strong> ${booking.phone || 'N/A'}</div>
             <div><strong>Party Size:</strong> ${booking.guests} Person(s)</div>
-            <div style="grid-column: 1 / -1;"><strong>Hotel Pickup:</strong> 📍 ${booking.hotel}</div>
+            <div style="grid-column: 1 / -1;"><strong>Hotel Pickup:</strong> <svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${booking.hotel}</div>
             ${booking.specialRequests ? `<div style="grid-column: 1 / -1; color: #2563eb;"><strong>Notes:</strong> ${booking.specialRequests}</div>` : ''}
           </div>
 
@@ -725,7 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-            <button onclick="window.print()" class="btn-admin-primary" style="flex: 1; justify-content: center;">🖨️ Print Voucher</button>
+            <button onclick="window.print()" class="btn-admin-primary" style="flex: 1; justify-content: center;"><svg class="ui-icon" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print Voucher</button>
             <button onclick="document.getElementById('adminVoucherModal').classList.remove('active')" class="btn-action-icon" style="flex: 1; width: auto; height: auto; padding: 0.6rem; border-radius: 6px;">Close</button>
           </div>
         </div>
@@ -773,8 +773,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </td>
         <td>
           <div style="display: flex; gap: 0.4rem;">
-            <button class="btn-action-icon view-inq-btn" data-id="${i.id}" title="View & Reply">💬</button>
-            <button class="btn-action-icon delete delete-inq-btn" data-id="${i.id}" title="Delete Message">🗑️</button>
+            <button class="btn-action-icon view-inq-btn" data-id="${i.id}" title="View & Reply"><svg class="ui-icon" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></button>
+            <button class="btn-action-icon delete delete-inq-btn" data-id="${i.id}" title="Delete Message"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>
           </div>
         </td>
       </tr>
@@ -843,7 +843,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <textarea id="adminReplyText" rows="4" class="admin-form-control" placeholder="Hello ${inq.customerName}, thank you for reaching out to Travel The World Bali..." required></textarea>
             </div>
             <button type="submit" class="btn-admin-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">
-              <span>✉️ Send Reply & Mark as Replied</span>
+              <span><svg class="ui-icon" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> Send Reply & Mark as Replied</span>
             </button>
           </form>
         </div>
@@ -880,7 +880,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <tr>
         <td><strong>${r.reviewerName}</strong></td>
         <td>${r.origin}</td>
-        <td><strong style="color: #f59e0b;">${'★'.repeat(r.rating || 5)}</strong></td>
+        <td><strong style="color: #f59e0b;">${/* rating */ '&#9733;'.repeat(r.rating || 5)}</strong></td>
         <td style="max-width: 280px;">
           <p style="font-size: 0.82rem; color: #475569; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
             "${r.comment}"
@@ -889,11 +889,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${r.date || 'Recent'}</td>
         <td>
           <button class="status-pill ${r.approved ? 'status-confirmed' : 'status-pending'} toggle-approval-btn" data-id="${r.id}" style="border: none; cursor: pointer;">
-            ${r.approved ? 'Approved ✅' : 'Pending Approval ⏳'}
+            ${r.approved ? 'Approved' : 'Pending Approval'}
           </button>
         </td>
         <td>
-          <button class="btn-action-icon delete delete-rev-btn" data-id="${r.id}" title="Delete Review">🗑️</button>
+          <button class="btn-action-icon delete delete-rev-btn" data-id="${r.id}" title="Delete Review"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>
         </td>
       </tr>
     `).join('');
@@ -949,8 +949,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <td><span class="status-pill status-confirmed">Active</span></td>
         <td>
           <div style="display: flex; gap: 0.4rem;">
-            <button class="btn-action-icon edit-coupon-btn" data-code="${c.code}" title="Edit Coupon">✏️</button>
-            <button class="btn-action-icon delete delete-coupon-btn" data-code="${c.code}" title="Delete Coupon">🗑️</button>
+            <button class="btn-action-icon edit-coupon-btn" data-code="${c.code}" title="Edit Coupon"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+            <button class="btn-action-icon delete delete-coupon-btn" data-code="${c.code}" title="Delete Coupon"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>
           </div>
         </td>
       </tr>
@@ -1023,7 +1023,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       window.TravelStore.saveCoupon(couponObj);
-      showAdminToast(`🎟️ Coupon <strong>${code}</strong> saved successfully!`);
+      showAdminToast(`Coupon <strong>${code}</strong> saved successfully!`);
       couponModal?.classList.remove('active');
       renderCouponsTable();
     });
@@ -1060,8 +1060,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${b.date || 'Recent'}</td>
         <td>
           <div style="display: flex; gap: 0.4rem;">
-            <button class="btn-action-icon edit-blog-btn" data-id="${b.id}" title="Edit Article">✏️</button>
-            <button class="btn-action-icon delete delete-blog-btn" data-id="${b.id}" title="Delete Article">🗑️</button>
+            <button class="btn-action-icon edit-blog-btn" data-id="${b.id}" title="Edit Article"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+            <button class="btn-action-icon delete delete-blog-btn" data-id="${b.id}" title="Delete Article"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>
           </div>
         </td>
       </tr>
@@ -1125,7 +1125,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       window.TravelStore.saveBlog(blogObj);
-      showAdminToast('📖 Travel guide article published live to blog.html!');
+      showAdminToast('Travel guide article published live to blog.html!');
       blogModal?.classList.remove('active');
       renderBlogsTable();
     });
@@ -1149,7 +1149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setVal('aboutStatYears', settings.statYears || '14+');
     setVal('aboutStatTravelers', settings.statTravelers || '42,000+');
     setVal('aboutStatTours', settings.statTours || '18+');
-    setVal('aboutStatRating', settings.statRating || '4.9 ★');
+    setVal('aboutStatRating', settings.statRating || '4.9 / 5');
 
     const previewAbout = document.getElementById('previewAboutHero');
     if (previewAbout && settings.aboutHeroImg) {
@@ -1168,7 +1168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statTours: document.getElementById('aboutStatTours').value,
         statRating: document.getElementById('aboutStatRating').value
       });
-      showAdminToast('👥 About Us story, showcase image, and live counters saved!');
+      showAdminToast('About Us story, showcase image, and live counters saved!');
     });
   }
 
@@ -1192,14 +1192,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     faqsTableBody.innerHTML = faqs.map((f, idx) => `
       <tr>
-        <td style="font-weight: 700; color: #0f172a; max-width: 250px;">${f.question}</td>
+        <td style="font-weight: 700; color: #0f172a; max-width: 250px;">${f.question || f.q}</td>
         <td style="font-size: 0.85rem; color: #475569; max-width: 320px;">
-          <p style="margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${f.answer}</p>
+          <p style="margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${f.answer || f.a}</p>
         </td>
         <td>
           <div style="display: flex; gap: 0.4rem;">
-            <button class="btn-action-icon edit-faq-btn" data-idx="${idx}" title="Edit FAQ">✏️</button>
-            <button class="btn-action-icon delete delete-faq-btn" data-idx="${idx}" title="Delete FAQ">🗑️</button>
+            <button class="btn-action-icon edit-faq-btn" data-idx="${idx}" title="Edit FAQ"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+            <button class="btn-action-icon delete delete-faq-btn" data-idx="${idx}" title="Delete FAQ"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>
           </div>
         </td>
       </tr>
@@ -1214,8 +1214,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('faqModalTitle').textContent = 'Edit FAQ Item';
         document.getElementById('formFaqIndex').value = idx;
-        document.getElementById('formFaqQuestion').value = f.question || '';
-        document.getElementById('formFaqAnswer').value = f.answer || '';
+        document.getElementById('formFaqQuestion').value = f.question || f.q || '';
+        document.getElementById('formFaqAnswer').value = f.answer || f.a || '';
 
         faqModal?.classList.add('active');
       });
@@ -1262,7 +1262,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       window.TravelStore.saveSettings({ faqs });
-      showAdminToast('📞 FAQ updated and live on contact.html!');
+      showAdminToast('FAQ updated and live on contact.html!');
       faqModal?.classList.remove('active');
       renderFaqsTable();
     });
@@ -1297,15 +1297,15 @@ document.addEventListener('DOMContentLoaded', () => {
         contactPhone: document.getElementById('setContactPhone').value,
         address: document.getElementById('setAddress').value
       });
-      showAdminToast('⚙️ System settings saved successfully!');
+      showAdminToast('System settings saved successfully!');
     });
   }
 
   if (btnResetData) {
     btnResetData.addEventListener('click', () => {
-      if (confirm('⚠️ WARNING: This will reset all Tours, Bookings, Inquiries, and Reviews back to default demo state. Continue?')) {
+      if (confirm('WARNING: This will reset all Tours, Bookings, Inquiries, and Reviews back to default demo state. Continue?')) {
         window.TravelStore.resetToDefaults();
-        showAdminToast('🔄 Database reset to clean defaults.');
+        showAdminToast('Database reset to clean defaults.');
         renderAll();
       }
     });
@@ -1328,7 +1328,7 @@ document.addEventListener('DOMContentLoaded', () => {
       a.download = `travel-the-world-data-${new Date().toISOString().split('T')[0]}.json`;
       a.click();
       URL.revokeObjectURL(url);
-      showAdminToast('💾 Database exported to JSON file.');
+      showAdminToast('Database exported to JSON file.');
     });
   }
 
@@ -1433,7 +1433,7 @@ document.addEventListener('DOMContentLoaded', () => {
           festivalBannerActive: false,
           festiveParticlesEnabled: false
         });
-        showAdminToast('🌿 Activated <strong>Normal Mode</strong> (Festival deactivated, clean luxury standard)');
+        showAdminToast('Activated <strong>Normal Mode</strong> (Festival deactivated, clean luxury standard)');
       } else {
         window.TravelStore.saveSettings({
           activeTheme: theme,
@@ -1441,13 +1441,13 @@ document.addEventListener('DOMContentLoaded', () => {
           festiveParticlesEnabled: true
         });
         const titles = {
-          diwali: '🪔 Diwali Festive Gold',
-          holi: '🎨 Holi Color Fiesta',
-          newyear: '🎄 Christmas & New Year',
-          monsoon: '🌧️ Monsoon Romance',
-          classic: '🌊 Classic Bali Luxury'
+          diwali: 'Diwali Festive Gold',
+          holi: 'Holi Color Fiesta',
+          newyear: 'Christmas & New Year',
+          monsoon: 'Monsoon Romance',
+          classic: 'Classic Bali Luxury'
         };
-        showAdminToast(`🎨 Activated Theme: <strong>${titles[theme] || theme}</strong>`);
+        showAdminToast(`Activated Theme: <strong>${titles[theme] || theme}</strong>`);
       }
       populateCustomizer();
     });
@@ -1519,7 +1519,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       window.TravelStore.saveSettings(newSettings);
-      showAdminToast('✨ All live media & content changes published to website!');
+      showAdminToast('All live media & content changes published to website!');
     });
   }
 
@@ -1530,7 +1530,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.TravelStore.saveSettings({
           activeTheme: 'diwali',
           festivalBannerActive: true,
-          festivalBannerBadge: '🪔 DIWALI SPECIAL',
+          festivalBannerBadge: 'DIWALI SPECIAL',
           festivalBannerText: 'Shubh Deepawali Celebration: Flat 20% OFF on All Bali Packages with Code BALI20 | Free Uluwatu Sunset Passes',
           festivalBannerLink: 'offers.html',
           festivalBannerCta: 'Claim Offer →',
@@ -1541,10 +1541,10 @@ document.addEventListener('DOMContentLoaded', () => {
           heroCtaLink: '#explore',
           exploreTitle: 'EXPLORE BALI\nWITH US',
           exploreSubtitle: 'We are an online based travel company allowing us to keep our prices competitive. We will take care of the booking process for you from start to finish.',
-          cloudMistHint: '✨ Move mouse to part clouds in 150-200px radius around cursor • Real-time mist',
-          tickerWeather: '☀️ Climate: 29°C Tropical Clear Skies',
-          tickerGoldenHour: '🌅 Uluwatu Golden Hour: Sunset at 18:14 WITA',
-          tickerForex: '🇮🇳 Forex Benchmark: ₹1 INR ≈ 190.5 IDR (Zero conversion fee on all tours)',
+          cloudMistHint: 'Move mouse to part clouds in 150-200px radius around cursor • Real-time mist',
+          tickerWeather: 'Climate: 29°C Tropical Clear Skies',
+          tickerGoldenHour: 'Uluwatu Golden Hour: Sunset at 18:14 WITA',
+          tickerForex: 'Forex Benchmark: ₹1 INR ≈ 190.5 IDR (Zero conversion fee on all tours)',
           logoScript: 'travel',
           logoSub: 'THE WORLD',
           companyName: 'Travel The World',
@@ -1553,7 +1553,7 @@ document.addEventListener('DOMContentLoaded', () => {
           address: 'Jl. Danau Tamblingan No. 42, Sanur, Bali & Connaught Place, New Delhi',
           copyrightText: '© 2026 Travel The World. Handcrafted luxury travel & bespoke tours in Indian Rupees.'
         });
-        showAdminToast('🔄 Restored default theme and texts.');
+        showAdminToast('Restored default theme and texts.');
         populateCustomizer();
       }
     });
@@ -1713,7 +1713,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         window.TravelStore.saveSettings(newWords);
-        showAdminToast('✍️ All website words & copy updated live across all 8 pages!');
+        showAdminToast('All website words & copy updated live across all 8 pages!');
       });
     }
 
@@ -1732,7 +1732,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
           window.TravelStore.saveSettings(resetObj);
           populateWords();
-          showAdminToast('🔄 Factory default words restored across all pages!');
+          showAdminToast('Factory default words restored across all pages!');
         }
       });
     }
@@ -1775,7 +1775,7 @@ document.addEventListener('DOMContentLoaded', () => {
               const prev = document.getElementById(pair.previewId);
               if (prev) prev.src = dataUrl;
             }
-            showAdminToast(`📁 File <strong>${file.name}</strong> loaded! Click "Save & Publish" to activate on live site.`);
+            showAdminToast(`File <strong>${file.name}</strong> loaded! Click "Save & Publish" to activate on live site.`);
           };
           reader.readAsDataURL(file);
         });
@@ -1889,7 +1889,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem('ttw_admin_session', 'active');
         if (authError) authError.classList.remove('visible');
         if (authOverlay) authOverlay.classList.remove('active');
-        showAdminToast('👋 Welcome to Admin Console, ' + (u === 'mahesh' ? 'Mahesh' : 'Administrator') + '!');
+        showAdminToast('Welcome to Admin Console, ' + (u === 'mahesh' ? 'Mahesh' : 'Administrator') + '!');
         renderAll();
       } else {
         if (authError) authError.classList.add('visible');
@@ -1907,7 +1907,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (authError) authError.classList.remove('visible');
       if (authPassInput) authPassInput.value = '';
       if (authOverlay) authOverlay.classList.add('active');
-      showAdminToast('🔒 You have securely logged out.');
+      showAdminToast('You have securely logged out.');
       if (authUserInput) setTimeout(() => authUserInput.focus(), 100);
     });
   }

@@ -519,11 +519,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isClearedCompletely) {
           ctx.clearRect(0, 0, cloudCanvas.width, cloudCanvas.height);
           if (cloudStatusLabel) cloudStatusLabel.textContent = 'Cleared (Click to Restore)';
-          showToast('☁️ Clouds parted: Full landscape revealed');
+          showToast('Clouds parted: Full landscape revealed');
         } else {
           paintOriginalClouds();
           if (cloudStatusLabel) cloudStatusLabel.textContent = 'Radius Parting Active';
-          showToast('☁️ Cloud mist restored over the coast');
+          showToast('Cloud mist restored over the coast');
         }
       });
     }
@@ -627,7 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Highlight corresponding tour package in Section 3
     highlightPackageForLocation(locId);
 
-    showToast(`📍 Loaded ${locName} &bull; ${locPrice}`);
+    showToast(`Loaded ${locName} &bull; ${locPrice}`);
   }
 
   // Reactive Card Track Sync with TravelStore (Auto-updates when Admin edits/adds tours)
@@ -653,7 +653,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <p class="card-meta">${t.category}</p>
           <div class="card-footer">
             <div class="card-rating">
-              <span class="star-icon">★</span>
+              <span class="star-icon"><svg class="ui-icon ui-icon-fill" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
               <span class="rating-val">${t.rating}</span>
             </div>
             <div class="card-price">${window.TravelStore.formatRupees(t.price)}</div>
@@ -702,36 +702,167 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ==========================================================================
+  /* ==========================================================================
      SECTION 3: TOUR PACKAGES & FILTER TABS (In ₹ Rupees)
+     - Reactive dynamic sync with TravelStore.getTours()
+     - Controlled 100% from Admin Panel
      ========================================================================== */
 
-  const filterPills = Array.from(document.querySelectorAll('.filter-pill'));
-  const packageCards = Array.from(document.querySelectorAll('.package-card'));
+  const packagesGrid = document.getElementById('packagesGrid');
+  let currentPackageFilter = 'all';
 
+  function applyPackageFilter() {
+    if (!packagesGrid) return;
+    const cards = packagesGrid.querySelectorAll('.package-card');
+    cards.forEach(card => {
+      const cat = (card.getAttribute('data-category') || '').toLowerCase();
+      if (currentPackageFilter === 'all' || cat.includes(currentPackageFilter.toLowerCase())) {
+        card.style.display = 'flex';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  function syncPackagesGridWithStore() {
+    if (!window.TravelStore || !packagesGrid) return;
+    const tours = window.TravelStore.getTours();
+    if (!tours || !tours.length) return;
+
+    packagesGrid.innerHTML = tours.map(t => {
+      let catSlug = 'temple';
+      const c = (t.category || '').toLowerCase();
+      if (c.includes('water') || c.includes('leisure') || c.includes('park') || c.includes('beach')) catSlug = 'water';
+      else if (c.includes('volcano') || c.includes('trek') || c.includes('mountain') || c.includes('nature')) catSlug = 'volcano';
+      else if (c.includes('island') || c.includes('boat')) catSlug = 'island';
+
+      const highlightsList = (t.highlights || [
+        'Private AC vehicle with chauffeur',
+        'Priority entrance ticket included',
+        'Authentic Indian vegetarian dining options',
+        'Government-certified English guide'
+      ]).slice(0, 4).map(h => `<li><svg class="ui-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ${h}</li>`).join('');
+
+      return `
+        <div class="package-card" data-category="${catSlug}" data-location="${t.id}">
+          <div class="package-badge-top">${t.badge || 'Top Rated'}</div>
+          <div class="package-img-wrap">
+            <img src="${t.img || 'assets/images/uluwatu.jpg'}" alt="${t.title}" loading="lazy">
+            <span class="package-duration"><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${t.duration || 'Full Day'}</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta-row">
+              <span class="package-category">${t.category}</span>
+              <span class="package-rating"><svg class="ui-icon ui-icon-fill" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${t.rating} (${t.reviewsCount || 428} reviews)</span>
+            </div>
+            <h3 class="package-title">${t.title}</h3>
+            <p class="package-snippet">${t.description}</p>
+            
+            <ul class="package-highlights">
+              ${highlightsList}
+            </ul>
+
+            <div class="package-card-footer">
+              <div class="package-price-wrap">
+                <span class="price-from">From</span>
+                <span class="price-amount">${window.TravelStore.formatRupees(t.price)}</span>
+                <span class="price-unit">/ person</span>
+              </div>
+              <button class="btn btn-dark-pill view-package-btn" data-id="${t.id}" data-rupees="${t.price}">
+                <span>View Details & Reviews</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Reattach booking modal triggers
+    packagesGrid.querySelectorAll('.view-package-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pkgCard = btn.closest('.package-card');
+        if (!pkgCard) return;
+
+        const title = pkgCard.querySelector('.package-title')?.textContent || 'Bali Tour Package';
+        const category = pkgCard.querySelector('.package-category')?.textContent || 'Tour';
+        const desc = pkgCard.querySelector('.package-snippet')?.textContent || '';
+        const imgSrc = pkgCard.querySelector('img')?.src || 'assets/images/uluwatu.jpg';
+        const rupeeVal = parseInt(btn.getAttribute('data-rupees'), 10) || 3200;
+        const reviews = pkgCard.querySelector('.package-rating')?.textContent || '';
+
+        openBookingModal({
+          title,
+          category,
+          desc,
+          img: imgSrc,
+          rupees: rupeeVal,
+          reviews
+        });
+      });
+    });
+
+    applyPackageFilter();
+  }
+
+  // Filter Pills setup
+  const filterPills = Array.from(document.querySelectorAll('.filter-pill'));
   filterPills.forEach(pill => {
     pill.addEventListener('click', () => {
       filterPills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
-
-      const filter = pill.getAttribute('data-filter');
-
-      packageCards.forEach(card => {
-        const cat = card.getAttribute('data-category');
-        if (filter === 'all' || cat === filter) {
-          card.style.display = 'flex';
-          setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          }, 50);
-        } else {
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(12px)';
-          setTimeout(() => {
-            card.style.display = 'none';
-          }, 250);
-        }
-      });
+      currentPackageFilter = pill.getAttribute('data-filter') || 'all';
+      applyPackageFilter();
     });
+  });
+
+  // Dynamic reviews carousel sync
+  function syncReviewsCarouselWithStore() {
+    if (!window.TravelStore) return;
+    const carousel = document.querySelector('.reviews-carousel');
+    if (!carousel) return;
+    const reviews = window.TravelStore.getReviews().filter(r => r.approved !== false);
+    if (!reviews || !reviews.length) return;
+
+    const starSvg = '<svg class="ui-icon ui-icon-fill" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+
+    carousel.innerHTML = reviews.slice(0, 8).map(r => `
+      <div class="review-bubble">
+        <div class="review-stars" style="color: #f59e0b;">${starSvg.repeat(r.rating || 5)}</div>
+        <p class="review-quote">"${r.comment || r.text || ''}"</p>
+        <div class="reviewer-meta">
+          <div class="reviewer-avatar">${(r.author || r.name || 'Traveler').charAt(0)}</div>
+          <div class="reviewer-info">
+            <h5>${r.author || r.name || 'Traveler'}</h5>
+            <span>${r.tour || 'Bali Experience'} &bull; ${r.date || 'Recent'}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Initial sync & cross-tab / event listeners
+  syncPackagesGridWithStore();
+  syncReviewsCarouselWithStore();
+
+  window.addEventListener('ttw:store-updated', (e) => {
+    if (e.detail?.type === 'tours' || e.detail?.type === 'reset') {
+      syncPackagesGridWithStore();
+    }
+    if (e.detail?.type === 'reviews' || e.detail?.type === 'reset') {
+      syncReviewsCarouselWithStore();
+    }
+  });
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'ttw_tours' || e.key === 'ttw_settings') {
+      syncPackagesGridWithStore();
+      syncCardsTrackWithStore();
+    }
+    if (e.key === 'ttw_reviews') {
+      syncReviewsCarouselWithStore();
+    }
   });
 
 
@@ -865,7 +996,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       closeBookingModal();
-      showToast(`🎉 Congratulations ${guestName}! Booking confirmed for ${tourDate}. Ticket reference saved to Admin.`);
+      showToast(`Congratulations ${guestName}! Booking confirmed for ${tourDate}. Ticket reference saved to Admin.`);
       bookingForm.reset();
     });
   }
@@ -1162,12 +1293,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (isAmbientPlaying) {
         ambientBtn.classList.add('playing');
-        if (ambientLabel) ambientLabel.innerHTML = 'Sound of Bali: <strong>Playing 🌊</strong>';
-        showToast('🌊 Balinese ocean waves & soothing temple chimes active.');
+        if (ambientLabel) ambientLabel.innerHTML = 'Sound of Bali: <strong>Playing</strong>';
+        showToast('Balinese ocean waves & soothing temple chimes active.');
       } else {
         ambientBtn.classList.remove('playing');
         if (ambientLabel) ambientLabel.innerHTML = 'Sound of Bali: <strong>Off</strong>';
-        showToast('🔇 Ambient sound paused.');
+        showToast('Ambient sound paused.');
       }
     });
   }

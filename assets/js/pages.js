@@ -145,11 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="tour-card-media">
             <img src="${t.img}" alt="${t.title}" class="tour-card-img" loading="lazy">
             <span class="tour-card-tag">${t.category}</span>
-            <span class="tour-duration-badge">⏱ ${t.duration}</span>
+            <span class="tour-duration-badge"><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${t.duration}</span>
           </div>
           <div class="tour-card-body">
             <div class="tour-card-rating">
-              <span class="star">★</span>
+              <span class="star"><svg class="ui-icon ui-icon-fill" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
               <span>${t.rating}</span>
               <span style="color: #94a3b8; font-weight: 500;">(${t.reviewsCount} reviews)</span>
             </div>
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.appendChild(modal);
     }
 
-    const highlightsList = (tour.highlights || []).map(h => `<li>✨ ${h}</li>`).join('');
+    const highlightsList = (tour.highlights || []).map(h => `<li><svg class="ui-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ${h}</li>`).join('');
     const itineraryList = (tour.itinerary || []).map(item => `
       <div style="display: flex; gap: 1rem; margin-bottom: 1.25rem;">
         <span style="font-family: monospace; font-weight: 800; color: #2563eb; background: #eff6ff; padding: 0.2rem 0.5rem; border-radius: 4px; height: fit-content;">${item.time}</span>
@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const code = btn.getAttribute('data-code');
       if (code) {
         navigator.clipboard.writeText(code).then(() => {
-          showToast(`📋 Promo code <strong>${code}</strong> copied to clipboard! Paste it at checkout.`);
+          showToast(`Promo code <strong>${code}</strong> copied to clipboard! Paste it at checkout.`);
           btn.textContent = 'Copied!';
           setTimeout(() => {
             btn.textContent = 'Copy Code';
@@ -486,10 +486,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (res.valid) {
           appliedCouponCode = res.code;
           currentDiscount = res.discount;
-          showToast(`🎉 Coupon <strong>${res.code}</strong> applied! You saved ₹${res.discount.toLocaleString('en-IN')}.`);
+          showToast(`Coupon <strong>${res.code}</strong> applied! You saved ₹${res.discount.toLocaleString('en-IN')}.`);
           calculateBookingTotal();
         } else {
-          showToast(`⚠️ ${res.message}`, true);
+          showToast(`${res.message}`, true);
         }
       });
     }
@@ -556,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="voucher-body">
           <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 0.75rem 1rem; border-radius: 8px; color: #065f46;">
-            <span>✅</span>
+            <span><svg class="ui-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
             <span style="font-size: 0.88rem; font-weight: 600;">E-Ticket generated & sent to <strong>${booking.email}</strong></span>
           </div>
 
@@ -570,19 +570,19 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div>
               <span class="voucher-field-label">Tour Date</span>
-              <div class="voucher-field-val">📅 ${booking.date}</div>
+              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> ${booking.date}</div>
             </div>
             <div>
               <span class="voucher-field-label">Party Size</span>
-              <div class="voucher-field-val">👥 ${booking.guests} Person(s)</div>
+              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ${booking.guests} Person(s)</div>
             </div>
             <div>
               <span class="voucher-field-label">Pickup Location</span>
-              <div class="voucher-field-val">📍 ${booking.hotel}</div>
+              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${booking.hotel}</div>
             </div>
             <div>
               <span class="voucher-field-label">Payment Mode</span>
-              <div class="voucher-field-val">💳 ${booking.paymentMethod}</div>
+              <div class="voucher-field-val"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M6 3h12M6 8h12M6 13l8.5 8M6 13h3a4 4 0 0 0 0-8"/></svg> ${booking.paymentMethod}</div>
             </div>
             <div>
               <span class="voucher-field-label">Total Amount Paid</span>
@@ -591,7 +591,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-            <button onclick="window.print()" class="btn-sm-outline" style="flex: 1; padding: 0.75rem; text-align: center;">🖨️ Print Voucher</button>
+            <button onclick="window.print()" class="btn-sm-outline" style="flex: 1; padding: 0.75rem; text-align: center;"><svg class="ui-icon" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print Voucher</button>
             <a href="holidays.html" class="btn-sm-primary" style="flex: 1; padding: 0.75rem; text-align: center;">Explore More Tours &rarr;</a>
           </div>
         </div>
@@ -622,7 +622,7 @@ document.addEventListener('DOMContentLoaded', () => {
         message
       });
 
-      showToast(`✉️ Thank you ${name}! Your inquiry has been dispatched to our Bali concierge. We will respond within 2 hours.`);
+      showToast(`Thank you ${name}! Your inquiry has been dispatched to our Bali concierge. We will respond within 2 hours.`);
       contactForm.reset();
     });
   }
@@ -649,7 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
       reviewsContainer.innerHTML = reviews.map(r => `
         <div class="review-bubble" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.8rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem;">
-            <div style="color: #f59e0b; font-size: 1.1rem;">${'★'.repeat(r.rating || 5)}</div>
+            <div style="color: #f59e0b; font-size: 1.1rem;">${/* star */ '&#9733;'.repeat(r.rating || 5)}</div>
             <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 600;">${r.date || 'Recent'}</span>
           </div>
           <p style="font-size: 0.95rem; line-height: 1.6; color: #334155; margin-bottom: 1.25rem;">"${r.comment}"</p>
@@ -685,7 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
           travelType
         });
 
-        showToast('🌟 Thank you! Your review has been submitted and posted.');
+        showToast('Thank you! Your review has been submitted and posted.');
         submitReviewForm.reset();
         document.getElementById('writeReviewModal')?.classList.remove('active');
         renderReviews();
@@ -747,10 +747,10 @@ document.addEventListener('DOMContentLoaded', () => {
       faqsContainer.innerHTML = faqs.map((f, idx) => `
         <div class="faq-item ${idx === 0 ? 'active' : ''}">
           <div class="faq-question">
-            <span>${f.question}</span>
+            <span>${f.question || f.q}</span>
             <span style="font-size: 1.2rem;">▾</span>
           </div>
-          <div class="faq-answer">${f.answer}</div>
+          <div class="faq-answer">${f.answer || f.a}</div>
         </div>
       `).join('');
 
@@ -800,9 +800,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <span style="font-size: 0.8rem; font-weight: 700; color: #2563eb; text-transform: uppercase;">${tag}</span>
           <h2 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; margin: 0.4rem 0 1rem; line-height: 1.25;">${title}</h2>
           <div style="font-size: 0.82rem; color: #64748b; margin-bottom: 1.5rem; display: flex; gap: 1rem;">
-            <span>📅 October 2026</span>
-            <span>✍️ Travel Concierge Desk</span>
-            <span>⏱ 5 Min Read</span>
+            <span><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> October 2026</span>
+            <span><svg class="ui-icon" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg> Travel Concierge Desk</span>
+            <span><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 5 Min Read</span>
           </div>
           <div style="font-size: 0.98rem; line-height: 1.8; color: #334155;">
             <p style="margin-bottom: 1rem; font-weight: 600;">${excerpt}</p>
@@ -841,8 +841,8 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <div class="blog-body">
             <div class="blog-meta-row">
-              <span>📅 ${b.date || 'Recent'}</span>
-              <span>⏱ ${b.readTime || '5 Min Read'}</span>
+              <span><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> ${b.date || 'Recent'}</span>
+              <span><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${b.readTime || '5 Min Read'}</span>
             </div>
             <h3 class="blog-title">${b.title}</h3>
             <p class="blog-excerpt">${b.excerpt || b.summary || ''}</p>

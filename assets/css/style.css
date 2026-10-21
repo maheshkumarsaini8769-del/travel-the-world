@@ -79,6 +79,39 @@ html {
   outline-offset: 2px;
 }
 
+/* Universal Vector SVG Icon System */
+.ui-icon {
+  width: 1.15em;
+  height: 1.15em;
+  display: inline-block;
+  vertical-align: -0.15em;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.ui-icon-fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.ui-icon-sm {
+  width: 0.9em;
+  height: 0.9em;
+}
+
+.ui-icon-lg {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.ui-icon-xl {
+  width: 2em;
+  height: 2em;
+}
+
 body {
   overflow-x: hidden;
   background-color: var(--color-bg);
@@ -2001,11 +2034,11 @@ input, select {
 /* ==========================================================================
    FESTIVAL ANNOUNCEMENT TOP BAR & DYNAMIC THEMES
    1-Click Switchable via Admin Panel:
-   1. 🪔 Diwali Festive Gold
-   2. 🎨 Holi Vibrant Spring
-   3. 🎄 Christmas & New Year
-   4. 🌧️ Monsoon Romance
-   5. 🌊 Classic Bali Luxury
+   1. Diwali Festive Gold
+   2. Holi Vibrant Spring
+   3. Christmas & New Year
+   4. Monsoon Romance
+   5. Classic Bali Luxury
    ========================================================================== */
 
 :root {
@@ -2100,7 +2133,7 @@ body:has(#festivalAnnouncementBar) .site-header:not(.scrolled) {
 }
 
 /* --------------------------------------------------------------------------
-   THEME 0: 🌿 NORMAL / REGULAR MODE (Standard - No Festival)
+   THEME 0: NORMAL / REGULAR MODE (Standard - No Festival)
    Clean, modern luxury aesthetic without festival glows or banners
    -------------------------------------------------------------------------- */
 body.theme-normal {
@@ -2119,7 +2152,7 @@ body.theme-normal .festive-particle-canvas {
 }
 
 /* --------------------------------------------------------------------------
-   THEME 1: 🪔 DIWALI FESTIVE GOLD (Default Festive)
+   THEME 1: DIWALI FESTIVE GOLD (Default Festive)
    Deep royal purple / indigo with glowing warm festive gold
    -------------------------------------------------------------------------- */
 body.theme-diwali {
@@ -2162,7 +2195,7 @@ body.theme-diwali .hero-title {
 }
 
 /* --------------------------------------------------------------------------
-   THEME 2: 🎨 HOLI VIBRANT SPRING
+   THEME 2: HOLI VIBRANT SPRING
    Vibrant violet, magenta gulal, and tropical azure splash
    -------------------------------------------------------------------------- */
 body.theme-holi {
@@ -2199,7 +2232,7 @@ body.theme-holi .card-active-indicator {
 }
 
 /* --------------------------------------------------------------------------
-   THEME 3: 🎄 CHRISTMAS & NEW YEAR
+   THEME 3: CHRISTMAS & NEW YEAR
    Evergreen pine, holiday ruby crimson, and warm star gold
    -------------------------------------------------------------------------- */
 body.theme-newyear {
@@ -2236,7 +2269,7 @@ body.theme-newyear .card-active-indicator {
 }
 
 /* --------------------------------------------------------------------------
-   THEME 4: 🌧️ MONSOON ROMANCE
+   THEME 4: MONSOON ROMANCE
    Rainforest deep teal, mist emerald, and serene cloud cyan
    -------------------------------------------------------------------------- */
 body.theme-monsoon {
@@ -2273,7 +2306,7 @@ body.theme-monsoon .card-active-indicator {
 }
 
 /* --------------------------------------------------------------------------
-   THEME 5: 🌊 CLASSIC BALI LUXURY
+   THEME 5: CLASSIC BALI LUXURY
    Deep slate, ocean turquoise, and sunset gold
    -------------------------------------------------------------------------- */
 body.theme-classic {

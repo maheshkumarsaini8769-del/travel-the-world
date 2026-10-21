@@ -712,7 +712,7 @@
     // Festival Theme & Announcement Bar ('normal' = Regular clean mode, no festival)
     activeTheme: 'diwali', // 'normal', 'diwali', 'holi', 'newyear', 'monsoon', 'classic'
     festivalBannerActive: true,
-    festivalBannerBadge: '🪔 DIWALI SPECIAL',
+    festivalBannerBadge: 'DIWALI SPECIAL',
     festivalBannerText: 'Shubh Deepawali Celebration: Flat 20% OFF on All Bali Packages with Code BALI20 | Free Uluwatu Sunset Passes',
     festivalBannerLink: 'offers.html',
     festivalBannerCta: 'Claim Offer →',
@@ -743,12 +743,12 @@
     // Explore Section & Mist Canvas
     exploreTitle: 'EXPLORE BALI\nWITH US',
     exploreSubtitle: 'We are an online based travel company allowing us to keep our prices competitive. We will take care of the booking process for you from start to finish.',
-    cloudMistHint: '✨ Move mouse to part clouds in 150-200px radius around cursor • Real-time mist',
+    cloudMistHint: 'Move mouse to part clouds in 150-200px radius around cursor • Real-time mist',
 
     // Live Atmospheric Ticker
-    tickerWeather: '☀️ Climate: 29°C Tropical Clear Skies',
-    tickerGoldenHour: '🌅 Uluwatu Golden Hour: Sunset at 18:14 WITA',
-    tickerForex: '🇮🇳 Forex Benchmark: ₹1 INR ≈ 190.5 IDR (Zero conversion fee on all tours)',
+    tickerWeather: 'Climate: 29°C Tropical Clear Skies',
+    tickerGoldenHour: 'Uluwatu Golden Hour: Sunset at 18:14 WITA',
+    tickerForex: 'Forex Benchmark: ₹1 INR ≈ 190.5 IDR (Zero conversion fee on all tours)',
 
     // Brand Identity & Company Info
     companyName: 'Travel The World',
@@ -776,10 +776,10 @@
 
     // Contact & FAQs Data
     faqs: [
-      { q: 'Is vegetarian or Jain food easily available during tours?', a: 'Yes! We coordinate directly with top-rated pure vegetarian Indian restaurants across South Bali and Ubud, catering to Jain, Swaminarayan, and vegan dietary preferences.' },
-      { q: 'Are all tour prices strictly in Indian Rupees (₹)?', a: 'Absolutely. Every package, entry pass, and private transfer is priced strictly in Indian Rupees (₹) with zero foreign currency conversion markup.' },
-      { q: 'What is the cancellation policy?', a: 'We offer a 100% full refund up to 24 hours prior to your scheduled tour start time with zero questions asked.' },
-      { q: 'Do your drivers speak English?', a: 'Yes, all our chauffeurs and private guides are government-certified, speak fluent English, and have deep local knowledge of Balinese culture.' }
+      { question: 'Is vegetarian or Jain food easily available during tours?', answer: 'Yes! We coordinate directly with top-rated pure vegetarian Indian restaurants across South Bali and Ubud, catering to Jain, Swaminarayan, and vegan dietary preferences.', q: 'Is vegetarian or Jain food easily available during tours?', a: 'Yes! We coordinate directly with top-rated pure vegetarian Indian restaurants across South Bali and Ubud, catering to Jain, Swaminarayan, and vegan dietary preferences.' },
+      { question: 'Are all tour prices strictly in Indian Rupees (₹)?', answer: 'Absolutely. Every package, entry pass, and private transfer is priced strictly in Indian Rupees (₹) with zero foreign currency conversion markup.', q: 'Are all tour prices strictly in Indian Rupees (₹)?', a: 'Absolutely. Every package, entry pass, and private transfer is priced strictly in Indian Rupees (₹) with zero foreign currency conversion markup.' },
+      { question: 'What is the cancellation policy?', answer: 'We offer a 100% full refund up to 24 hours prior to your scheduled tour start time with zero questions asked.', q: 'What is the cancellation policy?', a: 'We offer a 100% full refund up to 24 hours prior to your scheduled tour start time with zero questions asked.' },
+      { question: 'Do your drivers speak English?', answer: 'Yes, all our chauffeurs and private guides are government-certified, speak fluent English, and have deep local knowledge of Balinese culture.', q: 'Do your drivers speak English?', a: 'Yes, all our chauffeurs and private guides are government-certified, speak fluent English, and have deep local knowledge of Balinese culture.' }
     ],
 
     // =========================================================================
@@ -787,7 +787,7 @@
     // =========================================================================
     // 1. Homepage Words
     heroVideoBadge: 'Cinematic Video (4s)',
-    quickSearchBtnText: 'Search Tours 🔍',
+    quickSearchBtnText: 'Search Tours',
     exploreTag: 'FEATURED LANDMARKS',
     packagesTag: 'CURATED EXPERIENCES',
     packagesHeading: 'Bali Tour Packages & Reviews',
@@ -795,7 +795,7 @@
     routeExplorerTag: 'ISLAND ROUTE & TRAVEL TIME EXPLORER',
     routeExplorerTitle: 'Explore Bali Region by Region',
     routeExplorerSubtitle: 'Click any quadrant to view airport drive times, highlight sights, and instant package booking in Indian Rupees.',
-    routeExplorerBtnText: '🌀 Launch 360° Panorama →',
+    routeExplorerBtnText: 'Launch 360° Panorama →',
     budgetCalcTag: 'INTERACTIVE COST ENGINE',
     budgetCalcTitle: 'Calculate Your Trip Cost in ₹',
     budgetCalcSubtitle: 'Real-time benchmark: ₹1 INR ≈ 190.5 IDR with zero conversion markup.',
@@ -808,17 +808,17 @@
     reviewsSubtitle: 'Authentic experiences shared by travelers who booked their Bali adventures through us.',
 
     // 2. Holidays Page Words
-    holidaysPageBadge: '✨ Handcrafted Itineraries',
+    holidaysPageBadge: 'Handcrafted Itineraries',
     holidaysPageTitle: 'BALI HOLIDAYS & TOURS',
     holidaysPageSubtitle: 'Immerse yourself in sacred ocean temples, mist-shrouded volcanic ridges, lush stepped rice valleys, and private island speedboat expeditions.',
 
     // 3. Offers Page Words
-    offersPageBadge: '🎁 Festival Season Deals',
+    offersPageBadge: 'Festival Season Deals',
     offersPageTitle: 'EXCLUSIVE OFFERS & COUPONS',
     offersPageSubtitle: 'Unlock limited-time discounts and voucher codes for your next Bali getaway. All discounts applied directly at checkout in Indian Rupees.',
 
     // 4. About Us Page Words
-    aboutPageBadge: '🌴 Our Journey & Vision',
+    aboutPageBadge: 'Our Journey & Vision',
     aboutPageTitle: 'ABOUT TRAVEL THE WORLD',
     aboutPageSubtitle: 'Bridging the warmth of Balinese ancestral culture with effortless, transparent travel designed specifically for curious globetrotters and Indian families.',
     aboutExperienceTag: '15+ Years of Passion',
@@ -828,10 +828,10 @@
     aboutStatYearsVal: '15+',
     aboutStatTravelersVal: '50k+',
     aboutStatToursVal: '120+',
-    aboutStatRatingVal: '4.9 ★',
+    aboutStatRatingVal: '4.9 / 5',
 
     // 5. Contact Us Page Words
-    contactPageBadge: '💬 24/7 Ground Assistance',
+    contactPageBadge: '24/7 Ground Assistance',
     contactPageTitle: 'WE ARE HERE FOR YOU',
     contactPageSubtitle: 'Whether you are planning a bespoke honeymoon, requesting pure vegetarian cuisine, or need private transport, our concierge is at your service.',
     contactFormTag: 'Direct Concierge Dispatch',
@@ -842,18 +842,18 @@
     contactFaqSubtitle: 'Everything you need to know about traveling to Bali from India.',
 
     // 6. Reviews Page Words
-    reviewsPageBadge: '⭐ 4.95 Rating • 24,000+ Travelers',
+    reviewsPageBadge: '4.95 Rating • 24,000+ Travelers',
     reviewsPageTitle: 'REAL TRAVELER REVIEWS',
     reviewsPageSubtitle: 'Verified stories and feedback from adventurers across India and the globe who explored Bali with us.',
 
     // 7. Blog Page Words
-    blogPageBadge: '📖 Insider Destination Guides',
+    blogPageBadge: 'Insider Destination Guides',
     blogPageTitle: 'BALI TRAVEL STORIES & ADVICE',
     blogPageSubtitle: 'Expert tips, culinary itineraries, temple etiquette, and packing guides curated by our licensed Balinese guides.',
 
     // 8. Brand & Footer Words
     footerTagline: 'Making bespoke Indonesian travel accessible, luxurious, and completely effortless.',
-    footerSecureBadge: '🔒 Certified Indonesian Tour Operator #7819/BALI',
+    footerSecureBadge: 'Certified Indonesian Tour Operator #7819/BALI',
 
     // Advanced Next-Gen Experience Flags
     aiConciergeEnabled: true,
@@ -1177,6 +1177,11 @@
     },
 
     // SETTINGS
+    getFaqs: function () {
+      const s = this.getSettings();
+      return (s && s.faqs && s.faqs.length) ? s.faqs : DEFAULT_SETTINGS.faqs;
+    },
+
     getSettings: function () {
       const stored = loadStorage(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS);
       return { ...DEFAULT_SETTINGS, ...stored };
@@ -1188,6 +1193,10 @@
       this.triggerUpdate('settings');
       this.applyActiveThemeAndContent();
       return updated;
+    },
+
+    applySiteSettings: function () {
+      return this.applyActiveThemeAndContent();
     },
 
     // REVEAL & APPLY FESTIVAL THEMES AND EDITABLE CONTENT ACROSS LIVE SITE

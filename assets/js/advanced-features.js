@@ -18,13 +18,13 @@
 
   const KETUT_KNOWLEDGE_BASE = {
     greetings: [
-      "Om Swastiastu! 🙏 I am Ketut, your Balinese local concierge. How can I craft your dream holiday in Indian Rupees today?",
+      "Om Swastiastu!  I am Ketut, your Balinese local concierge. How can I craft your dream holiday in Indian Rupees today?",
       "Welcome to Travel The World! Ketut here, ready to share secret Balinese waterfalls, cliff temples, and pure vegetarian dining spots."
     ],
     faqs: [
       {
         triggers: ['veg', 'vegetarian', 'jain', 'food', 'khana', 'indian restaurant'],
-        answer: `<strong>🥗 Pure Vegetarian & Jain Dining in Bali:</strong><br>
+        answer: `<strong> Pure Vegetarian & Jain Dining in Bali:</strong><br>
         Bali is very hospitable for Indian travelers! You will find excellent vegetarian and Jain food across the island:<br>
         • <strong>Seminyak / Kuta:</strong> <em>Queen's Tandoor</em> and <em>Spice Mantraa</em> (Full North/South Indian menu with pure Jain options, ~₹650–₹900/meal).<br>
         • <strong>Ubud:</strong> <em>Ganesha Ek Sanskriti</em> & <em>Sitara Indian</em> (Authentic dal makhani, paneer, and Jain thali options with rice field views).<br>
@@ -33,17 +33,17 @@
       },
       {
         triggers: ['budget', 'cost', 'how much', 'rupees', 'price', 'kharcha', '25000', '30000', '50000'],
-        answer: `<strong>💰 Bali Trip Budget Guide (in Indian Rupees ₹):</strong><br>
+        answer: `<strong> Bali Trip Budget Guide (in Indian Rupees ₹):</strong><br>
         For a comfortable couple or family holiday:<br>
         • <strong>Tours & Sightseeing:</strong> ₹850 – ₹3,400 per person per day (Uluwatu, Tanah Lot, Mount Batur).<br>
         • <strong>Private AC Chauffeur:</strong> Approx ₹1,800 – ₹2,200 per day for a private 7-seater MPV.<br>
         • <strong>Indian Meals:</strong> Approx ₹1,200 – ₹1,800/day for two people.<br>
         • <strong>Luxury 4-Star Resort / Villa:</strong> ₹3,500 – ₹7,000 per night with private plunge pool.<br>
-        💡 <em>Total estimated budget for a 5-Day memorable trip: ₹25,000 – ₹38,000 per person (excluding flights).</em>`
+         <em>Total estimated budget for a 5-Day memorable trip: ₹25,000 – ₹38,000 per person (excluding flights).</em>`
       },
       {
         triggers: ['family', '4 day', 'itinerary', 'plan', 'days', 'schedule'],
-        answer: `<strong>🗺️ Recommended 4-Day Curated Bali Itinerary:</strong><br>
+        answer: `<strong> Recommended 4-Day Curated Bali Itinerary:</strong><br>
         • <strong>Day 1: South Bali Sunset</strong> – Land at DPS Airport, check in to Nusa Dua/Seminyak resort, visit Uluwatu Cliff Temple & witness the sunset Kecak Fire Dance (₹850).<br>
         • <strong>Day 2: Emerald Cultural Heart</strong> – Head to Ubud, walk Tegallalang Rice Terraces, ride the giant Jungle Swing, visit Sacred Monkey Forest (₹950).<br>
         • <strong>Day 3: Sacred Sea Shrine & Waterpark</strong> – Morning at Waterbom Tropical Park (₹2,800), evening sunset at Tanah Lot offshore shrine (₹1,200).<br>
@@ -51,7 +51,7 @@
       },
       {
         triggers: ['sunset', 'photo', 'instagram', 'photography', 'pictures', 'spots'],
-        answer: `<strong>🌅 Top Sunset & Photography Spots in Bali:</strong><br>
+        answer: `<strong> Top Sunset & Photography Spots in Bali:</strong><br>
         1. <strong>Uluwatu Temple Cliff:</strong> 70-meter vertical cliff into crashing Indian Ocean waves (Sunset ~18:14 WITA).<br>
         2. <strong>Tanah Lot:</strong> Offshore rock temple with tide reflections.<br>
         3. <strong>Lempuyang Gates of Heaven:</strong> Mount Agung framed through sacred dragon gates with mirror reflection.<br>
@@ -59,7 +59,7 @@
       },
       {
         triggers: ['honeymoon', 'couple', 'romantic'],
-        answer: `<strong>💍 Bali Honeymoon & Romance Special:</strong><br>
+        answer: `<strong> Bali Honeymoon & Romance Special:</strong><br>
         • Stay in a private rainforest pool villa in Ubud or ocean-view cliff villa in Uluwatu.<br>
         • Candlelight seafood or paneer tikka dinner right on the sands of Jimbaran Bay with ocean waves at your feet.<br>
         • Traditional 2-hour Balinese herbal flower bath & couple massage.<br>
@@ -90,7 +90,7 @@
     widget.innerHTML = `
       <button class="ketut-trigger-btn" id="ketutTriggerBtn" aria-label="Open Ketut AI Travel Concierge" title="Ask Ketut - Your Balinese AI Trip Planner">
         <span class="ketut-avatar-wrap">
-          <span class="ketut-emoji">🌺</span>
+          <span class="ketut-emoji"></span>
           <span class="ketut-pulse-dot"></span>
         </span>
         <span class="ketut-btn-text">Ask Ketut AI</span>
@@ -106,7 +106,7 @@
     drawer.innerHTML = `
       <div class="ketut-drawer-header">
         <div class="ketut-header-profile">
-          <div class="ketut-header-avatar">🌺</div>
+          <div class="ketut-header-avatar"></div>
           <div>
             <div class="ketut-header-name">Ketut • AI Travel Concierge</div>
             <div class="ketut-header-status">
@@ -115,7 +115,7 @@
           </div>
         </div>
         <div class="ketut-header-actions">
-          <button class="ketut-btn-clear" id="ketutClearChatBtn" title="Clear conversation">🔄</button>
+          <button class="ketut-btn-clear" id="ketutClearChatBtn" title="Clear conversation"></button>
           <button class="ketut-btn-close" id="ketutCloseBtn" aria-label="Close chat">&times;</button>
         </div>
       </div>
@@ -123,18 +123,18 @@
       <div class="ketut-drawer-body" id="ketutMessagesContainer">
         <div class="ketut-message bot">
           <div class="ketut-msg-bubble">
-            Om Swastiastu! 🙏 I am <strong>Ketut</strong>, your Balinese local concierge. How can I help plan your Bali holiday in Indian Rupees (₹)?
+            Om Swastiastu!  I am <strong>Ketut</strong>, your Balinese local concierge. How can I help plan your Bali holiday in Indian Rupees (₹)?
           </div>
           <span class="ketut-msg-time">Just now</span>
         </div>
       </div>
 
       <div class="ketut-quick-prompts" id="ketutQuickPrompts">
-        <button class="quick-prompt-chip" data-query="4 day family itinerary">🗺️ 4-Day Plan</button>
-        <button class="quick-prompt-chip" data-query="pure veg and jain food">🥗 Veg & Jain Food</button>
-        <button class="quick-prompt-chip" data-query="best sunset spots">🌅 Sunset Spots</button>
-        <button class="quick-prompt-chip" data-query="budget trip cost in rupees">💰 Trip Budget in ₹</button>
-        <button class="quick-prompt-chip" data-query="honeymoon special villa">💍 Honeymoon</button>
+        <button class="quick-prompt-chip" data-query="4 day family itinerary"> 4-Day Plan</button>
+        <button class="quick-prompt-chip" data-query="pure veg and jain food"> Veg & Jain Food</button>
+        <button class="quick-prompt-chip" data-query="best sunset spots"> Sunset Spots</button>
+        <button class="quick-prompt-chip" data-query="budget trip cost in rupees"> Trip Budget in ₹</button>
+        <button class="quick-prompt-chip" data-query="honeymoon special villa"> Honeymoon</button>
       </div>
 
       <form class="ketut-drawer-footer" id="ketutChatForm">
@@ -231,8 +231,8 @@
       if (withAction) {
         actionButtonsHtml = `
           <div class="ketut-actions-row">
-            <a href="holidays.html" class="ketut-action-btn">🗺️ Browse Packages in ₹</a>
-            <a href="https://wa.me/919820012345?text=Hello%20Travel%20The%20World%2C%20I%20am%20interested%20in%20a%20Bali%20tour" target="_blank" class="ketut-action-btn whatsapp">💬 WhatsApp Concierge</a>
+            <a href="holidays.html" class="ketut-action-btn"> Browse Packages in ₹</a>
+            <a href="https://wa.me/919820012345?text=Hello%20Travel%20The%20World%2C%20I%20am%20interested%20in%20a%20Bali%20tour" target="_blank" class="ketut-action-btn whatsapp"> WhatsApp Concierge</a>
           </div>
         `;
       }
@@ -556,7 +556,7 @@
       <div class="virtual-360-box">
         <div class="virtual-360-header">
           <div>
-            <span class="v360-badge">🌀 360° VIRTUAL PANORAMA</span>
+            <span class="v360-badge"> 360° VIRTUAL PANORAMA</span>
             <h3 id="v360Title" style="color: #ffffff; font-size: 1.35rem; margin-top: 0.2rem;">Uluwatu Cliff & Ocean Panorama</h3>
           </div>
           <button class="v360-close-btn" id="v360CloseBtn" aria-label="Close virtual tour">&times;</button>
@@ -580,10 +580,10 @@
         <!-- Tabs & Controls Bar -->
         <div class="virtual-360-footer">
           <div class="v360-tabs">
-            <button class="v360-tab-btn active" data-landmark="uluwatu">🏛️ Uluwatu Cliff</button>
-            <button class="v360-tab-btn" data-landmark="tanahLot">🌊 Tanah Lot</button>
-            <button class="v360-tab-btn" data-landmark="mountBatur">🌋 Mount Batur</button>
-            <button class="v360-tab-btn" data-landmark="tegallalang">🌾 Tegallalang</button>
+            <button class="v360-tab-btn active" data-landmark="uluwatu"> Uluwatu Cliff</button>
+            <button class="v360-tab-btn" data-landmark="tanahLot"> Tanah Lot</button>
+            <button class="v360-tab-btn" data-landmark="mountBatur"> Mount Batur</button>
+            <button class="v360-tab-btn" data-landmark="tegallalang"> Tegallalang</button>
           </div>
 
           <div class="v360-footer-cta">

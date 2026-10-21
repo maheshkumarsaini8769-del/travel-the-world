@@ -122,6 +122,35 @@ body.admin-body {
   width: 24px;
   display: inline-flex;
   justify-content: center;
+  align-items: center;
+}
+
+.sidebar-icon svg,
+.ui-icon {
+  width: 1.15em;
+  height: 1.15em;
+  display: inline-block;
+  vertical-align: -0.15em;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.ui-icon-fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.ui-icon-sm {
+  width: 0.9em;
+  height: 0.9em;
+}
+
+.ui-icon-lg {
+  width: 1.5em;
+  height: 1.5em;
 }
 
 .sidebar-badge {
