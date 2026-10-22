@@ -433,37 +433,48 @@ document.addEventListener('DOMContentLoaded', () => {
     let appliedCouponCode = '';
 
     // Sync add-on prices from Admin settings (dynamic, no hardcoding)
-    const _bSettings = window.TravelStore.getSettings();
-    const _aPrices = {
-      addonAirport: _bSettings.addonAirportPrice ?? 1200,
-      addonDrone: _bSettings.addonDronePrice ?? 2500,
-      addonIndianFood: _bSettings.addonFoodPrice ?? 800
-    };
-    const _aElMap = {
-      addonAirport: { priceEl: 'addonAirportPrice', labelEl: 'addonAirportLabel', label: _bSettings.addonAirportLabel },
-      addonDrone: { priceEl: 'addonDronePrice', labelEl: 'addonDroneLabel', label: _bSettings.addonDroneLabel },
-      addonIndianFood: { priceEl: 'addonFoodPrice', labelEl: 'addonFoodLabel', label: _bSettings.addonFoodLabel }
-    };
-    addonCheckboxes.forEach(cb => {
-      const id = cb.id;
-      if (_aPrices[id] !== undefined) {
-        cb.setAttribute('data-price', String(_aPrices[id]));
-        const priceSpan = document.getElementById(_aElMap[id]?.priceEl);
-        if (priceSpan) priceSpan.textContent = `+₹${_aPrices[id].toLocaleString('en-IN')}`;
-        const labelEl = document.getElementById(_aElMap[id]?.labelEl);
-        if (labelEl && _aElMap[id]?.label) labelEl.textContent = _aElMap[id].label;
-      }
-    });
+    function syncBookingAddons() {
+      const _bSettings = window.TravelStore.getSettings();
+      const _aPrices = {
+        addonAirport: _bSettings.addonAirportPrice ?? 2500,
+        addonDrone: _bSettings.addonDronePrice ?? 4500,
+        addonIndianFood: _bSettings.addonFoodPrice ?? 6000
+      };
+      const _aElMap = {
+        addonAirport: { priceEl: 'addonAirportPrice', labelEl: 'addonAirportLabel', label: _bSettings.addonAirportLabel },
+        addonDrone: { priceEl: 'addonDronePrice', labelEl: 'addonDroneLabel', label: _bSettings.addonDroneLabel },
+        addonIndianFood: { priceEl: 'addonFoodPrice', labelEl: 'addonFoodLabel', label: _bSettings.addonFoodLabel }
+      };
+      addonCheckboxes.forEach(cb => {
+        const id = cb.id;
+        if (_aPrices[id] !== undefined) {
+          cb.setAttribute('data-price', String(_aPrices[id]));
+          const priceSpan = document.getElementById(_aElMap[id]?.priceEl);
+          if (priceSpan) priceSpan.textContent = `+₹${_aPrices[id].toLocaleString('en-IN')}`;
+          const labelEl = document.getElementById(_aElMap[id]?.labelEl);
+          if (labelEl && _aElMap[id]?.label) labelEl.textContent = _aElMap[id].label;
+        }
+      });
+      if (typeof calculateBookingTotal === 'function') calculateBookingTotal();
+    }
+    syncBookingAddons();
+    window.__syncBookingAddons = syncBookingAddons;
 
     // Populate Tour Dropdown
-    const allTours = window.TravelStore.getTours();
-    if (tourSelect) {
-      tourSelect.innerHTML = allTours.map(t => `
-        <option value="${t.id}" ${t.id === preselectedTourId ? 'selected' : ''}>
-          ${t.title} (₹${t.price.toLocaleString('en-IN')} / person)
-        </option>
-      `).join('');
+    function populateBookingTours() {
+      const allTours = window.TravelStore.getTours();
+      if (tourSelect) {
+        const currentVal = tourSelect.value || preselectedTourId;
+        tourSelect.innerHTML = allTours.map(t => `
+          <option value="${t.id}" ${t.id === currentVal ? 'selected' : ''}>
+            ${t.title} (₹${t.price.toLocaleString('en-IN')} / person)
+          </option>
+        `).join('');
+      }
+      if (typeof calculateBookingTotal === 'function') calculateBookingTotal();
     }
+    populateBookingTours();
+    window.__syncBookingTours = populateBookingTours;
 
     // Set minimum date to tomorrow
     if (dateInput) {
@@ -710,6 +721,15 @@ document.addEventListener('DOMContentLoaded', () => {
             <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 600;">${esc(r.date || 'Recent')}</span>
           </div>
           <p style="font-size: 0.95rem; line-height: 1.6; color: #334155; margin-bottom: 1.25rem;">"${esc(r.comment)}"</p>
+          ${r.reply ? `
+            <div class="concierge-reply-box" style="margin-top: 1rem; margin-bottom: 1.25rem; padding: 0.9rem 1.15rem; background: #f8fafc; border-left: 3px solid #2563eb; border-radius: 8px;">
+              <div style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 700; color: #0f172a; margin-bottom: 0.3rem;">
+                <svg class="ui-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px; stroke: #2563eb;"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></svg>
+                <span>Official Concierge Response${r.replyDate ? ` &bull; <span style="font-weight: 400; color: #64748b;">${esc(r.replyDate)}</span>` : ''}</span>
+              </div>
+              <p style="font-size: 0.88rem; color: #475569; line-height: 1.55; margin: 0;">${esc(r.reply)}</p>
+            </div>
+          ` : ''}
           <div style="display: flex; align-items: center; gap: 0.85rem; border-top: 1px solid #f1f5f9; padding-top: 1rem;">
             <div style="width: 42px; height: 42px; border-radius: 50%; background: #0f172a; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem;">
               ${esc(r.avatar || 'TT')}
@@ -946,25 +966,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // LIVE CROSS-TAB SYNC — Admin changes reflect here WITHOUT refresh
+  // LIVE CROSS-TAB & IN-TAB SYNC — Admin changes reflect here WITHOUT refresh
   // =========================================================================
-  window.addEventListener('storage', (e) => {
-    if (!e.key) return;
+  function handleStoreChange(typeOrKey) {
+    if (!typeOrKey) return;
 
     // -- Tours changed (Admin added/edited/deleted tour)
-    if (e.key === 'ttw_tours_data') {
+    if (typeOrKey === 'ttw_tours_data' || typeOrKey === 'tours' || typeOrKey === 'reset') {
       const grid = document.getElementById('holidaysToursGrid');
-      if (grid) {
-        if (typeof window.__renderHolidays === 'function') {
-          window.__renderHolidays();
-        } else {
-          location.reload();
-        }
+      if (grid && typeof window.__renderHolidays === 'function') {
+        window.__renderHolidays();
+      }
+      if (typeof window.__syncBookingTours === 'function') {
+        window.__syncBookingTours();
       }
     }
 
-    // -- Reviews changed (Admin approved/hidden/edited review)
-    if (e.key === 'ttw_reviews_data') {
+    // -- Reviews changed (Admin approved/hidden/replied/deleted review)
+    if (typeOrKey === 'ttw_reviews_data' || typeOrKey === 'reviews' || typeOrKey === 'reset') {
       const container = document.getElementById('reviewsListContainer');
       if (container && typeof window.__renderReviews === 'function') {
         window.__renderReviews();
@@ -972,7 +991,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -- Coupons changed
-    if (e.key === 'ttw_coupons_data') {
+    if (typeOrKey === 'ttw_coupons_data' || typeOrKey === 'coupons' || typeOrKey === 'reset') {
       const grid = document.getElementById('offersCouponsGrid');
       if (grid && typeof window.__renderCoupons === 'function') {
         window.__renderCoupons();
@@ -980,22 +999,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -- Blogs changed
-    if (e.key === 'ttw_blogs_data') {
+    if (typeOrKey === 'ttw_blogs_data' || typeOrKey === 'blogs' || typeOrKey === 'reset') {
       const grid = document.getElementById('mainBlogGrid');
       if (grid && typeof window.__renderBlogs === 'function') {
         window.__renderBlogs();
       }
     }
 
-    // -- Settings / FAQs changed
-    if (e.key === 'ttw_settings_data') {
+    // -- Settings / FAQs / Addons changed
+    if (typeOrKey === 'ttw_settings_data' || typeOrKey === 'settings' || typeOrKey === 'reset') {
       const faqBox = document.getElementById('faqsAccordionContainer');
       if (faqBox && typeof window.__renderFaqs === 'function') {
         window.__renderFaqs();
+      }
+      if (typeof window.__syncBookingAddons === 'function') {
+        window.__syncBookingAddons();
       }
       if (window.TravelStore && typeof window.TravelStore.applyActiveThemeAndContent === 'function') {
         window.TravelStore.applyActiveThemeAndContent();
       }
     }
+  }
+
+  // Cross-tab storage event
+  window.addEventListener('storage', (e) => {
+    if (e.key) handleStoreChange(e.key);
+  });
+
+  // In-tab event
+  window.addEventListener('ttw:store-updated', (e) => {
+    handleStoreChange(e.detail?.type || 'reset');
   });
 });

@@ -899,9 +899,14 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${r.origin}</td>
         <td><strong style="color: #f59e0b;">${/* rating */ '&#9733;'.repeat(r.rating || 5)}</strong></td>
         <td style="max-width: 280px;">
-          <p style="font-size: 0.82rem; color: #475569; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+          <p style="font-size: 0.82rem; color: #475569; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 0;">
             "${r.comment}"
           </p>
+          ${r.reply ? `
+            <div style="margin-top: 0.35rem; padding: 0.25rem 0.5rem; background: #eff6ff; border-left: 2px solid #2563eb; border-radius: 4px; font-size: 0.74rem; color: #1e40af; line-height: 1.3;">
+              <span style="font-weight: 700; color: #2563eb;">Reply:</span> "${r.reply.length > 50 ? r.reply.slice(0, 50) + '...' : r.reply}"
+            </div>
+          ` : ''}
         </td>
         <td>${r.date || 'Recent'}</td>
         <td>
@@ -909,8 +914,13 @@ document.addEventListener('DOMContentLoaded', () => {
             ${r.approved ? 'Approved' : 'Pending Approval'}
           </button>
         </td>
-        <td>
-          <button class="btn-action-icon delete delete-rev-btn" data-id="${r.id}" title="Delete Review"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>
+        <td style="white-space: nowrap;">
+          <button class="btn-action-icon reply-rev-btn" data-id="${r.id}" title="${r.reply ? 'Edit Concierge Reply' : 'Reply to Review'}" style="color: #2563eb; border-color: #bfdbfe; margin-right: 4px;">
+            <svg class="ui-icon" viewBox="0 0 24 24"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></svg>
+          </button>
+          <button class="btn-action-icon delete delete-rev-btn" data-id="${r.id}" title="Delete Review">
+            <svg class="ui-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+          </button>
         </td>
       </tr>
     `).join('');
@@ -926,17 +936,101 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Delete
+    // Reply to review
+    document.querySelectorAll('.reply-rev-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        openReviewReplyModal(id);
+      });
+    });
+
+    // Delete review
     document.querySelectorAll('.delete-rev-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
-        if (confirm('Delete this customer review?')) {
+        if (confirm('Delete this customer review? It will be removed from the store and website.')) {
           window.TravelStore.deleteReview(id);
           showAdminToast('Review removed.');
           renderReviewsTable();
           renderDashboard();
         }
       });
+    });
+  }
+
+  function openReviewReplyModal(reviewId) {
+    const rev = window.TravelStore.getReviews().find(r => r.id === reviewId);
+    if (!rev) return;
+
+    let modal = document.getElementById('adminReviewReplyModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'adminReviewReplyModal';
+      modal.className = 'admin-modal-backdrop';
+      document.body.appendChild(modal);
+    }
+
+    const esc = (s) => (window.TravelStore ? window.TravelStore.escapeHtml(s || '') : (s || ''));
+
+    modal.innerHTML = `
+      <div class="admin-modal-box">
+        <div class="admin-modal-header">
+          <h3>Official Reply to Review: ${esc(rev.reviewerName || rev.author || 'Traveler')}</h3>
+          <button class="admin-modal-close" onclick="document.getElementById('adminReviewReplyModal').classList.remove('active')">&times;</button>
+        </div>
+        <div class="admin-modal-body">
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+              <span style="font-weight: 700; color: #0f172a;">${esc(rev.reviewerName || rev.author || 'Traveler')} (${esc(rev.origin || 'India')})</span>
+              <span style="color: #f59e0b; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;"><svg class="ui-icon ui-icon-fill" viewBox="0 0 24 24" style="width: 14px; height: 14px; fill: #f59e0b;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${rev.rating || 5}/5</span>
+            </div>
+            <p style="font-size: 0.88rem; color: #475569; line-height: 1.5; margin: 0; font-style: italic;">
+              "${esc(rev.comment || '')}"
+            </p>
+          </div>
+
+          <form id="replyRevForm">
+            <div class="admin-form-group">
+              <label for="adminRevReplyText">Official Concierge Response (Displayed live on reviews.html and homepage)</label>
+              <textarea id="adminRevReplyText" rows="4" class="admin-form-control" placeholder="Thank you for traveling with us! We are thrilled that you had a memorable experience..." required>${esc(rev.reply || '')}</textarea>
+            </div>
+            <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+              <button type="submit" class="btn-admin-primary" style="flex: 2; justify-content: center; padding: 0.75rem;">
+                <svg class="ui-icon" viewBox="0 0 24 24"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></svg> <span>${rev.reply ? 'Update Response' : 'Publish Response'}</span>
+              </button>
+              ${rev.reply ? `
+                <button type="button" id="btnRemoveRevReply" class="btn-action-icon delete" style="flex: 1; justify-content: center; border-radius: 8px; height: auto; padding: 0.75rem;" title="Delete current reply">
+                  <span>Delete Reply</span>
+                </button>
+              ` : ''}
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+
+    modal.classList.add('active');
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+
+    document.getElementById('replyRevForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const replyText = document.getElementById('adminRevReplyText').value;
+      window.TravelStore.replyToReview(reviewId, replyText);
+      showAdminToast(`Response published for ${rev.reviewerName}! Reflected across website.`);
+      modal.classList.remove('active');
+      renderReviewsTable();
+    });
+
+    document.getElementById('btnRemoveRevReply')?.addEventListener('click', () => {
+      if (confirm('Delete official response from this review?')) {
+        window.TravelStore.replyToReview(reviewId, '');
+        showAdminToast('Official response removed.');
+        modal.classList.remove('active');
+        renderReviewsTable();
+      }
     });
   }
 

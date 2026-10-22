@@ -831,6 +831,12 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="review-bubble">
         <div class="review-stars" style="color: #f59e0b;">${starSvg.repeat(r.rating || 5)}</div>
         <p class="review-quote">"${r.comment || r.text || ''}"</p>
+        ${r.reply ? `
+          <div style="margin: 0.65rem 0; padding: 0.5rem 0.75rem; background: #f8fafc; border-left: 2px solid #2563eb; border-radius: 6px; font-size: 0.78rem; color: #475569; text-align: left;">
+            <strong style="color: #2563eb; display: block; font-size: 0.72rem; margin-bottom: 0.15rem;">Concierge Response:</strong>
+            "${r.reply.length > 90 ? r.reply.slice(0, 90) + '...' : r.reply}"
+          </div>
+        ` : ''}
         <div class="reviewer-meta">
           <div class="reviewer-avatar">${(r.author || r.name || 'Traveler').charAt(0)}</div>
           <div class="reviewer-info">
@@ -847,8 +853,9 @@ document.addEventListener('DOMContentLoaded', () => {
   syncReviewsCarouselWithStore();
 
   window.addEventListener('ttw:store-updated', (e) => {
-    if (e.detail?.type === 'tours' || e.detail?.type === 'reset') {
+    if (e.detail?.type === 'tours' || e.detail?.type === 'settings' || e.detail?.type === 'reset') {
       syncPackagesGridWithStore();
+      syncCardsTrackWithStore();
     }
     if (e.detail?.type === 'reviews' || e.detail?.type === 'reset') {
       syncReviewsCarouselWithStore();
@@ -856,11 +863,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   window.addEventListener('storage', (e) => {
-    if (e.key === 'ttw_tours' || e.key === 'ttw_settings') {
+    if (e.key === 'ttw_tours_data' || e.key === 'ttw_tours' || e.key === 'ttw_settings_data' || e.key === 'ttw_settings') {
       syncPackagesGridWithStore();
       syncCardsTrackWithStore();
     }
-    if (e.key === 'ttw_reviews') {
+    if (e.key === 'ttw_reviews_data' || e.key === 'ttw_reviews') {
       syncReviewsCarouselWithStore();
     }
   });

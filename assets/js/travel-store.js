@@ -436,6 +436,8 @@
       date: '2026-10-10',
       travelType: 'Couple Holiday',
       comment: 'The interactive cloud view on this website was literally what made us book, and the real experience at Uluwatu was even more majestic! The Kecak fire dance against the setting sun gave us goosebumps. Our driver Ketut was punctual and courteous. 10/10!',
+      reply: 'Thank you Priya & Arjun! We are thrilled that Ketut took great care of you during the Uluwatu Kecak sunset.',
+      replyDate: '2026-10-11',
       approved: true
     },
     {
@@ -1097,6 +1099,23 @@
       this.triggerUpdate('reviews');
       return true;
     },
+    replyToReview: function (id, replyText) {
+      const reviews = this.getReviews();
+      const rev = reviews.find(r => r.id === id);
+      if (rev) {
+        if (replyText && typeof replyText === 'string' && replyText.trim().length > 0) {
+          rev.reply = replyText.trim();
+          rev.replyDate = new Date().toISOString().split('T')[0];
+        } else {
+          delete rev.reply;
+          delete rev.replyDate;
+        }
+        saveStorage(STORAGE_KEYS.REVIEWS, reviews);
+        this.triggerUpdate('reviews');
+        return rev;
+      }
+      return null;
+    },
 
     // COUPONS
     getCoupons: function () {
@@ -1545,7 +1564,7 @@
             </div>
             <h4 style="font-weight: 800; font-size: 1.1rem; margin-bottom: 0.2rem;">${window.TravelStore ? window.TravelStore.escapeHtml(member.name || '') : member.name}</h4>
             <span style="font-size: 0.8rem; color: #2563eb; font-weight: 700; text-transform: uppercase;">${window.TravelStore ? window.TravelStore.escapeHtml(member.role || '') : member.role}</span>
-            <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; line-height: 1.5;">${window.TravelStore ? window.TravelStore.escapeHtml(member.origin || '') : member.origin} &bull; ${window.TravelStore ? window.TravelStore.escapeHtml(member.exp || '') : member.exp} experience</p>
+            <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; line-height: 1.5;">${window.TravelStore ? window.TravelStore.escapeHtml(member.origin || '') : member.origin} &bull; ${window.TravelStore ? window.TravelStore.escapeHtml(member.years || member.exp || '5+ Yrs Guiding') : (member.years || member.exp || '5+ Yrs Guiding')}</p>
           </div>
         `).join('');
       }
