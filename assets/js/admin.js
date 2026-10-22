@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (headerDateEl) {
     function updateClock() {
       const now = new Date();
-      headerDateEl.innerHTML = '<svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ' + now.toLocaleDateString('en-IN', {
+      const formatted = now.toLocaleDateString('en-IN', {
         weekday: 'short',
         day: 'numeric',
         month: 'short',
@@ -87,6 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
         hour: '2-digit',
         minute: '2-digit'
       });
+      const textSpan = document.getElementById('headerLiveDateText');
+      if (textSpan) {
+        textSpan.textContent = formatted;
+      } else {
+        headerDateEl.innerHTML = '<svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span id="headerLiveDateText">' + formatted + '</span>';
+      }
     }
     setInterval(updateClock, 30000);
     updateClock();
