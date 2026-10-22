@@ -1024,6 +1024,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cross-tab storage event
   window.addEventListener('storage', (e) => {
     if (e.key) handleStoreChange(e.key);
+    else handleStoreChange('reset');
   });
 
   // In-tab event

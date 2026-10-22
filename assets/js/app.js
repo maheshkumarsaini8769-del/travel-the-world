@@ -122,11 +122,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
+      function getCustomHeroBadge() {
+        if (window.TravelStore) {
+          const s = window.TravelStore.getSettings();
+          if (s && s.heroVideoBadge) return s.heroVideoBadge;
+        }
+        return null;
+      }
+
       let timeLeft = 4;
       const countTimer = setInterval(() => {
         timeLeft--;
         if (timeLeft > 0 && isVideoPlaying) {
-          if (mediaBadgeText) mediaBadgeText.textContent = `Cinematic Video (${timeLeft}s)`;
+          const custom = getCustomHeroBadge();
+          if (mediaBadgeText) mediaBadgeText.textContent = custom || `Cinematic Video (${timeLeft}s)`;
         } else {
           clearInterval(countTimer);
         }
@@ -146,7 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
       heroVideoWrapper.classList.add('hidden');
     }
     if (mediaBadgeText) {
-      mediaBadgeText.textContent = 'Photo Gallery (Auto-Slide)';
+      const custom = window.TravelStore?.getSettings()?.heroVideoBadge;
+      mediaBadgeText.textContent = custom || 'Photo Gallery (Auto-Slide)';
     }
     if (playIcon && pauseIcon) {
       playIcon.classList.remove('hidden');
@@ -167,7 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
       heroVideo.currentTime = 0;
       heroVideo.play().catch(() => {});
     }
-    if (mediaBadgeText) mediaBadgeText.textContent = 'Cinematic Video (4s)';
+    const custom = window.TravelStore?.getSettings()?.heroVideoBadge;
+    if (mediaBadgeText) mediaBadgeText.textContent = custom || 'Cinematic Video (4s)';
 
     videoTimer = setTimeout(() => {
       transitionToSlides();
@@ -852,6 +863,15 @@ document.addEventListener('DOMContentLoaded', () => {
   syncPackagesGridWithStore();
   syncReviewsCarouselWithStore();
 
+  const handleAppStoreSync = () => {
+    syncPackagesGridWithStore();
+    syncCardsTrackWithStore();
+    syncReviewsCarouselWithStore();
+    if (window.TravelStore && typeof window.TravelStore.applyActiveThemeAndContent === 'function') {
+      window.TravelStore.applyActiveThemeAndContent();
+    }
+  };
+
   window.addEventListener('ttw:store-updated', (e) => {
     if (e.detail?.type === 'tours' || e.detail?.type === 'settings' || e.detail?.type === 'reset') {
       syncPackagesGridWithStore();
@@ -860,6 +880,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.detail?.type === 'reviews' || e.detail?.type === 'reset') {
       syncReviewsCarouselWithStore();
     }
+    handleAppStoreSync();
   });
 
   window.addEventListener('storage', (e) => {
@@ -869,6 +890,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (e.key === 'ttw_reviews_data' || e.key === 'ttw_reviews') {
       syncReviewsCarouselWithStore();
+    }
+    if (!e.key || e.key.startsWith('ttw_')) {
+      handleAppStoreSync();
     }
   });
 

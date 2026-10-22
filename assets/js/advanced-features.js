@@ -68,7 +68,7 @@
       },
       {
         triggers: ['visa', 'currency', 'money', 'forex', 'sim', 'flight', 'airport'],
-        answer: `<strong>ℹ️ Essential Bali Travel Practicalities:</strong><br>
+        answer: `<strong><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Essential Bali Travel Practicalities:</strong><br>
         • <strong>Visa on Arrival (VoA):</strong> 30 days VoA available on arrival at DPS airport for 500,000 IDR (~₹2,650), payable via UPI card or cash.<br>
         • <strong>Forex Rate:</strong> ₹1 INR ≈ 190.5 IDR. All our tour prices are strictly in Indian Rupees with zero conversion fee!<br>
         • <strong>SIM Card:</strong> Tourist eSIM or physical Telkomsel 25GB data SIM available at airport (~₹450).<br>
@@ -572,7 +572,7 @@
               <span id="v360CompassHeading">240° SW</span>
             </div>
             <div class="v360-drag-hint">
-              <span>↔️ Drag mouse or swipe to pan 360° panorama</span>
+              <span><svg class="ui-icon" viewBox="0 0 24 24"><path d="m18 8 4 4-4 4M6 8l-4 4 4 4M2 12h20"/></svg> Drag mouse or swipe to pan 360° panorama</span>
             </div>
           </div>
         </div>

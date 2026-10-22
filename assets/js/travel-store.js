@@ -1257,8 +1257,79 @@
       return { ...DEFAULT_SETTINGS, ...stored };
     },
     saveSettings: function (newSettings) {
+      if (!newSettings || typeof newSettings !== 'object') return this.getSettings();
       const current = this.getSettings();
-      const updated = { ...current, ...newSettings };
+      const updated = { ...current };
+
+      // Apply newSettings, skipping undefined
+      Object.keys(newSettings).forEach(key => {
+        if (newSettings[key] !== undefined) {
+          updated[key] = newSettings[key];
+        }
+      });
+
+      // Bi-directional key aliasing so changes from ANY tab update ALL corresponding keys
+      // 1. About Story
+      if (newSettings.aboutStory !== undefined && newSettings.aboutStory !== '') {
+        updated.aboutStoryLead = newSettings.aboutStory;
+      } else if (newSettings.aboutStoryLead !== undefined && newSettings.aboutStoryLead !== '') {
+        updated.aboutStory = newSettings.aboutStoryLead;
+      }
+
+      // 2. Milestone Stats
+      if (newSettings.statTravelers !== undefined && newSettings.statTravelers !== '') {
+        updated.aboutStatTravelersVal = newSettings.statTravelers;
+      } else if (newSettings.aboutStatTravelersVal !== undefined && newSettings.aboutStatTravelersVal !== '') {
+        updated.statTravelers = newSettings.aboutStatTravelersVal;
+      }
+
+      if (newSettings.statYears !== undefined && newSettings.statYears !== '') {
+        updated.aboutStatYearsVal = newSettings.statYears;
+      } else if (newSettings.aboutStatYearsVal !== undefined && newSettings.aboutStatYearsVal !== '') {
+        updated.statYears = newSettings.aboutStatYearsVal;
+      }
+
+      if (newSettings.statTours !== undefined && newSettings.statTours !== '') {
+        updated.aboutStatToursVal = newSettings.statTours;
+      } else if (newSettings.aboutStatToursVal !== undefined && newSettings.aboutStatToursVal !== '') {
+        updated.statTours = newSettings.aboutStatToursVal;
+      }
+
+      if (newSettings.statRating !== undefined && newSettings.statRating !== '') {
+        updated.aboutStatRatingVal = newSettings.statRating;
+      } else if (newSettings.aboutStatRatingVal !== undefined && newSettings.aboutStatRatingVal !== '') {
+        updated.statRating = newSettings.aboutStatRatingVal;
+      }
+
+      // 3. Tagline & Footer
+      if (newSettings.tagline !== undefined && newSettings.tagline !== '') {
+        updated.footerTagline = newSettings.tagline;
+      } else if (newSettings.footerTagline !== undefined && newSettings.footerTagline !== '') {
+        updated.tagline = newSettings.footerTagline;
+      }
+
+      // 4. Company Name
+      if (newSettings.companyName !== undefined && newSettings.companyName !== '') {
+        updated.footerCompanyName = newSettings.companyName;
+      } else if (newSettings.footerCompanyName !== undefined && newSettings.footerCompanyName !== '') {
+        updated.companyName = newSettings.footerCompanyName;
+      }
+
+      // 5. License / Secure Badge
+      if (newSettings.licenseNumber !== undefined && newSettings.licenseNumber !== '') {
+        updated.footerSecureBadge = newSettings.licenseNumber;
+      } else if (newSettings.footerSecureBadge !== undefined && newSettings.footerSecureBadge !== '') {
+        updated.licenseNumber = newSettings.footerSecureBadge;
+      }
+
+      // 6. Explore Title & Subtitle
+      if (newSettings.exploreTitle !== undefined && newSettings.exploreTitle !== '') {
+        updated.wordExploreTitle = newSettings.exploreTitle;
+      }
+      if (newSettings.exploreSubtitle !== undefined && newSettings.exploreSubtitle !== '') {
+        updated.wordExploreSubtitle = newSettings.exploreSubtitle;
+      }
+
       saveStorage(STORAGE_KEYS.SETTINGS, updated);
       this.triggerUpdate('settings');
       this.applyActiveThemeAndContent();
@@ -1378,7 +1449,7 @@
       // Explore Backdrop Image (Under interactive clouds)
       const featuredMainImg = document.getElementById('featuredMainImg');
       if (featuredMainImg && settings.exploreBackdropImg) {
-        if (!featuredMainImg.dataset.userSwapped) {
+        if (!featuredMainImg.dataset?.userSwapped) {
           featuredMainImg.src = settings.exploreBackdropImg;
         }
       }
@@ -1536,7 +1607,7 @@
       // Brand & Footer Words
       setText('footerTagline', settings.footerTagline || settings.tagline);
       setText('footerSecureBadge', settings.footerSecureBadge || settings.licenseNumber);
-      setText('footerCompanyName', settings.companyName);
+      setText('footerCompanyName', settings.footerCompanyName || settings.companyName);
 
       // ===== CONTACT PAGE OFFICE ADDRESS / PHONE BINDINGS =====
       if (document.getElementById('baliAddressText') && settings.address) {
@@ -1760,7 +1831,7 @@
   // Cross-tab real-time updates: when admin changes settings in another tab, live website reacts instantly
   if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
     window.addEventListener('storage', (e) => {
-      if (e.key === STORAGE_KEYS.SETTINGS) {
+      if (!e.key || e.key === STORAGE_KEYS.SETTINGS || e.key.startsWith('ttw_')) {
         window.TravelStore.applyActiveThemeAndContent();
       }
     });

@@ -136,8 +136,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close mobile sidebar if open
     if (sidebar) sidebar.classList.remove('open');
 
-    // Render corresponding section data
-    renderAll();
+    // Dynamically render tables/charts for the active section without wiping form inputs
+    if (tabId === 'dashboard') renderDashboard(currentDashboardPeriod);
+    else if (tabId === 'tours') renderToursTable();
+    else if (tabId === 'bookings') renderBookingsTable();
+    else if (tabId === 'users') renderUsersTable();
+    else if (tabId === 'coupons') renderCouponsTable();
+    else if (tabId === 'inquiries') renderInquiriesTable();
+    else if (tabId === 'reviews') renderReviewsTable();
+    else if (tabId === 'blogs') renderBlogsTable();
+    else if (tabId === 'faqs') renderFaqsTable();
   }
 
   navLinks.forEach(link => {
@@ -153,8 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   let currentDashboardPeriod = 'all';
 
-  // Attach timeframe filter button events
-  const timeframeFilterButtons = document.querySelectorAll('.btn-time-filter');
+  // Attach timeframe filter button events (scoped strictly to dashboard)
+  const timeframeFilterButtons = document.querySelectorAll('#dashboardTimeFilters .btn-time-filter');
   timeframeFilterButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       timeframeFilterButtons.forEach(b => b.classList.remove('active'));
@@ -1255,12 +1263,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (el) el.value = val !== undefined ? val : '';
     };
 
-    setVal('aboutHeroStory', settings.aboutStory || 'Founded in 2012 by Balinese cultural explorers and Indian hospitality experts, Travel The World has guided over 42,000 travelers across the enchanting landscapes of Bali. We bridge authentic Balinese spirituality with high-touch Indian hospitality, offering pure vegetarian catering, bespoke private chauffeurs, and verified luxury experiences.');
+    setVal('aboutHeroStory', settings.aboutStory || settings.aboutStoryLead || 'Founded in 2012 by Balinese cultural explorers and Indian hospitality experts, Travel The World has guided over 42,000 travelers across the enchanting landscapes of Bali. We bridge authentic Balinese spirituality with high-touch Indian hospitality, offering pure vegetarian catering, bespoke private chauffeurs, and verified luxury experiences.');
     setVal('aboutHeroImgInput', settings.aboutHeroImg || 'assets/images/featured-uluwatu.jpg');
-    setVal('aboutStatYears', settings.statYears || '14+');
-    setVal('aboutStatTravelers', settings.statTravelers || '42,000+');
-    setVal('aboutStatTours', settings.statTours || '18+');
-    setVal('aboutStatRating', settings.statRating || '4.9 / 5');
+    setVal('aboutStatYears', settings.statYears || settings.aboutStatYearsVal || '14+');
+    setVal('aboutStatTravelers', settings.statTravelers || settings.aboutStatTravelersVal || '42,000+');
+    setVal('aboutStatTours', settings.statTours || settings.aboutStatToursVal || '18+');
+    setVal('aboutStatRating', settings.statRating || settings.aboutStatRatingVal || '4.9 / 5');
 
     const previewAbout = document.getElementById('previewAboutHero');
     if (previewAbout && settings.aboutHeroImg) {
@@ -1415,8 +1423,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function populateSettings() {
     if (!settingsForm) return;
     const settings = window.TravelStore.getSettings();
-    document.getElementById('setCompanyName').value = settings.companyName || '';
-    document.getElementById('setTagline').value = settings.tagline || '';
+    document.getElementById('setCompanyName').value = settings.companyName || settings.footerCompanyName || '';
+    document.getElementById('setTagline').value = settings.tagline || settings.footerTagline || '';
     document.getElementById('setCurrencySymbol').value = settings.currencySymbol || '₹';
     document.getElementById('setContactEmail').value = settings.contactEmail || '';
     document.getElementById('setContactPhone').value = settings.contactPhone || '';
@@ -1616,54 +1624,60 @@ document.addEventListener('DOMContentLoaded', () => {
       const tiltActive = !!document.getElementById('customTiltActive')?.checked;
       const virtual360Active = !!document.getElementById('customVirtual360Active')?.checked;
 
+      const setIfVal = (obj, key, val) => {
+        if (val !== undefined && val !== null && String(val).trim() !== '') {
+          obj[key] = val;
+        }
+      };
+
       const newSettings = {
         festivalBannerActive: festiveActive,
         aiConciergeEnabled: aiActive,
         festiveParticlesEnabled: particlesActive,
         cardTiltPhysicsEnabled: tiltActive,
-        virtual360TourEnabled: virtual360Active,
-
-        festivalBannerBadge: getVal('customFestiveBadge'),
-        festivalBannerText: getVal('customFestiveText'),
-        festivalBannerLink: getVal('customFestiveLink'),
-        festivalBannerCta: getVal('customFestiveCta'),
-
-        heroTitle: getVal('customHeroSlide1Title') || getVal('customHeroTitle'),
-        heroDescription: getVal('customHeroSlide1Desc') || getVal('customHeroDesc'),
-        heroVideoUrl: getVal('customHeroVideo'),
-        heroPosterUrl: getVal('customHeroPoster'),
-        heroCtaText: getVal('customHeroCtaText'),
-        heroCtaLink: getVal('customHeroCtaLink'),
-
-        heroSlide1Img: getVal('customHeroSlide1Img'),
-        heroSlide1Title: getVal('customHeroSlide1Title'),
-        heroSlide1Desc: getVal('customHeroSlide1Desc'),
-
-        heroSlide2Img: getVal('customHeroSlide2Img'),
-        heroSlide2Title: getVal('customHeroSlide2Title'),
-        heroSlide2Desc: getVal('customHeroSlide2Desc'),
-
-        heroSlide3Img: getVal('customHeroSlide3Img'),
-        heroSlide3Title: getVal('customHeroSlide3Title'),
-        heroSlide3Desc: getVal('customHeroSlide3Desc'),
-
-        exploreTitle: getVal('customExploreTitle'),
-        exploreSubtitle: getVal('customExploreSubtitle'),
-        exploreBackdropImg: getVal('customExploreBackdropImg'),
-        cloudMistHint: getVal('customCloudHint'),
-
-        tickerWeather: getVal('customTickerWeather'),
-        tickerGoldenHour: getVal('customTickerGoldenHour'),
-        tickerForex: getVal('customTickerForex'),
-
-        logoScript: getVal('customLogoScript'),
-        logoSub: getVal('customLogoSub'),
-        companyName: getVal('customCompanyName'),
-        contactPhone: getVal('customContactPhone'),
-        contactEmail: getVal('customContactEmail'),
-        address: getVal('customAddress'),
-        copyrightText: getVal('customCopyright')
+        virtual360TourEnabled: virtual360Active
       };
+
+      setIfVal(newSettings, 'festivalBannerBadge', getVal('customFestiveBadge'));
+      setIfVal(newSettings, 'festivalBannerText', getVal('customFestiveText'));
+      setIfVal(newSettings, 'festivalBannerLink', getVal('customFestiveLink'));
+      setIfVal(newSettings, 'festivalBannerCta', getVal('customFestiveCta'));
+
+      setIfVal(newSettings, 'heroTitle', getVal('customHeroSlide1Title') || getVal('customHeroTitle'));
+      setIfVal(newSettings, 'heroDescription', getVal('customHeroSlide1Desc') || getVal('customHeroDesc'));
+      setIfVal(newSettings, 'heroVideoUrl', getVal('customHeroVideo'));
+      setIfVal(newSettings, 'heroPosterUrl', getVal('customHeroPoster'));
+      setIfVal(newSettings, 'heroCtaText', getVal('customHeroCtaText'));
+      setIfVal(newSettings, 'heroCtaLink', getVal('customHeroCtaLink'));
+
+      setIfVal(newSettings, 'heroSlide1Img', getVal('customHeroSlide1Img'));
+      setIfVal(newSettings, 'heroSlide1Title', getVal('customHeroSlide1Title'));
+      setIfVal(newSettings, 'heroSlide1Desc', getVal('customHeroSlide1Desc'));
+
+      setIfVal(newSettings, 'heroSlide2Img', getVal('customHeroSlide2Img'));
+      setIfVal(newSettings, 'heroSlide2Title', getVal('customHeroSlide2Title'));
+      setIfVal(newSettings, 'heroSlide2Desc', getVal('customHeroSlide2Desc'));
+
+      setIfVal(newSettings, 'heroSlide3Img', getVal('customHeroSlide3Img'));
+      setIfVal(newSettings, 'heroSlide3Title', getVal('customHeroSlide3Title'));
+      setIfVal(newSettings, 'heroSlide3Desc', getVal('customHeroSlide3Desc'));
+
+      setIfVal(newSettings, 'exploreTitle', getVal('customExploreTitle'));
+      setIfVal(newSettings, 'exploreSubtitle', getVal('customExploreSubtitle'));
+      setIfVal(newSettings, 'exploreBackdropImg', getVal('customExploreBackdropImg'));
+      setIfVal(newSettings, 'cloudMistHint', getVal('customCloudHint'));
+
+      setIfVal(newSettings, 'tickerWeather', getVal('customTickerWeather'));
+      setIfVal(newSettings, 'tickerGoldenHour', getVal('customTickerGoldenHour'));
+      setIfVal(newSettings, 'tickerForex', getVal('customTickerForex'));
+
+      setIfVal(newSettings, 'logoScript', getVal('customLogoScript'));
+      setIfVal(newSettings, 'logoSub', getVal('customLogoSub'));
+      setIfVal(newSettings, 'companyName', getVal('customCompanyName'));
+      setIfVal(newSettings, 'contactPhone', getVal('customContactPhone'));
+      setIfVal(newSettings, 'contactEmail', getVal('customContactEmail'));
+      setIfVal(newSettings, 'address', getVal('customAddress'));
+      setIfVal(newSettings, 'copyrightText', getVal('customCopyright'));
 
       window.TravelStore.saveSettings(newSettings);
       showAdminToast('All live media & content changes published to website!');
@@ -1853,9 +1867,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const newWords = {};
         Object.keys(wordFieldMap).forEach(elemId => {
           const el = document.getElementById(elemId);
-          if (el) {
-            const storeKey = wordFieldMap[elemId];
-            newWords[storeKey] = el.value;
+          if (el && el.value !== undefined) {
+            const val = el.value.trim();
+            if (val !== '') {
+              const storeKey = wordFieldMap[elemId];
+              newWords[storeKey] = val;
+            }
           }
         });
 
