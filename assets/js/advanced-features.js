@@ -90,7 +90,7 @@
     widget.innerHTML = `
       <button class="ketut-trigger-btn" id="ketutTriggerBtn" aria-label="Open Ketut AI Travel Concierge" title="Ask Ketut - Your Balinese AI Trip Planner">
         <span class="ketut-avatar-wrap">
-          <span class="ketut-emoji"></span>
+          <svg class="ui-icon" viewBox="0 0 24 24" style="width: 18px; height: 18px; color: #fff;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           <span class="ketut-pulse-dot"></span>
         </span>
         <span class="ketut-btn-text">Ask Ketut AI</span>
@@ -106,7 +106,9 @@
     drawer.innerHTML = `
       <div class="ketut-drawer-header">
         <div class="ketut-header-profile">
-          <div class="ketut-header-avatar"></div>
+          <div class="ketut-header-avatar" style="display: flex; align-items: center; justify-content: center;">
+            <svg class="ui-icon" viewBox="0 0 24 24" style="width: 18px; height: 18px; color: #fff;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
           <div>
             <div class="ketut-header-name">Ketut • AI Travel Concierge</div>
             <div class="ketut-header-status">
@@ -115,7 +117,7 @@
           </div>
         </div>
         <div class="ketut-header-actions">
-          <button class="ketut-btn-clear" id="ketutClearChatBtn" title="Clear conversation"></button>
+          <button class="ketut-btn-clear" id="ketutClearChatBtn" title="Clear conversation" aria-label="Clear chat" style="display: flex; align-items: center; justify-content: center;"><svg class="ui-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>
           <button class="ketut-btn-close" id="ketutCloseBtn" aria-label="Close chat">&times;</button>
         </div>
       </div>
@@ -756,10 +758,14 @@
           packageRec = 'Uluwatu Kecak + Mount Batur Sunrise + Tegallalang Swings';
         }
 
+        const s = window.TravelStore ? window.TravelStore.getSettings() : null;
+        const customHighlight = s && s.budgetCalcPlanHighlight;
+        const customDesc = s && s.budgetCalcPlanDesc;
+
         planBreakdown.innerHTML = `
-          <div style="font-size: 0.82rem; color: #0284c7; font-weight: 800; text-transform: uppercase;">● ${tier}</div>
-          <div style="font-size: 0.9rem; font-weight: 700; color: #0f172a; margin-top: 0.2rem;">Recommended Tour Combo: ${packageRec}</div>
-          <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.25rem;">Includes private AC transport, English-speaking driver, and all entry passes.</div>
+          <div id="budgetCalcPlanHighlight" style="font-size: 0.85rem; color: #38bdf8; font-weight: 700;">● ${customHighlight || tier}</div>
+          <div style="font-size: 0.88rem; font-weight: 700; color: #f8fafc; margin-top: 0.25rem;">Recommended Tour Combo: ${packageRec}</div>
+          <div id="budgetCalcPlanDesc" style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.25rem;">${customDesc || 'Includes private AC transport, English driver, all entry passes & taxes.'}</div>
         `;
       }
     }

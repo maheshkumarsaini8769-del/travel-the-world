@@ -1138,24 +1138,43 @@
         };
       }
       let discount = 0;
-      if (match.discountPercent) {
-        discount = Math.round((numAmount * match.discountPercent) / 100);
-      } else if (match.discountFlat) {
-        discount = Math.min(numAmount, match.discountFlat);
+      if (match.discountPercent !== undefined && match.discountPercent !== null) {
+        discount = Math.round((numAmount * Number(match.discountPercent)) / 100);
+      } else if (match.discountFlat !== undefined && match.discountFlat !== null) {
+        discount = Math.min(numAmount, Number(match.discountFlat));
+      } else if (match.discount !== undefined && match.discount !== null) {
+        if (match.type === 'flat') {
+          discount = Math.min(numAmount, Number(match.discount));
+        } else {
+          discount = Math.round((numAmount * Number(match.discount)) / 100);
+        }
       }
+      const finalVal = Math.max(0, numAmount - discount);
       return {
         valid: true,
         code: cleanCode,
         discount,
         description: match.description,
-        finalAmount: Math.max(0, numAmount - discount)
+        finalTotal: finalVal,
+        finalAmount: finalVal
       };
     },
     saveCoupon: function (coupon) {
+      if (!coupon || !coupon.code) return null;
       const coupons = this.getCoupons();
       const cleanCode = (coupon.code || '').trim().toUpperCase();
       if (!cleanCode) return null;
       coupon.code = cleanCode;
+
+      // Normalize discount fields
+      if (coupon.discount !== undefined && coupon.discountPercent === undefined && coupon.discountFlat === undefined) {
+        if (coupon.type === 'flat') {
+          coupon.discountFlat = Number(coupon.discount);
+        } else {
+          coupon.discountPercent = Number(coupon.discount);
+        }
+      }
+
       const existingIdx = coupons.findIndex(c => c.code === cleanCode);
       if (existingIdx >= 0) {
         coupons[existingIdx] = { ...coupons[existingIdx], ...coupon };
@@ -1328,6 +1347,18 @@
       }
       if (newSettings.exploreSubtitle !== undefined && newSettings.exploreSubtitle !== '') {
         updated.wordExploreSubtitle = newSettings.exploreSubtitle;
+      }
+
+      // 7. Hero Title & Slide 1 aliasing
+      if (newSettings.heroTitle !== undefined && newSettings.heroTitle !== '') {
+        updated.heroSlide1Title = newSettings.heroTitle;
+      } else if (newSettings.heroSlide1Title !== undefined && newSettings.heroSlide1Title !== '') {
+        updated.heroTitle = newSettings.heroSlide1Title;
+      }
+      if (newSettings.heroDescription !== undefined && newSettings.heroDescription !== '') {
+        updated.heroSlide1Desc = newSettings.heroDescription;
+      } else if (newSettings.heroSlide1Desc !== undefined && newSettings.heroSlide1Desc !== '') {
+        updated.heroDescription = newSettings.heroSlide1Desc;
       }
 
       saveStorage(STORAGE_KEYS.SETTINGS, updated);
