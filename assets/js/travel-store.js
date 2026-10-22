@@ -16,8 +16,33 @@
     BLOGS: 'ttw_blogs_data',
     USERS: 'ttw_users_data',
     SETTINGS: 'ttw_settings_data',
+    ADMIN_ACCOUNTS: 'ttw_admin_accounts_data',
     INITIALIZED: 'ttw_data_initialized_v5'
   };
+
+  // Seed Data: Administrator & Staff Login Accounts
+  const DEFAULT_ADMIN_ACCOUNTS = [
+    {
+      id: 'admin-mahesh',
+      name: 'Mahesh Saini',
+      email: 'maheshkumarsaini8769@gmail.com',
+      username: 'mahesh',
+      password: 'mahesh99830',
+      role: 'Super Admin',
+      isPrimary: true,
+      createdAt: '2026-10-22'
+    },
+    {
+      id: 'admin-default',
+      name: 'Administrator',
+      email: 'admin@traveltheworld.com',
+      username: 'admin',
+      password: 'admin123',
+      role: 'Backup Admin',
+      isPrimary: false,
+      createdAt: '2026-10-01'
+    }
+  ];
 
   // Seed Data: Curated Indonesian / Bali Tours & Experiences
   const DEFAULT_TOURS = [
@@ -1265,6 +1290,108 @@
       return user;
     },
 
+    // ADMIN LOGIN CREDENTIALS & ACCESS CONTROL
+    getAdminAccounts: function () {
+      let accounts = loadStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, null);
+      if (!accounts || !Array.isArray(accounts) || accounts.length === 0) {
+        accounts = JSON.parse(JSON.stringify(DEFAULT_ADMIN_ACCOUNTS));
+        saveStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, accounts);
+      }
+      // Ensure Mahesh's account is always present and marked as primary
+      let maheshAcc = accounts.find(a => (a.email && a.email.toLowerCase() === 'maheshkumarsaini8769@gmail.com') || (a.username && a.username.toLowerCase() === 'mahesh'));
+      if (!maheshAcc) {
+        maheshAcc = { ...DEFAULT_ADMIN_ACCOUNTS[0] };
+        accounts.unshift(maheshAcc);
+        saveStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, accounts);
+      }
+      return accounts;
+    },
+
+    saveAdminAccounts: function (accounts) {
+      saveStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, accounts);
+      this.triggerUpdate('admin-accounts');
+      return accounts;
+    },
+
+    getPrimaryAdmin: function () {
+      const accounts = this.getAdminAccounts();
+      return accounts.find(a => a.isPrimary) || accounts.find(a => a.email && a.email.toLowerCase() === 'maheshkumarsaini8769@gmail.com') || accounts[0];
+    },
+
+    updatePrimaryAdmin: function (creds) {
+      const accounts = this.getAdminAccounts();
+      let primary = accounts.find(a => a.isPrimary) || accounts.find(a => a.email && a.email.toLowerCase() === 'maheshkumarsaini8769@gmail.com') || accounts[0];
+      if (primary) {
+        if (creds.name) primary.name = creds.name.trim();
+        if (creds.email) primary.email = creds.email.trim();
+        if (creds.username) primary.username = creds.username.trim();
+        if (creds.password) primary.password = creds.password.trim();
+        primary.isPrimary = true;
+      }
+      this.saveAdminAccounts(accounts);
+      return primary;
+    },
+
+    saveAdminAccount: function (accData) {
+      const accounts = this.getAdminAccounts();
+      if (accData.id) {
+        const idx = accounts.findIndex(a => a.id === accData.id);
+        if (idx !== -1) {
+          accounts[idx] = { ...accounts[idx], ...accData };
+        } else {
+          accounts.push(accData);
+        }
+      } else {
+        const newAcc = {
+          id: 'admin-' + Date.now(),
+          name: accData.name || 'Staff User',
+          email: accData.email.trim(),
+          username: accData.username ? accData.username.trim() : accData.email.split('@')[0],
+          password: accData.password.trim(),
+          role: accData.role || 'Manager',
+          isPrimary: false,
+          createdAt: new Date().toISOString().split('T')[0]
+        };
+        accounts.push(newAcc);
+      }
+      this.saveAdminAccounts(accounts);
+      return accounts;
+    },
+
+    deleteAdminAccount: function (id) {
+      let accounts = this.getAdminAccounts();
+      // Protect the primary super admin
+      accounts = accounts.filter(a => a.id !== id || a.isPrimary);
+      this.saveAdminAccounts(accounts);
+      return accounts;
+    },
+
+    verifyAdminLogin: function (userOrEmail, password) {
+      if (!userOrEmail || !password) return { success: false, message: 'Please enter username/email and password.' };
+      const q = userOrEmail.trim().toLowerCase();
+      const p = password.trim();
+
+      const accounts = this.getAdminAccounts();
+      const match = accounts.find(a => 
+        ((a.email && a.email.toLowerCase() === q) || (a.username && a.username.toLowerCase() === q)) &&
+        a.password === p
+      );
+
+      if (match) {
+        return { success: true, user: match };
+      }
+
+      // Built-in hardcoded fallback guarantee for Mahesh's credentials
+      if ((q === 'maheshkumarsaini8769@gmail.com' || q === 'mahesh') && (p === 'mahesh99830' || p === 'mahesh2026')) {
+        return { success: true, user: accounts[0] || DEFAULT_ADMIN_ACCOUNTS[0] };
+      }
+      if (q === 'admin' && (p === 'admin123' || p === 'admin')) {
+        return { success: true, user: { name: 'Administrator', role: 'Backup Admin', email: 'admin@traveltheworld.com' } };
+      }
+
+      return { success: false, message: 'Invalid email/username or password. Please try again.' };
+    },
+
     // SETTINGS
     getFaqs: function () {
       const s = this.getSettings();
@@ -1835,6 +1962,7 @@
       saveStorage(STORAGE_KEYS.BLOGS, DEFAULT_BLOGS);
       saveStorage(STORAGE_KEYS.USERS, DEFAULT_USERS);
       saveStorage(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS);
+      saveStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, DEFAULT_ADMIN_ACCOUNTS);
       this.triggerUpdate('reset');
       this.applyActiveThemeAndContent();
       return true;

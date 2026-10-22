@@ -66,8 +66,9 @@ npx serve .
 
 | Field | Value |
 | :--- | :--- |
-| **Username** | `admin` (or `mahesh`) |
-| **Password** | `admin123` (or `mahesh2026`) |
+| **Email / Username** | `maheshkumarsaini8769@gmail.com` (or `admin` / `mahesh`) |
+| **Password** | `mahesh99830` (or `admin123`) |
+| **Credentials Manager** | Change email, password, and manage staff logins directly inside Admin Console -> System Settings |
 
 ---
 

@@ -1451,6 +1451,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (airportEl) airportEl.value = settings.addonAirportPrice !== undefined ? settings.addonAirportPrice : 2500;
     if (droneEl) droneEl.value = settings.addonDronePrice !== undefined ? settings.addonDronePrice : 4500;
     if (foodEl) foodEl.value = settings.addonFoodPrice !== undefined ? settings.addonFoodPrice : 6000;
+
+    populateAdminSelfCreds();
+    renderAdminAccountsTable();
   }
 
   if (settingsForm) {
@@ -1499,6 +1502,232 @@ document.addEventListener('DOMContentLoaded', () => {
       a.click();
       URL.revokeObjectURL(url);
       showAdminToast('Database exported to JSON file.');
+    });
+  }
+
+  // =========================================================================
+  // ADMIN CREDENTIALS & SECURITY MANAGEMENT
+  // (Change Email, Password, and Manage Staff Logins)
+  // =========================================================================
+  const selfCredsForm = document.getElementById('adminSelfCredsForm');
+  const btnToggleMyPassword = document.getElementById('btnToggleMyPassword');
+  const btnToggleLoginPassword = document.getElementById('btnToggleLoginPassword');
+  const adminAccountsTableBody = document.getElementById('adminAccountsTableBody');
+  const btnAddNewAdminUser = document.getElementById('btnAddNewAdminUser');
+  const adminAccountModal = document.getElementById('adminAccountModal');
+  const adminAccountForm = document.getElementById('adminAccountForm');
+  const adminUserPill = document.getElementById('adminUserPill');
+
+  function updateHeaderUserPill(user) {
+    if (!user) return;
+    const nameEl = document.getElementById('adminHeaderUserName');
+    const roleEl = document.getElementById('adminHeaderUserRole');
+    const avatarEl = document.getElementById('adminHeaderAvatar');
+    if (nameEl) nameEl.textContent = user.name || 'Mahesh Saini';
+    if (roleEl) roleEl.textContent = user.role || 'Super Admin';
+    if (avatarEl && user.name) {
+      avatarEl.textContent = user.name.trim().charAt(0).toUpperCase();
+    }
+  }
+
+  function populateAdminSelfCreds() {
+    if (!window.TravelStore) return;
+    const primary = window.TravelStore.getPrimaryAdmin();
+    if (primary) {
+      const nameInput = document.getElementById('adminMyName');
+      const emailInput = document.getElementById('adminMyEmail');
+      const userInput = document.getElementById('adminMyUsername');
+      const passInput = document.getElementById('adminMyPassword');
+      if (nameInput) nameInput.value = primary.name || 'Mahesh Saini';
+      if (emailInput) emailInput.value = primary.email || 'maheshkumarsaini8769@gmail.com';
+      if (userInput) userInput.value = primary.username || 'mahesh';
+      if (passInput) passInput.value = primary.password || 'mahesh99830';
+
+      updateHeaderUserPill(primary);
+
+      const hintEl = document.getElementById('adminAuthHint');
+      if (hintEl) {
+        hintEl.innerHTML = `<svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <strong>Admin Login:</strong> <code>${window.TravelStore.escapeHtml(primary.email)}</code> &bull; Password: <code>${window.TravelStore.escapeHtml(primary.password)}</code>`;
+      }
+    }
+  }
+
+  function renderAdminAccountsTable() {
+    if (!adminAccountsTableBody || !window.TravelStore) return;
+    const accounts = window.TravelStore.getAdminAccounts();
+    adminAccountsTableBody.innerHTML = accounts.map((acc) => `
+      <tr data-acc-id="${acc.id}">
+        <td>
+          <div style="font-weight: 700; color: #0f172a;">${window.TravelStore.escapeHtml(acc.name || 'Staff User')}</div>
+          ${acc.isPrimary ? '<span style="display: inline-block; font-size: 0.7rem; font-weight: 800; background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 10px; margin-top: 3px;">Primary Account</span>' : ''}
+        </td>
+        <td>
+          <div style="font-size: 0.85rem; font-weight: 600; color: #1e293b;">${window.TravelStore.escapeHtml(acc.email || '')}</div>
+          ${acc.username ? `<span style="font-size: 0.75rem; color: #64748b;">User: ${window.TravelStore.escapeHtml(acc.username)}</span>` : ''}
+        </td>
+        <td>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <code class="acc-pass-text" style="font-size: 0.82rem; background: #f1f5f9; padding: 2px 6px; border-radius: 4px;" data-password="${window.TravelStore.escapeHtml(acc.password || '')}">••••••••</code>
+            <button type="button" class="btn-toggle-row-pass" style="background: none; border: none; cursor: pointer; color: #64748b; padding: 2px;" title="Show/Hide Password" aria-label="Show password">
+              <svg class="ui-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </td>
+        <td>
+          <span style="font-size: 0.78rem; font-weight: 700; padding: 3px 8px; border-radius: 12px; background: ${acc.role === 'Super Admin' ? '#e0e7ff; color: #3730a3;' : '#f3f4f6; color: #374151;'}">
+            ${window.TravelStore.escapeHtml(acc.role || 'Manager')}
+          </span>
+        </td>
+        <td>
+          <div style="display: flex; gap: 0.4rem;">
+            <button type="button" class="btn-action-icon edit-acc-btn" data-id="${acc.id}" title="Edit Credentials">
+              <svg class="ui-icon" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+            </button>
+            ${!acc.isPrimary && accounts.length > 1 ? `
+              <button type="button" class="btn-action-icon delete delete-acc-btn" data-id="${acc.id}" title="Remove Login Account">
+                <svg class="ui-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+              </button>
+            ` : ''}
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    // Attach row password eye toggles
+    adminAccountsTableBody.querySelectorAll('.btn-toggle-row-pass').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const row = btn.closest('tr');
+        const code = row ? row.querySelector('.acc-pass-text') : null;
+        if (code) {
+          const pass = code.getAttribute('data-password');
+          if (code.textContent === '••••••••') {
+            code.textContent = pass;
+          } else {
+            code.textContent = '••••••••';
+          }
+        }
+      });
+    });
+
+    // Attach edit button listeners
+    adminAccountsTableBody.querySelectorAll('.edit-acc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const acc = accounts.find(a => a.id === id);
+        if (acc && adminAccountModal) {
+          document.getElementById('adminAccountModalTitle').textContent = 'Edit Login Credentials';
+          document.getElementById('formAccId').value = acc.id;
+          document.getElementById('formAccName').value = acc.name || '';
+          document.getElementById('formAccEmail').value = acc.email || '';
+          document.getElementById('formAccUsername').value = acc.username || '';
+          document.getElementById('formAccPassword').value = acc.password || '';
+          document.getElementById('formAccRole').value = acc.role || 'Tour Manager';
+          adminAccountModal.classList.add('active');
+        }
+      });
+    });
+
+    // Attach delete button listeners
+    adminAccountsTableBody.querySelectorAll('.delete-acc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const acc = accounts.find(a => a.id === id);
+        if (acc && confirm(`Are you sure you want to remove access for "${acc.name}" (${acc.email})?`)) {
+          window.TravelStore.deleteAdminAccount(id);
+          showAdminToast(`Login access removed for ${acc.name}.`);
+          renderAdminAccountsTable();
+        }
+      });
+    });
+  }
+
+  // Toggle my password visibility
+  if (btnToggleMyPassword) {
+    btnToggleMyPassword.addEventListener('click', () => {
+      const passInput = document.getElementById('adminMyPassword');
+      if (passInput) {
+        passInput.type = passInput.type === 'password' ? 'text' : 'password';
+      }
+    });
+  }
+
+  // Toggle login password visibility
+  if (btnToggleLoginPassword) {
+    btnToggleLoginPassword.addEventListener('click', () => {
+      if (authPassInput) {
+        authPassInput.type = authPassInput.type === 'password' ? 'text' : 'password';
+      }
+    });
+  }
+
+  // My Self Credentials Form Submission
+  if (selfCredsForm) {
+    selfCredsForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('adminMyName').value.trim();
+      const email = document.getElementById('adminMyEmail').value.trim();
+      const username = document.getElementById('adminMyUsername').value.trim();
+      const password = document.getElementById('adminMyPassword').value.trim();
+
+      if (!email || !password) {
+        showAdminToast('Email and password are required!');
+        return;
+      }
+
+      window.TravelStore.updatePrimaryAdmin({ name, email, username, password });
+      updateHeaderUserPill({ name, role: 'Super Admin' });
+      renderAdminAccountsTable();
+      showAdminToast('Super Admin credentials updated successfully! New login details saved.');
+    });
+  }
+
+  // Add New Admin User Modal Button
+  if (btnAddNewAdminUser && adminAccountModal) {
+    btnAddNewAdminUser.addEventListener('click', () => {
+      document.getElementById('adminAccountModalTitle').textContent = 'Add Staff / Admin Login';
+      document.getElementById('formAccId').value = '';
+      if (adminAccountForm) adminAccountForm.reset();
+      adminAccountModal.classList.add('active');
+    });
+  }
+
+  // Staff Account Form Submission
+  if (adminAccountForm) {
+    adminAccountForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('formAccId').value.trim();
+      const name = document.getElementById('formAccName').value.trim();
+      const email = document.getElementById('formAccEmail').value.trim();
+      const username = document.getElementById('formAccUsername').value.trim();
+      const password = document.getElementById('formAccPassword').value.trim();
+      const role = document.getElementById('formAccRole').value;
+
+      if (!email || !password) {
+        showAdminToast('Email and password are required.');
+        return;
+      }
+
+      window.TravelStore.saveAdminAccount({ id: id || undefined, name, email, username, password, role });
+      adminAccountModal?.classList.remove('active');
+      renderAdminAccountsTable();
+      showAdminToast(`Login credentials saved for ${name}!`);
+    });
+  }
+
+  // Header user pill click to jump to credentials
+  if (adminUserPill) {
+    adminUserPill.addEventListener('click', () => {
+      const settingsTab = document.querySelector('.sidebar-link[data-tab="settings"]');
+      if (settingsTab) {
+        settingsTab.click();
+        setTimeout(() => {
+          const sec = document.getElementById('adminSecurityCard');
+          if (sec) {
+            sec.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('adminMyPassword')?.focus();
+          }
+        }, 150);
+      }
     });
   }
 
@@ -2086,6 +2315,8 @@ document.addEventListener('DOMContentLoaded', () => {
     populateAboutForm();
     renderFaqsTable();
     populateSettings();
+    populateAdminSelfCreds();
+    renderAdminAccountsTable();
     populateCustomizer();
     populateWords();
   }
@@ -2122,6 +2353,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const session = sessionStorage.getItem('ttw_admin_session');
     if (session === 'active') {
       if (authOverlay) authOverlay.classList.remove('active');
+      try {
+        const storedUser = sessionStorage.getItem('ttw_admin_user');
+        if (storedUser) {
+          updateHeaderUserPill(JSON.parse(storedUser));
+        } else if (window.TravelStore) {
+          updateHeaderUserPill(window.TravelStore.getPrimaryAdmin());
+        }
+      } catch (e) {}
       return true;
     } else {
       if (authOverlay) {
@@ -2135,18 +2374,31 @@ document.addEventListener('DOMContentLoaded', () => {
   if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const u = (authUserInput ? authUserInput.value.trim().toLowerCase() : '');
+      const u = (authUserInput ? authUserInput.value.trim() : '');
       const p = (authPassInput ? authPassInput.value.trim() : '');
 
-      // Accepted administrative credentials
-      const validUsers = ['admin', 'mahesh'];
-      const validPass = ['admin123', 'mahesh2026', 'admin'];
+      let verified = null;
+      if (window.TravelStore && typeof window.TravelStore.verifyAdminLogin === 'function') {
+        verified = window.TravelStore.verifyAdminLogin(u, p);
+      } else {
+        const q = u.toLowerCase();
+        if ((q === 'maheshkumarsaini8769@gmail.com' || q === 'mahesh' || q === 'admin') &&
+            (p === 'mahesh99830' || p === 'admin123')) {
+          verified = { success: true, user: { name: 'Mahesh Saini', role: 'Super Admin', email: 'maheshkumarsaini8769@gmail.com' } };
+        } else {
+          verified = { success: false };
+        }
+      }
 
-      if (validUsers.includes(u) && validPass.includes(p)) {
+      if (verified && verified.success) {
         sessionStorage.setItem('ttw_admin_session', 'active');
+        if (verified.user) {
+          sessionStorage.setItem('ttw_admin_user', JSON.stringify(verified.user));
+          updateHeaderUserPill(verified.user);
+        }
         if (authError) authError.classList.remove('visible');
         if (authOverlay) authOverlay.classList.remove('active');
-        showAdminToast('Welcome to Admin Console, ' + (u === 'mahesh' ? 'Mahesh' : 'Administrator') + '!');
+        showAdminToast('Welcome to Admin Console, ' + ((verified.user && verified.user.name) ? verified.user.name : 'Administrator') + '!');
         renderAll();
       } else {
         if (authError) authError.classList.add('visible');
@@ -2161,6 +2413,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnLogout) {
     btnLogout.addEventListener('click', () => {
       sessionStorage.removeItem('ttw_admin_session');
+      sessionStorage.removeItem('ttw_admin_user');
       if (authError) authError.classList.remove('visible');
       if (authPassInput) authPassInput.value = '';
       if (authOverlay) authOverlay.classList.add('active');

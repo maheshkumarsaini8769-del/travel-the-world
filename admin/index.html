@@ -136,11 +136,11 @@
 
       <div class="header-right">
         <div class="header-date-badge" id="headerLiveDate"><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span id="headerLiveDateText">Live Console</span></div>
-        <div class="admin-user-pill">
-          <div class="admin-avatar">M</div>
+        <div class="admin-user-pill" id="adminUserPill" style="cursor: pointer;" title="Manage Your Admin Password & Credentials">
+          <div class="admin-avatar" id="adminHeaderAvatar">M</div>
           <div class="admin-user-info">
-            <span class="admin-user-name">Mahesh</span>
-            <span class="admin-user-role">Super Administrator</span>
+            <span class="admin-user-name" id="adminHeaderUserName">Mahesh Saini</span>
+            <span class="admin-user-role" id="adminHeaderUserRole">Super Admin</span>
           </div>
         </div>
         <button id="btnAdminLogout" class="btn-admin-logout" title="Securely Log Out">
@@ -847,6 +847,108 @@
             </div>
           </div>
 
+        </div>
+
+        <!-- ==============================================
+             ADMIN LOGIN CREDENTIALS & ACCESS SECURITY
+             Allows Mahesh to change his email & password,
+             and add/manage staff login accounts
+             ============================================== -->
+        <div style="margin-top: 2rem;">
+          <div class="admin-card" id="adminSecurityCard" style="border-top: 4px solid #2563eb;">
+            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h3 class="admin-card-title" style="display: flex; align-items: center; gap: 0.5rem; font-size: 1.15rem;">
+                  <svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Admin Login & Security (Password & Access Management)
+                </h3>
+                <p style="font-size: 0.82rem; color: #64748b; margin-top: 0.25rem;">
+                  Change your personal admin login email and password, or create login accounts for other staff members.
+                </p>
+              </div>
+              <button type="button" class="btn-admin-primary" id="btnAddNewAdminUser">
+                <svg class="ui-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>+ Add Staff / Admin Login</span>
+              </button>
+            </div>
+
+            <div class="admin-card-body">
+              <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 2rem;">
+                
+                <!-- MY PROFILE & PASSWORD CHANGE FORM -->
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem;">
+                  <h4 style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    My Super Admin Credentials
+                  </h4>
+                  <p style="font-size: 0.78rem; color: #64748b; margin-bottom: 1.25rem;">
+                    Update your personal login email or change your password anytime.
+                  </p>
+
+                  <form id="adminSelfCredsForm">
+                    <div class="admin-form-group">
+                      <label for="adminMyName">Full Name</label>
+                      <input type="text" id="adminMyName" class="admin-form-control" value="Mahesh Saini" required>
+                    </div>
+
+                    <div class="admin-form-group">
+                      <label for="adminMyEmail">Login Email Address</label>
+                      <input type="email" id="adminMyEmail" class="admin-form-control" value="maheshkumarsaini8769@gmail.com" required>
+                    </div>
+
+                    <div class="admin-form-group">
+                      <label for="adminMyUsername">Login Username (Alternative)</label>
+                      <input type="text" id="adminMyUsername" class="admin-form-control" value="mahesh" required>
+                    </div>
+
+                    <div class="admin-form-group">
+                      <label for="adminMyPassword">Password</label>
+                      <div style="position: relative;">
+                        <input type="password" id="adminMyPassword" class="admin-form-control" value="mahesh99830" required style="padding-right: 2.75rem;">
+                        <button type="button" id="btnToggleMyPassword" class="btn-toggle-pass" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #64748b; padding: 4px;" title="Show/Hide Password" aria-label="Show or hide password">
+                          <svg class="ui-icon" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <button type="submit" class="btn-admin-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
+                      <svg class="ui-icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                      <span>Update My Credentials</span>
+                    </button>
+                  </form>
+                </div>
+
+                <!-- ALL AUTHORIZED ADMIN / STAFF LOGINS TABLE -->
+                <div>
+                  <h4 style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <svg class="ui-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Authorized Login Accounts (Can Access Admin Panel)
+                  </h4>
+                  <p style="font-size: 0.78rem; color: #64748b; margin-bottom: 1rem;">
+                    Any person listed below can unlock the Admin Console with their email/username and password.
+                  </p>
+
+                  <div class="table-responsive">
+                    <table class="admin-table">
+                      <thead>
+                        <tr>
+                          <th>Account Name</th>
+                          <th>Login Email / Username</th>
+                          <th>Password</th>
+                          <th>Role</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="adminAccountsTableBody">
+                        <!-- Populated dynamically via admin.js -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -2044,6 +2146,55 @@
     </div>
   </div>
 
+  <!-- ==============================================
+       MODAL: ADD / EDIT ADMIN OR STAFF LOGIN
+       ============================================== -->
+  <div class="admin-modal-backdrop" id="adminAccountModal">
+    <div class="admin-modal" style="max-width: 500px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title" id="adminAccountModalTitle">Add Staff / Admin Login</h3>
+        <button class="admin-modal-close" onclick="document.getElementById('adminAccountModal').classList.remove('active')" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form id="adminAccountForm">
+          <input type="hidden" id="formAccId" value="">
+          <div class="admin-form-group">
+            <label for="formAccName">Staff / Admin Name</label>
+            <input type="text" id="formAccName" class="admin-form-control" placeholder="e.g. Ramesh Kumar" required>
+          </div>
+          <div class="admin-form-group">
+            <label for="formAccEmail">Login Email Address</label>
+            <input type="email" id="formAccEmail" class="admin-form-control" placeholder="e.g. ramesh@traveltheworld.com" required>
+          </div>
+          <div class="admin-form-group">
+            <label for="formAccUsername">Login Username (Optional)</label>
+            <input type="text" id="formAccUsername" class="admin-form-control" placeholder="e.g. ramesh">
+          </div>
+          <div class="admin-form-group">
+            <label for="formAccPassword">Login Password</label>
+            <div style="position: relative;">
+              <input type="text" id="formAccPassword" class="admin-form-control" placeholder="Enter secure password" required style="padding-right: 2.5rem;">
+            </div>
+            <span style="font-size: 0.72rem; color: #64748b;">This person will use this email and password to log in.</span>
+          </div>
+          <div class="admin-form-group">
+            <label for="formAccRole">Administrative Role</label>
+            <select id="formAccRole" class="admin-form-control">
+              <option value="Super Admin">Super Admin (Full Console Access)</option>
+              <option value="Tour Manager">Tour Manager (Bookings & Tours)</option>
+              <option value="Concierge Support">Concierge Support (Inquiries & Chat)</option>
+              <option value="Content Editor">Content Editor (Blogs & Reviews)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-admin-primary" style="width: 100%; justify-content: center; padding: 0.85rem; margin-top: 1rem;">
+            <svg class="ui-icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span id="formAccSaveBtnText">Save Login Credentials</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
 
   <!-- ==============================================
        ADMIN AUTHENTICATION GATE (SECURITY MODAL)
@@ -2055,18 +2206,23 @@
       <p class="auth-sub">Enter administrator credentials to manage Travel The World console.</p>
       
       <div class="admin-auth-error" id="adminAuthError">
-        Invalid username or password. Please try again.
+        Invalid email/username or password. Please try again.
       </div>
 
       <form id="adminLoginForm">
         <div class="admin-form-group" style="text-align: left; margin-bottom: 1.1rem;">
-          <label for="adminAuthUsername" style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.4rem;">Username</label>
-          <input type="text" id="adminAuthUsername" class="admin-form-control" placeholder="Enter username (e.g. admin)" required autocomplete="username">
+          <label for="adminAuthUsername" style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.4rem;">Email Address / Username</label>
+          <input type="text" id="adminAuthUsername" class="admin-form-control" placeholder="maheshkumarsaini8769@gmail.com or admin" required autocomplete="username">
         </div>
 
         <div class="admin-form-group" style="text-align: left; margin-bottom: 1.5rem;">
           <label for="adminAuthPassword" style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.4rem;">Password</label>
-          <input type="password" id="adminAuthPassword" class="admin-form-control" placeholder="Enter password" required autocomplete="current-password">
+          <div style="position: relative;">
+            <input type="password" id="adminAuthPassword" class="admin-form-control" placeholder="Enter password" required autocomplete="current-password" style="padding-right: 2.75rem;">
+            <button type="button" id="btnToggleLoginPassword" class="btn-toggle-pass" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #64748b; padding: 4px;" title="Show/Hide Password" aria-label="Show or hide password">
+              <svg class="ui-icon" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
         </div>
 
         <button type="submit" class="btn-admin-primary" style="width: 100%; justify-content: center; padding: 0.85rem; font-size: 0.95rem;">
@@ -2074,8 +2230,8 @@
         </button>
       </form>
 
-      <div class="admin-auth-hint">
-        <svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <strong>Admin Access:</strong> Username: <code>admin</code> &bull; Password: <code>admin123</code>
+      <div class="admin-auth-hint" id="adminAuthHint">
+        <svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <strong>Admin Login:</strong> <code>maheshkumarsaini8769@gmail.com</code> &bull; Password: <code>mahesh99830</code>
       </div>
 
       <div>
