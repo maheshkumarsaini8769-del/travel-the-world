@@ -1849,17 +1849,33 @@
           </div>
 
           <div class="admin-form-group">
-            <label for="formTourImg">Image Asset Path / URL</label>
-            <select id="formTourImg" class="admin-form-control">
-              <option value="assets/images/featured-uluwatu.jpg">featured-uluwatu.jpg</option>
-              <option value="assets/images/featured-tanah-lot.jpg">featured-tanah-lot.jpg</option>
-              <option value="assets/images/waterbom.jpg">waterbom.jpg</option>
-              <option value="assets/images/tegallalang.jpg">tegallalang.jpg</option>
-              <option value="assets/images/mount-batur.jpg">mount-batur.jpg</option>
-              <option value="assets/images/nusa-penida.jpg">nusa-penida.jpg</option>
-              <option value="assets/images/hero-ulun-danu.jpg">hero-ulun-danu.jpg</option>
-              <option value="assets/images/hero-gates.jpg">hero-gates.jpg</option>
-            </select>
+            <label for="formTourImg">Tour Showcase Image</label>
+            <div class="media-field-row">
+              <input type="text" id="formTourImg" class="admin-form-control media-field-input" placeholder="assets/images/featured-uluwatu.jpg or uploaded image" required>
+              <label class="btn-upload-file">
+                <svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                <span>Upload from Gallery</span>
+                <input type="file" id="uploadTourImg" accept="image/*" style="display: none;">
+              </label>
+            </div>
+            <div class="media-preview-container">
+              <img id="previewTourImg" src="../assets/images/featured-uluwatu.jpg" alt="Tour preview" class="media-thumb-preview">
+              <div style="flex: 1;">
+                <label for="selectTourPreset" style="font-size: 0.75rem; color: #64748b; display: block; margin-bottom: 0.2rem;">Or pick from preset island photos:</label>
+                <select id="selectTourPreset" class="admin-form-control" style="font-size: 0.8rem; padding: 0.35rem 0.6rem;">
+                  <option value="">-- Choose preset image --</option>
+                  <option value="assets/images/featured-uluwatu.jpg">featured-uluwatu.jpg (Uluwatu Sunset)</option>
+                  <option value="assets/images/featured-tanah-lot.jpg">featured-tanah-lot.jpg (Tanah Lot Temple)</option>
+                  <option value="assets/images/waterbom.jpg">waterbom.jpg (Waterbom Park)</option>
+                  <option value="assets/images/tegallalang.jpg">tegallalang.jpg (Tegallalang Terraces)</option>
+                  <option value="assets/images/mount-batur.jpg">mount-batur.jpg (Mount Batur Sunrise)</option>
+                  <option value="assets/images/nusa-penida.jpg">nusa-penida.jpg (Nusa Penida Coast)</option>
+                  <option value="assets/images/hero-ulun-danu.jpg">hero-ulun-danu.jpg (Ulun Danu Beratan)</option>
+                  <option value="assets/images/hero-gates.jpg">hero-gates.jpg (Gates of Heaven)</option>
+                  <option value="assets/images/hero-beach.jpg">hero-beach.jpg (Nusa Dua Beach)</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <div class="admin-form-group">
@@ -1960,14 +1976,31 @@
               <input type="text" id="formBlogAuthor" class="admin-form-control" placeholder="Priya Sharma" required>
             </div>
             <div class="admin-form-group">
-              <label for="formBlogImage">Cover Image</label>
-              <select id="formBlogImage" class="admin-form-control">
-                <option value="assets/images/featured-uluwatu.jpg">featured-uluwatu.jpg</option>
-                <option value="assets/images/tegallalang.jpg">tegallalang.jpg</option>
-                <option value="assets/images/nusa-penida.jpg">nusa-penida.jpg</option>
-                <option value="assets/images/mount-batur.jpg">mount-batur.jpg</option>
-                <option value="assets/images/hero-ulun-danu.jpg">hero-ulun-danu.jpg</option>
-              </select>
+              <label for="formBlogImage">Article Cover Image</label>
+              <div class="media-field-row">
+                <input type="text" id="formBlogImage" class="admin-form-control media-field-input" placeholder="assets/images/featured-uluwatu.jpg or uploaded image" required>
+                <label class="btn-upload-file">
+                  <svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                  <span>Upload from Gallery</span>
+                  <input type="file" id="uploadBlogImg" accept="image/*" style="display: none;">
+                </label>
+              </div>
+              <div class="media-preview-container">
+                <img id="previewBlogImg" src="../assets/images/featured-uluwatu.jpg" alt="Blog cover preview" class="media-thumb-preview">
+                <div style="flex: 1;">
+                  <label for="selectBlogPreset" style="font-size: 0.75rem; color: #64748b; display: block; margin-bottom: 0.2rem;">Or pick from preset island photos:</label>
+                  <select id="selectBlogPreset" class="admin-form-control" style="font-size: 0.8rem; padding: 0.35rem 0.6rem;">
+                    <option value="">-- Choose preset image --</option>
+                    <option value="assets/images/featured-uluwatu.jpg">featured-uluwatu.jpg (Uluwatu Sunset)</option>
+                    <option value="assets/images/tegallalang.jpg">tegallalang.jpg (Tegallalang Terraces)</option>
+                    <option value="assets/images/nusa-penida.jpg">nusa-penida.jpg (Nusa Penida Coast)</option>
+                    <option value="assets/images/mount-batur.jpg">mount-batur.jpg (Mount Batur Sunrise)</option>
+                    <option value="assets/images/hero-ulun-danu.jpg">hero-ulun-danu.jpg (Ulun Danu Beratan)</option>
+                    <option value="assets/images/hero-gates.jpg">hero-gates.jpg (Gates of Heaven)</option>
+                    <option value="assets/images/hero-beach.jpg">hero-beach.jpg (Nusa Dua Beach)</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
           <div class="admin-form-group">

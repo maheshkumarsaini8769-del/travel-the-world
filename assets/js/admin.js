@@ -518,12 +518,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (inputOrigPrice) inputOrigPrice.value = tour.originalPrice || '';
       if (inputDuration) inputDuration.value = tour.duration;
       if (inputRating) inputRating.value = tour.rating;
-      if (inputImg) inputImg.value = tour.img;
+      if (inputImg) inputImg.value = tour.img || 'assets/images/featured-uluwatu.jpg';
       if (inputDesc) inputDesc.value = tour.description;
+      updateMediaPreview('previewTourImg', tour.img || 'assets/images/featured-uluwatu.jpg');
     } else {
       if (modalTitle) modalTitle.textContent = 'Add New Tour Package';
       tourForm.reset();
       if (inputId) inputId.value = '';
+      if (inputImg) inputImg.value = 'assets/images/featured-uluwatu.jpg';
+      updateMediaPreview('previewTourImg', 'assets/images/featured-uluwatu.jpg');
     }
 
     tourModal.classList.add('active');
@@ -1200,7 +1203,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('formBlogCategory').value = b.category || 'Travel Guide';
         document.getElementById('formBlogReadTime').value = b.readTime || '';
         document.getElementById('formBlogAuthor').value = b.author || '';
-        document.getElementById('formBlogImage').value = b.image || 'assets/images/featured-uluwatu.jpg';
+        const blogImgVal = b.image || 'assets/images/featured-uluwatu.jpg';
+        document.getElementById('formBlogImage').value = blogImgVal;
+        updateMediaPreview('previewBlogImg', blogImgVal);
         document.getElementById('formBlogSummary').value = b.excerpt || b.summary || '';
 
         blogModal?.classList.add('active');
@@ -1225,6 +1230,9 @@ document.addEventListener('DOMContentLoaded', () => {
       blogForm?.reset();
       document.getElementById('blogModalTitle').textContent = 'Write Travel Article';
       document.getElementById('formBlogId').value = '';
+      const bImg = document.getElementById('formBlogImage');
+      if (bImg) bImg.value = 'assets/images/featured-uluwatu.jpg';
+      updateMediaPreview('previewBlogImg', 'assets/images/featured-uluwatu.jpg');
       blogModal.classList.add('active');
     });
   }
@@ -1913,9 +1921,55 @@ document.addEventListener('DOMContentLoaded', () => {
     el.src = fullSrc;
   }
 
+  // Automatic Canvas Compressor for Images (Reduces 10MB Camera/Gallery Photos to ~120KB Web-Ready Data URL)
+  function compressImageFile(file, callback, maxWidth = 1280, maxHeight = 1280, quality = 0.82) {
+    if (!file) return;
+    if (!file.type || !file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (loadEvt) => callback(loadEvt.target.result);
+      reader.readAsDataURL(file);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (loadEvt) => {
+      const img = new Image();
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth || height > maxHeight) {
+          if (width / height > maxWidth / maxHeight) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          } else {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+        callback(compressedDataUrl);
+      };
+      img.onerror = () => {
+        callback(loadEvt.target.result);
+      };
+      img.src = loadEvt.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
   function setupMediaHelpers() {
-    // 1. Interactive File-to-Base64 Uploads for ANY image or video
+    // 1. Interactive File-to-Base64 Uploads for ANY image or video with automatic compression
     const uploadPairs = [
+      { fileId: 'uploadTourImg', targetInputId: 'formTourImg', previewId: 'previewTourImg' },
+      { fileId: 'uploadBlogImg', targetInputId: 'formBlogImage', previewId: 'previewBlogImg' },
       { fileId: 'uploadHeroVideo', targetInputId: 'customHeroVideo' },
       { fileId: 'uploadHeroPoster', targetInputId: 'customHeroPoster', previewId: 'previewHeroPoster' },
       { fileId: 'uploadHeroSlide1', targetInputId: 'customHeroSlide1Img', previewId: 'previewHeroSlide1' },
@@ -1932,23 +1986,24 @@ document.addEventListener('DOMContentLoaded', () => {
         fileInput.addEventListener('change', (e) => {
           const file = e.target.files && e.target.files[0];
           if (!file) return;
-          const reader = new FileReader();
-          reader.onload = (loadEvt) => {
-            const dataUrl = loadEvt.target.result;
+          showAdminToast(`Processing <strong>${file.name}</strong> from gallery...`);
+          compressImageFile(file, (dataUrl) => {
             targetInput.value = dataUrl;
+            targetInput.dispatchEvent(new Event('input'));
             if (pair.previewId) {
               const prev = document.getElementById(pair.previewId);
               if (prev) prev.src = dataUrl;
             }
-            showAdminToast(`File <strong>${file.name}</strong> loaded! Click "Save & Publish" to activate on live site.`);
-          };
-          reader.readAsDataURL(file);
+            showAdminToast(`Image <strong>${file.name}</strong> ready & optimized! Remember to save.`);
+          });
         });
       }
     });
 
     // 2. Typing or pasting custom URL updates image preview immediately
     const previewBindings = [
+      { inputId: 'formTourImg', previewId: 'previewTourImg' },
+      { inputId: 'formBlogImage', previewId: 'previewBlogImg' },
       { inputId: 'customHeroPoster', previewId: 'previewHeroPoster' },
       { inputId: 'customHeroSlide1Img', previewId: 'previewHeroSlide1' },
       { inputId: 'customHeroSlide2Img', previewId: 'previewHeroSlide2' },
@@ -1966,7 +2021,38 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 3. Preset Quick-Select Buttons
+    // 3. Preset Quick-Select Dropdowns for Tours & Blog
+    const tourPreset = document.getElementById('selectTourPreset');
+    if (tourPreset) {
+      tourPreset.addEventListener('change', (e) => {
+        if (e.target.value) {
+          const inp = document.getElementById('formTourImg');
+          if (inp) {
+            inp.value = e.target.value;
+            inp.dispatchEvent(new Event('input'));
+            updateMediaPreview('previewTourImg', e.target.value);
+            showAdminToast(`Selected preset: <strong>${e.target.value}</strong>`);
+          }
+        }
+      });
+    }
+
+    const blogPreset = document.getElementById('selectBlogPreset');
+    if (blogPreset) {
+      blogPreset.addEventListener('change', (e) => {
+        if (e.target.value) {
+          const inp = document.getElementById('formBlogImage');
+          if (inp) {
+            inp.value = e.target.value;
+            inp.dispatchEvent(new Event('input'));
+            updateMediaPreview('previewBlogImg', e.target.value);
+            showAdminToast(`Selected preset: <strong>${e.target.value}</strong>`);
+          }
+        }
+      });
+    }
+
+    // 4. Preset Quick-Select Buttons
     document.querySelectorAll('.btn-preset-media').forEach(btn => {
       btn.addEventListener('click', () => {
         const targetId = btn.getAttribute('data-target');
