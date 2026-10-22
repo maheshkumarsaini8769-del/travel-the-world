@@ -1538,18 +1538,35 @@
         }
       }
 
-      // 3. Homepage Hero Video & Poster
+      // 3. Homepage Hero Video & Poster (Strictly Muted / Zero Audio)
       const heroVideo = document.getElementById('heroVideo');
       if (heroVideo) {
+        heroVideo.muted = true;
+        heroVideo.volume = 0;
+        heroVideo.defaultMuted = true;
+        heroVideo.playsInline = true;
+        heroVideo.addEventListener('volumechange', () => {
+          if (!heroVideo.muted || heroVideo.volume > 0) {
+            heroVideo.muted = true;
+            heroVideo.volume = 0;
+          }
+        });
+
         if (settings.heroPosterUrl) {
           heroVideo.setAttribute('poster', settings.heroPosterUrl);
         }
         if (settings.heroVideoUrl) {
-          const source = heroVideo.querySelector('source');
-          if (source && source.getAttribute('src') !== settings.heroVideoUrl) {
+          let source = heroVideo.querySelector('source');
+          if (!source) {
+            source = document.createElement('source');
+            source.type = 'video/mp4';
+            heroVideo.appendChild(source);
+          }
+          if (source.getAttribute('src') !== settings.heroVideoUrl) {
             source.setAttribute('src', settings.heroVideoUrl);
             heroVideo.src = settings.heroVideoUrl;
             heroVideo.load();
+            heroVideo.play().catch(() => {});
           }
         }
       }

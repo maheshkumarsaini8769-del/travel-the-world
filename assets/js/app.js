@@ -115,6 +115,38 @@ document.addEventListener('DOMContentLoaded', () => {
   function initHeroMedia() {
     if (heroVideo) {
       heroVideo.muted = true;
+      heroVideo.volume = 0;
+      heroVideo.defaultMuted = true;
+      heroVideo.playsInline = true;
+
+      // Ensure sound remains 100% off under all conditions
+      heroVideo.addEventListener('volumechange', () => {
+        if (!heroVideo.muted || heroVideo.volume > 0) {
+          heroVideo.muted = true;
+          heroVideo.volume = 0;
+        }
+      });
+
+      // Apply any custom hero video URL & poster from store before play
+      if (window.TravelStore) {
+        const s = window.TravelStore.getSettings();
+        if (s && s.heroVideoUrl) {
+          let source = heroVideo.querySelector('source');
+          if (!source) {
+            source = document.createElement('source');
+            source.type = 'video/mp4';
+            heroVideo.appendChild(source);
+          }
+          if (source.getAttribute('src') !== s.heroVideoUrl) {
+            source.setAttribute('src', s.heroVideoUrl);
+            heroVideo.src = s.heroVideoUrl;
+          }
+        }
+        if (s && s.heroPosterUrl) {
+          heroVideo.setAttribute('poster', s.heroPosterUrl);
+        }
+      }
+
       const playPromise = heroVideo.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
@@ -174,6 +206,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (heroVideoWrapper) heroVideoWrapper.classList.remove('hidden');
     if (heroVideo) {
+      heroVideo.muted = true;
+      heroVideo.volume = 0;
+      heroVideo.defaultMuted = true;
       heroVideo.currentTime = 0;
       heroVideo.play().catch(() => {});
     }

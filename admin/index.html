@@ -98,9 +98,9 @@
       </li>
       <li class="sidebar-item">
         <a class="sidebar-link" data-tab="customizer">
-          <span class="sidebar-icon"><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></span>
-          <span>Festival & Media</span>
-          <span class="sidebar-badge" style="background: #f59e0b; color: #1e1338; font-weight: 800;">LIVE</span>
+          <span class="sidebar-icon"><svg class="ui-icon" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect width="15" height="14" x="1" y="5" rx="2" ry="2"/></svg></span>
+          <span>Header Media & Themes</span>
+          <span class="sidebar-badge" style="background: #2563eb; color: #ffffff; font-weight: 800;">HERO</span>
         </a>
       </li>
       <li class="sidebar-item">
@@ -168,11 +168,16 @@
               <span class="filter-sub-label" id="dashboardActiveFilterName">Showing: All Time Performance</span>
             </div>
           </div>
-          <div class="filter-btn-group" id="dashboardTimeFilters">
-            <button class="btn-time-filter" data-period="1d">1 Day</button>
-            <button class="btn-time-filter" data-period="7d">7 Days</button>
-            <button class="btn-time-filter" data-period="month">This Month</button>
-            <button class="btn-time-filter active" data-period="all">All Time</button>
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <button onclick="document.querySelector('.sidebar-link[data-tab=\'customizer\']').click()" class="btn-sm-outline" style="border-color: #2563eb; color: #2563eb; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; border-radius: 8px;">
+              <svg class="ui-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polygon points="23 7 16 12 23 17 23 7"/><rect width="15" height="14" x="1" y="5" rx="2" ry="2"/></svg> Header Video & Media &rarr;
+            </button>
+            <div class="filter-btn-group" id="dashboardTimeFilters">
+              <button class="btn-time-filter" data-period="1d">1 Day</button>
+              <button class="btn-time-filter" data-period="7d">7 Days</button>
+              <button class="btn-time-filter" data-period="month">This Month</button>
+              <button class="btn-time-filter active" data-period="all">All Time</button>
+            </div>
           </div>
         </div>
 
@@ -1449,11 +1454,25 @@
            Allows changing theme & all content live on website
            ============================================== -->
       <section class="admin-tab-panel" id="tab-customizer">
-        <div style="margin-bottom: 1.5rem;">
-          <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;"><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg> Festival Themes & Live Site Customizer</h2>
-          <p style="font-size: 0.88rem; color: #64748b;">
-            Switch site-wide celebration themes with 1 click & edit any headline, description, ticker, banner, or brand identity live.
-          </p>
+        <div style="background: #ffffff; border: 1px solid var(--admin-border); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.5rem;">
+              <svg class="ui-icon" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect width="15" height="14" x="1" y="5" rx="2" ry="2"/></svg>
+              Header Video, Slideshow Media & Theme Studio
+            </h2>
+            <p style="font-size: 0.85rem; color: #64748b;">
+              Customize header background video (strictly soundless), rotating slideshow images, festival themes, and live branding.
+            </p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <a href="../index.html" target="_blank" class="btn-sm-outline" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+              <svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> View Website &rarr;
+            </a>
+            <button type="submit" form="adminCustomizerForm" class="btn-admin-primary" style="background: #2563eb; padding: 0.65rem 1.4rem;">
+              <svg class="ui-icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              <span>Save & Publish Live Changes</span>
+            </button>
+          </div>
         </div>
 
         <!-- 1. FESTIVAL THEME SWITCHER CARDS -->
@@ -1613,15 +1632,21 @@
             </div>
 
             <!-- HERO SECTION & CINEMATIC VIDEO CUSTOMIZER -->
-            <div class="admin-card">
-              <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
-                <h3 class="admin-card-title">Homepage Hero Video & Poster</h3>
-                <span style="font-size: 0.75rem; background: #eff6ff; color: #2563eb; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700;">4-5s Intro Video</span>
+            <div class="admin-card" id="headerHeroVideoCard">
+              <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                <h3 class="admin-card-title" style="display: flex; align-items: center; gap: 0.5rem;">
+                  <svg class="ui-icon" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect width="15" height="14" x="1" y="5" rx="2" ry="2"/></svg>
+                  Header Background Video & Poster
+                </h3>
+                <span style="font-size: 0.75rem; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem;">
+                  <svg class="ui-icon" viewBox="0 0 24 24" style="width: 13px; height: 13px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                  100% Soundless (Muted)
+                </span>
               </div>
               <div class="admin-card-body">
                 <!-- Video Source Path / URL -->
                 <div class="admin-form-group">
-                  <label for="customHeroVideo">Hero Video Path or Custom MP4 URL</label>
+                  <label for="customHeroVideo" style="font-weight: 700;">Hero Video MP4 URL or Local Path</label>
                   <div class="media-field-row">
                     <input type="text" id="customHeroVideo" class="admin-form-control media-field-input" placeholder="assets/videos/hero-bali.mp4">
                     <label class="btn-upload-file">
@@ -1629,15 +1654,29 @@
                       <input type="file" id="uploadHeroVideo" accept="video/mp4,video/*" style="display: none;">
                     </label>
                   </div>
-                  <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem; flex-wrap: wrap;">
-                    <span style="font-size: 0.74rem; color: #64748b; font-weight: 600;">Presets:</span>
-                    <button type="button" class="btn-preset-media" data-target="customHeroVideo" data-val="assets/videos/hero-bali.mp4" style="font-size: 0.72rem; padding: 0.15rem 0.45rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Bali 4K Reel (Default)</button>
+
+                  <!-- Live Silent Preview Player -->
+                  <div style="margin-top: 0.6rem; position: relative;">
+                    <video id="previewHeroVideoPlayer" src="../assets/videos/hero-bali.mp4" muted defaultMuted autoplay loop playsinline style="width: 100%; height: 125px; object-fit: cover; border-radius: 8px; border: 1px solid #cbd5e1; background: #000; display: block;"></video>
+                    <span style="position: absolute; bottom: 6px; left: 8px; background: rgba(0,0,0,0.7); color: #fff; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                      <svg class="ui-icon" viewBox="0 0 24 24" style="width: 11px; height: 11px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                      Silent Live Preview
+                    </span>
+                  </div>
+
+                  <!-- Instant 1-Click Video Presets -->
+                  <div style="display: flex; gap: 0.4rem; margin-top: 0.6rem; flex-wrap: wrap; align-items: center;">
+                    <span style="font-size: 0.74rem; color: #64748b; font-weight: 700;">1-Click 4K Presets:</span>
+                    <button type="button" class="btn-preset-media" data-target="customHeroVideo" data-val="assets/videos/hero-bali.mp4" style="font-size: 0.72rem; padding: 0.2rem 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Bali 4K Reel (Default)</button>
+                    <button type="button" class="btn-preset-media" data-target="customHeroVideo" data-val="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-waves-reaching-the-beach-41584-large.mp4" style="font-size: 0.72rem; padding: 0.2rem 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Tropical Waves</button>
+                    <button type="button" class="btn-preset-media" data-target="customHeroVideo" data-val="https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-water-1164-large.mp4" style="font-size: 0.72rem; padding: 0.2rem 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Ocean Blue</button>
+                    <button type="button" class="btn-preset-media" data-target="customHeroVideo" data-val="https://assets.mixkit.co/videos/preview/mixkit-palm-tree-in-the-wind-during-sunset-41484-large.mp4" style="font-size: 0.72rem; padding: 0.2rem 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Sunset Palms</button>
                   </div>
                 </div>
 
                 <!-- Video Poster Image -->
                 <div class="admin-form-group">
-                  <label for="customHeroPoster">Video Poster Image (Displayed before play)</label>
+                  <label for="customHeroPoster" style="font-weight: 700;">Video Poster Image (Before play)</label>
                   <div class="media-field-row">
                     <input type="text" id="customHeroPoster" class="admin-form-control media-field-input" placeholder="assets/images/hero-ulun-danu.jpg">
                     <label class="btn-upload-file">
@@ -1672,9 +1711,9 @@
           <!-- ================================================================
                HOMEPAGE HERO SLIDESHOW IMAGES & HEADLINES (3 SLIDES)
                ================================================================ -->
-          <div class="admin-card" style="margin-bottom: 1.5rem;">
-            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
-              <h3 class="admin-card-title"><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg> Homepage Hero Slideshow (3 Rotating Slides)</h3>
+          <div class="admin-card" id="headerSlideshowCard" style="margin-bottom: 1.5rem;">
+            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+              <h3 class="admin-card-title"><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg> Header Slideshow Images (3 Rotating Photos)</h3>
               <span style="font-size: 0.75rem; color: #64748b;">Transitions smoothly after 4s video</span>
             </div>
             <div class="admin-card-body">
@@ -1689,7 +1728,7 @@
                   <div>
                     <img id="previewHeroSlide1" src="../assets/images/hero-ulun-danu.jpg" alt="Slide 1" style="width: 100%; height: 110px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1;">
                   </div>
-                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
+                  <div class="admin-form-group" style="margin-bottom: 0.4rem;">
                     <label for="customHeroSlide1Img" style="font-size: 0.78rem;">Image Path or URL</label>
                     <div class="media-field-row">
                       <input type="text" id="customHeroSlide1Img" class="admin-form-control media-field-input" placeholder="assets/images/hero-ulun-danu.jpg" style="font-size: 0.8rem; padding: 0.4rem;">
@@ -1698,13 +1737,19 @@
                         <input type="file" id="uploadHeroSlide1" accept="image/*" style="display: none;">
                       </label>
                     </div>
+                    <div style="display: flex; gap: 0.3rem; margin-top: 0.35rem; flex-wrap: wrap;">
+                      <span style="font-size: 0.7rem; color: #64748b; font-weight: 700;">Presets:</span>
+                      <button type="button" class="btn-preset-media" data-target="customHeroSlide1Img" data-preview="previewHeroSlide1" data-val="assets/images/hero-ulun-danu.jpg" style="font-size: 0.68rem; padding: 0.15rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Ulun Danu</button>
+                      <button type="button" class="btn-preset-media" data-target="customHeroSlide1Img" data-preview="previewHeroSlide1" data-val="assets/images/featured-uluwatu.jpg" style="font-size: 0.68rem; padding: 0.15rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Uluwatu</button>
+                      <button type="button" class="btn-preset-media" data-target="customHeroSlide1Img" data-preview="previewHeroSlide1" data-val="assets/images/featured-tanah-lot.jpg" style="font-size: 0.68rem; padding: 0.15rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Tanah Lot</button>
+                    </div>
                   </div>
-                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
-                    <label for="customHeroSlide1Title" style="font-size: 0.78rem;">Bold Headline (Slide 01)</label>
+                  <div class="admin-form-group" style="margin-bottom: 0.4rem;">
+                    <label for="customHeroSlide1Title" style="font-size: 0.78rem;">Headline (Slide 01)</label>
                     <input type="text" id="customHeroSlide1Title" class="admin-form-control" placeholder="BALI" style="font-size: 0.82rem; font-weight: 700;">
                   </div>
                   <div class="admin-form-group" style="margin: 0;">
-                    <label for="customHeroSlide1Desc" style="font-size: 0.78rem;">Slide 01 Subtitle / Description</label>
+                    <label for="customHeroSlide1Desc" style="font-size: 0.78rem;">Description</label>
                     <textarea id="customHeroSlide1Desc" rows="2" class="admin-form-control" placeholder="The famed Island of the Gods..." style="font-size: 0.8rem;"></textarea>
                   </div>
                 </div>
@@ -1718,7 +1763,7 @@
                   <div>
                     <img id="previewHeroSlide2" src="../assets/images/hero-gates.jpg" alt="Slide 2" style="width: 100%; height: 110px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1;">
                   </div>
-                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
+                  <div class="admin-form-group" style="margin-bottom: 0.4rem;">
                     <label for="customHeroSlide2Img" style="font-size: 0.78rem;">Image Path or URL</label>
                     <div class="media-field-row">
                       <input type="text" id="customHeroSlide2Img" class="admin-form-control media-field-input" placeholder="assets/images/hero-gates.jpg" style="font-size: 0.8rem; padding: 0.4rem;">
@@ -1727,13 +1772,19 @@
                         <input type="file" id="uploadHeroSlide2" accept="image/*" style="display: none;">
                       </label>
                     </div>
+                    <div style="display: flex; gap: 0.3rem; margin-top: 0.35rem; flex-wrap: wrap;">
+                      <span style="font-size: 0.7rem; color: #64748b; font-weight: 700;">Presets:</span>
+                      <button type="button" class="btn-preset-media" data-target="customHeroSlide2Img" data-preview="previewHeroSlide2" data-val="assets/images/hero-gates.jpg" style="font-size: 0.68rem; padding: 0.15rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Gates of Heaven</button>
+                      <button type="button" class="btn-preset-media" data-target="customHeroSlide2Img" data-preview="previewHeroSlide2" data-val="assets/images/featured-ubud.jpg" style="font-size: 0.68rem; padding: 0.15rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Ubud Terraces</button>
+                      <button type="button" class="btn-preset-media" data-target="customHeroSlide2Img" data-preview="previewHeroSlide2" data-val="assets/images/gallery-waterfall.jpg" style="font-size: 0.68rem; padding: 0.15rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Waterfall</button>
+                    </div>
                   </div>
-                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
-                    <label for="customHeroSlide2Title" style="font-size: 0.78rem;">Bold Headline (Slide 02)</label>
+                  <div class="admin-form-group" style="margin-bottom: 0.4rem;">
+                    <label for="customHeroSlide2Title" style="font-size: 0.78rem;">Headline (Slide 02)</label>
                     <input type="text" id="customHeroSlide2Title" class="admin-form-control" placeholder="LEMPUYANG" style="font-size: 0.82rem; font-weight: 700;">
                   </div>
                   <div class="admin-form-group" style="margin: 0;">
-                    <label for="customHeroSlide2Desc" style="font-size: 0.78rem;">Slide 02 Subtitle / Description</label>
+                    <label for="customHeroSlide2Desc" style="font-size: 0.78rem;">Description</label>
                     <textarea id="customHeroSlide2Desc" rows="2" class="admin-form-control" placeholder="The iconic Gates of Heaven framing majestic Mount Agung..." style="font-size: 0.8rem;"></textarea>
                   </div>
                 </div>
@@ -1747,7 +1798,7 @@
                   <div>
                     <img id="previewHeroSlide3" src="../assets/images/hero-beach.jpg" alt="Slide 3" style="width: 100%; height: 110px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1;">
                   </div>
-                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
+                  <div class="admin-form-group" style="margin-bottom: 0.4rem;">
                     <label for="customHeroSlide3Img" style="font-size: 0.78rem;">Image Path or URL</label>
                     <div class="media-field-row">
                       <input type="text" id="customHeroSlide3Img" class="admin-form-control media-field-input" placeholder="assets/images/hero-beach.jpg" style="font-size: 0.8rem; padding: 0.4rem;">
@@ -1756,13 +1807,19 @@
                         <input type="file" id="uploadHeroSlide3" accept="image/*" style="display: none;">
                       </label>
                     </div>
+                    <div style="display: flex; gap: 0.3rem; margin-top: 0.35rem; flex-wrap: wrap;">
+                      <span style="font-size: 0.7rem; color: #64748b; font-weight: 700;">Presets:</span>
+                      <button type="button" class="btn-preset-media" data-target="customHeroSlide3Img" data-preview="previewHeroSlide3" data-val="assets/images/hero-beach.jpg" style="font-size: 0.68rem; padding: 0.15rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Nusa Dua</button>
+                      <button type="button" class="btn-preset-media" data-target="customHeroSlide3Img" data-preview="previewHeroSlide3" data-val="assets/images/featured-nusa-penida.jpg" style="font-size: 0.68rem; padding: 0.15rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Kelingking</button>
+                      <button type="button" class="btn-preset-media" data-target="customHeroSlide3Img" data-preview="previewHeroSlide3" data-val="assets/images/gallery-sunset.jpg" style="font-size: 0.68rem; padding: 0.15rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; cursor: pointer;">Sunset Coast</button>
+                    </div>
                   </div>
-                  <div class="admin-form-group" style="margin-bottom: 0.5rem;">
-                    <label for="customHeroSlide3Title" style="font-size: 0.78rem;">Bold Headline (Slide 03)</label>
+                  <div class="admin-form-group" style="margin-bottom: 0.4rem;">
+                    <label for="customHeroSlide3Title" style="font-size: 0.78rem;">Headline (Slide 03)</label>
                     <input type="text" id="customHeroSlide3Title" class="admin-form-control" placeholder="NUSA DUA" style="font-size: 0.82rem; font-weight: 700;">
                   </div>
                   <div class="admin-form-group" style="margin: 0;">
-                    <label for="customHeroSlide3Desc" style="font-size: 0.78rem;">Slide 03 Subtitle / Description</label>
+                    <label for="customHeroSlide3Desc" style="font-size: 0.78rem;">Description</label>
                     <textarea id="customHeroSlide3Desc" rows="2" class="admin-form-control" placeholder="Crystal turquoise waters meeting pristine white shores..." style="font-size: 0.8rem;"></textarea>
                   </div>
                 </div>

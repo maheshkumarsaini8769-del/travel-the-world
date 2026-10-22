@@ -1819,6 +1819,18 @@ document.addEventListener('DOMContentLoaded', () => {
     updateMediaPreview('previewHeroSlide2', settings.heroSlide2Img || 'assets/images/hero-gates.jpg');
     updateMediaPreview('previewHeroSlide3', settings.heroSlide3Img || 'assets/images/hero-beach.jpg');
     updateMediaPreview('previewExploreBackdrop', settings.exploreBackdropImg || 'assets/images/featured-uluwatu.jpg');
+
+    // Live Video Player in Admin (Strictly Muted / Soundless)
+    const previewVid = document.getElementById('previewHeroVideoPlayer');
+    if (previewVid) {
+      const vidSrc = settings.heroVideoUrl || 'assets/videos/hero-bali.mp4';
+      previewVid.muted = true;
+      previewVid.volume = 0;
+      previewVid.defaultMuted = true;
+      previewVid.src = (vidSrc.startsWith('http') || vidSrc.startsWith('data:')) ? vidSrc : '../' + vidSrc;
+      previewVid.load();
+      previewVid.play().catch(() => {});
+    }
   }
 
   // 1-Click Festival Theme Switcher Cards Event Listeners
@@ -2201,11 +2213,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setupMediaHelpers() {
-    // 1. Interactive File-to-Base64 Uploads for ANY image or video with automatic compression
+    // 1. Interactive File-to-Base64 Uploads for Images with automatic compression
     const uploadPairs = [
       { fileId: 'uploadTourImg', targetInputId: 'formTourImg', previewId: 'previewTourImg' },
       { fileId: 'uploadBlogImg', targetInputId: 'formBlogImage', previewId: 'previewBlogImg' },
-      { fileId: 'uploadHeroVideo', targetInputId: 'customHeroVideo' },
       { fileId: 'uploadHeroPoster', targetInputId: 'customHeroPoster', previewId: 'previewHeroPoster' },
       { fileId: 'uploadHeroSlide1', targetInputId: 'customHeroSlide1Img', previewId: 'previewHeroSlide1' },
       { fileId: 'uploadHeroSlide2', targetInputId: 'customHeroSlide2Img', previewId: 'previewHeroSlide2' },
@@ -2235,6 +2246,39 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Dedicated MP4 Hero Video File Upload (Handles video without canvas corruption)
+    const uploadHeroVideo = document.getElementById('uploadHeroVideo');
+    if (uploadHeroVideo) {
+      uploadHeroVideo.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        if (file.size > 4.5 * 1024 * 1024) {
+          showAdminToast(`Notice: <strong>${file.name}</strong> is larger than 4.5MB. Direct MP4 URLs or 4K Presets are recommended for top speed.`);
+        }
+        showAdminToast(`Loading video <strong>${file.name}</strong>...`);
+        const reader = new FileReader();
+        reader.onload = (loadEvt) => {
+          const videoData = loadEvt.target.result;
+          const target = document.getElementById('customHeroVideo');
+          if (target) {
+            target.value = videoData;
+            target.dispatchEvent(new Event('input'));
+          }
+          const prevVid = document.getElementById('previewHeroVideoPlayer');
+          if (prevVid) {
+            prevVid.muted = true;
+            prevVid.volume = 0;
+            prevVid.defaultMuted = true;
+            prevVid.src = videoData;
+            prevVid.load();
+            prevVid.play().catch(() => {});
+          }
+          showAdminToast(`Video <strong>${file.name}</strong> ready (Silent/Muted)! Click 'Save & Publish' to apply.`);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
     // 2. Typing or pasting custom URL updates image preview immediately
     const previewBindings = [
       { inputId: 'formTourImg', previewId: 'previewTourImg' },
@@ -2255,6 +2299,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     });
+
+    // Custom Hero Video URL input listener
+    const heroVidInput = document.getElementById('customHeroVideo');
+    if (heroVidInput) {
+      heroVidInput.addEventListener('input', (e) => {
+        const prevVid = document.getElementById('previewHeroVideoPlayer');
+        if (prevVid && e.target.value) {
+          const val = e.target.value.trim();
+          prevVid.muted = true;
+          prevVid.volume = 0;
+          prevVid.defaultMuted = true;
+          prevVid.src = (val.startsWith('http') || val.startsWith('data:')) ? val : '../' + val;
+          prevVid.load();
+          prevVid.play().catch(() => {});
+        }
+      });
+    }
 
     // 3. Preset Quick-Select Dropdowns for Tours & Blog
     const tourPreset = document.getElementById('selectTourPreset');
@@ -2287,16 +2348,31 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 4. Preset Quick-Select Buttons
+    // 4. Preset Quick-Select Buttons (For Video and Slides)
     document.querySelectorAll('.btn-preset-media').forEach(btn => {
       btn.addEventListener('click', () => {
         const targetId = btn.getAttribute('data-target');
         const val = btn.getAttribute('data-val');
+        const previewId = btn.getAttribute('data-preview');
         const inp = document.getElementById(targetId);
         if (inp && val) {
           inp.value = val;
           inp.dispatchEvent(new Event('input'));
-          showAdminToast(`Selected preset: <strong>${val}</strong>`);
+          if (previewId) {
+            updateMediaPreview(previewId, val);
+          }
+          if (targetId === 'customHeroVideo') {
+            const prevVid = document.getElementById('previewHeroVideoPlayer');
+            if (prevVid) {
+              prevVid.muted = true;
+              prevVid.volume = 0;
+              prevVid.defaultMuted = true;
+              prevVid.src = (val.startsWith('http') || val.startsWith('data:')) ? val : '../' + val;
+              prevVid.load();
+              prevVid.play().catch(() => {});
+            }
+          }
+          showAdminToast(`Selected preset: <strong>${btn.textContent.trim()}</strong>. Click 'Save & Publish'!`);
         }
       });
     });
