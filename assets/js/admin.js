@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     container.style.gap = '10px';
     container.style.pointerEvents = 'none';
     const toast = document.createElement('div');
+    toast.className = 'toast-msg admin-toast';
     toast.style.cssText = `
       background: ${isError ? '#ef4444' : '#0f172a'};
       color: #ffffff;
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (headerDateEl) {
     function updateClock() {
       const now = new Date();
-      headerDateEl.textContent = '<svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ' + now.toLocaleDateString('en-IN', {
+      headerDateEl.innerHTML = '<svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ' + now.toLocaleDateString('en-IN', {
         weekday: 'short',
         day: 'numeric',
         month: 'short',

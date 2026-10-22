@@ -1533,9 +1533,14 @@
       });
 
       // Footer contact & copyright
-      const footerBottom = document.querySelector('.footer-bottom p');
-      if (footerBottom && settings.copyrightText) {
-        footerBottom.textContent = settings.copyrightText;
+      const companyEl = document.getElementById('footerCompanyName');
+      if (companyEl && (settings.footerCompanyName || settings.companyName)) {
+        companyEl.textContent = settings.footerCompanyName || settings.companyName;
+      } else {
+        const footerBottom = document.querySelector('.footer-bottom p');
+        if (footerBottom && settings.copyrightText && !companyEl) {
+          footerBottom.textContent = settings.copyrightText;
+        }
       }
 
       // 7. GRANULAR WORD MASTER APPLIER (Universal Site-Wide Dynamic Copy)

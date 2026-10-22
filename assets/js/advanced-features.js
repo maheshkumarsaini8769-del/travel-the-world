@@ -167,10 +167,13 @@
     function toggleDrawer(open) {
       if (open === undefined) {
         drawer.classList.toggle('open');
+        drawer.classList.toggle('active');
       } else if (open) {
         drawer.classList.add('open');
+        drawer.classList.add('active');
       } else {
         drawer.classList.remove('open');
+        drawer.classList.remove('active');
       }
       if (drawer.classList.contains('open')) {
         const ping = widget.querySelector('.ketut-badge-ping');
