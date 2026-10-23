@@ -865,7 +865,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // PAGE: BLOG.HTML (Dynamic Articles & Reader Modal)
   // =========================================================================
-  function openArticleReaderModal(title, excerpt, tag, img) {
+  function openArticleReaderModal(blogOrId) {
+    let blog = null;
+    if (typeof blogOrId === 'string') {
+      blog = window.TravelStore ? window.TravelStore.getBlogById(blogOrId) : null;
+    } else if (blogOrId && typeof blogOrId === 'object') {
+      blog = blogOrId;
+    }
+
+    if (!blog) {
+      blog = {
+        title: 'Bali Travel Guide & Expert Recommendations',
+        category: 'Travel Guide',
+        date: 'Oct 2026',
+        readTime: '5 Min Read',
+        author: 'Bali Concierge Team',
+        image: 'assets/images/hero-ulun-danu.jpg',
+        excerpt: 'Curated by our veteran on-ground concierge team to help you navigate visas, sunrise treks, sacred customs, and vegetarian dining across Indonesia.',
+        content: 'Bali continues to captivate travelers with its dramatic volcanic peaks, terraced emerald hills, and spiritual ocean temples. When planning your visit from India or abroad, having a structured itinerary with certified local chauffeurs ensures zero stress with local taxi cartels or peak hour bottlenecks.',
+        tips: [
+          'Pre-book temple excursions and sunrise treks to avoid midday crowds and high humidity.',
+          'Always dress with respectful modesty at temple shrines — sarongs and sashes are mandatory and provided complimentary on our tours.',
+          'Pure vegetarian and Jain meals are readily available in Seminyak, Kuta, and Ubud.'
+        ]
+      };
+    }
+
     let modal = document.getElementById('blogModal');
     if (!modal) {
       modal = document.createElement('div');
@@ -874,95 +899,186 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.appendChild(modal);
     }
 
+    const tipsHtml = Array.isArray(blog.tips) && blog.tips.length > 0 ? `
+      <div class="article-pro-tips-box">
+        <div class="article-pro-tips-title">
+          <svg class="ui-icon" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          Concierge Insider Tips:
+        </div>
+        <ul class="article-pro-tips-list">
+          ${blog.tips.map(t => `<li>${t}</li>`).join('')}
+        </ul>
+      </div>
+    ` : '';
+
+    const contentParagraphs = (blog.content || blog.excerpt || '')
+      .split('\n\n')
+      .map(p => `<p style="margin-bottom: 1.15rem; line-height: 1.75; color: #334155; font-size: 0.98rem;">${p.replace(/\n/g, '<br>')}</p>`)
+      .join('');
+
     modal.innerHTML = `
-      <div class="modal-box" style="max-width: 720px; max-height: 85vh; overflow-y: auto;">
-        <button class="modal-close-btn" onclick="document.getElementById('blogModal').classList.remove('active')">&times;</button>
-        <img src="${img}" style="width: 100%; height: 260px; object-fit: cover; border-radius: 16px 16px 0 0;" alt="${title}">
-        <div style="padding: 2rem;">
-          <span style="font-size: 0.8rem; font-weight: 700; color: #2563eb; text-transform: uppercase;">${tag}</span>
-          <h2 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; margin: 0.4rem 0 1rem; line-height: 1.25;">${title}</h2>
-          <div style="font-size: 0.82rem; color: #64748b; margin-bottom: 1.5rem; display: flex; gap: 1rem;">
-            <span><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> October 2026</span>
-            <span><svg class="ui-icon" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg> Travel Concierge Desk</span>
-            <span><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 5 Min Read</span>
+      <div class="modal-box article-modal-box">
+        <button class="article-modal-close-btn" id="btnCloseBlogModal" aria-label="Close article">&times;</button>
+        <div class="article-modal-header">
+          <img src="${blog.image || blog.img || 'assets/images/hero-ulun-danu.jpg'}" alt="${blog.title}">
+          <div class="article-modal-header-overlay">
+            <span class="blog-category-tag" style="position: static; margin-bottom: 0.5rem; width: fit-content;">${blog.category || 'Travel Guide'}</span>
+            <div style="font-size: 0.82rem; color: rgba(255, 255, 255, 0.9); display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <span><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> ${blog.date || 'Oct 2026'}</span>
+              <span>&bull;</span>
+              <span><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${blog.readTime || '5 Min Read'}</span>
+            </div>
           </div>
-          <div style="font-size: 0.98rem; line-height: 1.8; color: #334155;">
-            <p style="margin-bottom: 1rem; font-weight: 600;">${excerpt}</p>
-            <p style="margin-bottom: 1rem;">Bali continues to captivate travelers with its dramatic volcanic peaks, terraced emerald hills, and spiritual ocean temples. When planning your visit from India or abroad, having a structured itinerary with certified local chauffeurs ensures zero stress with local taxi cartels or peak hour bottlenecks.</p>
-            <h4 style="font-weight: 800; margin: 1.5rem 0 0.5rem;">Insider Tips from Our Local Concierge:</h4>
-            <ul style="padding-left: 1.25rem; margin-bottom: 1.5rem;">
-              <li style="margin-bottom: 0.5rem;"><strong>Best Sunrise Timing:</strong> Always book Mount Batur treks with pre-arranged hotel pickups at 02:00 AM to secure the prime viewing rim.</li>
-              <li style="margin-bottom: 0.5rem;"><strong>Temple Dress Code:</strong> Modesty is respected at all nine Balinese directional temples. Sarongs and sashes are provided complimentary on all our guided tours.</li>
-              <li style="margin-bottom: 0.5rem;"><strong>Indian Cuisine Options:</strong> High quality North and South Indian vegetarian meals are abundant in Seminyak, Nusa Dua, and Ubud.</li>
-            </ul>
-            <p>For bespoke reservations or tailored itineraries, feel free to contact our round-the-clock Bali assistance desk.</p>
+        </div>
+        <div class="article-modal-body">
+          <h2 style="font-family: var(--font-heading); font-size: clamp(1.4rem, 2.4vw, 1.95rem); font-weight: 800; color: #0f172a; line-height: 1.25; margin-bottom: 1.25rem;">${blog.title}</h2>
+          
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 1.25rem; border-bottom: 1px solid #e2e8f0; margin-bottom: 1.5rem; flex-wrap: wrap;">
+            <div class="blog-author-byline">
+              <span class="author-chip-avatar">TTW</span>
+              <span>By ${blog.author || 'Bali Concierge Desk'}</span>
+            </div>
+            <span style="background: #f1f5f9; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.75rem; font-weight: 700; color: #475569;">Verified Concierge Guide</span>
           </div>
-          <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end;">
-            <a href="holidays.html" class="btn btn-dark-pill">Explore Related Tour Packages &rarr;</a>
+
+          <div class="article-modal-content">
+            <p style="font-size: 1.05rem; font-weight: 600; line-height: 1.7; color: #1e293b; margin-bottom: 1.25rem;">${blog.excerpt || ''}</p>
+            ${contentParagraphs}
+            ${tipsHtml}
+          </div>
+
+          <div class="article-modal-footer">
+            <button class="btn btn-sm-outline" id="btnBottomCloseBlogModal" style="padding: 0.65rem 1.25rem;">Close Reader</button>
+            <a href="booking.html" class="btn btn-dark-pill" style="padding: 0.75rem 1.5rem;">Book Bali Tour Packages &rarr;</a>
           </div>
         </div>
       </div>
     `;
 
     modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    const closeHandler = () => {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    modal.querySelector('#btnCloseBlogModal')?.addEventListener('click', closeHandler);
+    modal.querySelector('#btnBottomCloseBlogModal')?.addEventListener('click', closeHandler);
+    modal.onclick = (e) => {
+      if (e.target === modal) closeHandler();
+    };
   }
 
   const mainBlogGrid = document.getElementById('mainBlogGrid');
-  if (mainBlogGrid && window.TravelStore) {
-    function renderDynamicBlogs() {
-      const blogs = window.TravelStore.getBlogs();
-      if (blogs.length === 0) {
-        mainBlogGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #64748b;">No articles published yet.</p>';
-        return;
-      }
-      mainBlogGrid.innerHTML = blogs.map(b => `
-        <article class="blog-card" data-id="${b.id}">
-          <div class="blog-media">
-            <img src="${b.image || 'assets/images/featured-uluwatu.jpg'}" alt="${b.title}" class="blog-img" loading="lazy">
-            <span class="tour-card-tag">${b.category || 'Travel Guide'}</span>
-          </div>
-          <div class="blog-body">
-            <div class="blog-meta-row">
-              <span><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> ${b.date || 'Recent'}</span>
-              <span><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${b.readTime || '5 Min Read'}</span>
-            </div>
-            <h3 class="blog-title">${b.title}</h3>
-            <p class="blog-excerpt">${b.excerpt || b.summary || ''}</p>
-            <div style="margin-top: auto; border-top: 1px solid var(--color-border-light); padding-top: 1rem;">
-              <button class="btn-sm-primary read-article-btn" data-id="${b.id}" style="width: 100%; text-align: center;">Read Full Guide &rarr;</button>
-            </div>
-          </div>
-        </article>
-      `).join('');
+  const blogSearchInput = document.getElementById('blogSearchInput');
+  const blogFilterPills = document.getElementById('blogFilterPills');
+  const btnReadCoverStory = document.getElementById('btnReadCoverStory');
 
-      mainBlogGrid.querySelectorAll('.read-article-btn').forEach(btn => {
+  if (btnReadCoverStory) {
+    btnReadCoverStory.addEventListener('click', () => {
+      openArticleReaderModal('blog-1');
+    });
+  }
+
+  let currentBlogCategory = 'all';
+  let currentBlogSearch = '';
+
+  function renderDynamicBlogs() {
+    if (!mainBlogGrid || !window.TravelStore) return;
+    const allBlogs = window.TravelStore.getBlogs();
+
+    let filtered = allBlogs.filter(b => {
+      const matchCat = (currentBlogCategory === 'all') || 
+        (b.category && b.category.toLowerCase().includes(currentBlogCategory.toLowerCase()));
+      const searchNorm = currentBlogSearch.toLowerCase();
+      const matchSearch = !searchNorm || 
+        (b.title && b.title.toLowerCase().includes(searchNorm)) ||
+        (b.excerpt && b.excerpt.toLowerCase().includes(searchNorm)) ||
+        (b.category && b.category.toLowerCase().includes(searchNorm));
+      return matchCat && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+      mainBlogGrid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 20px;">
+          <p style="font-weight: 700; font-size: 1.1rem; color: #0f172a; margin-bottom: 0.5rem;">No matching travel guides found.</p>
+          <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1.5rem;">Try another keyword or select "All Guides" to explore our full Bali library.</p>
+          <button class="btn btn-sm-outline" id="btnResetBlogSearch">Reset Filter &amp; Search</button>
+        </div>
+      `;
+      mainBlogGrid.querySelector('#btnResetBlogSearch')?.addEventListener('click', () => {
+        currentBlogCategory = 'all';
+        currentBlogSearch = '';
+        if (blogSearchInput) blogSearchInput.value = '';
+        blogFilterPills?.querySelectorAll('.blog-pill-btn').forEach((b, i) => {
+          b.classList.toggle('active', i === 0);
+        });
+        renderDynamicBlogs();
+      });
+      return;
+    }
+
+    mainBlogGrid.innerHTML = filtered.map(b => `
+      <article class="blog-card" data-id="${b.id}">
+        <div class="blog-media">
+          <img src="${b.image || b.img || 'assets/images/hero-ulun-danu.jpg'}" alt="${b.title}" class="blog-img" loading="lazy">
+          <span class="blog-category-tag">${b.category || 'Travel Guide'}</span>
+          <span class="blog-readtime-badge">
+            <svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ${b.readTime || '5 Min'}
+          </span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta-row">
+            <span><svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> ${b.date || 'Oct 2026'}</span>
+            <span class="blog-author-byline">
+              <span class="author-chip-avatar">TTW</span>
+              <span>Concierge Desk</span>
+            </span>
+          </div>
+          <h3 class="blog-title" data-id="${b.id}">${b.title}</h3>
+          <p class="blog-excerpt">${b.excerpt || b.summary || ''}</p>
+          <div class="blog-card-footer">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #2563eb;">${b.category || 'Bali'}</span>
+            <button class="btn-read-guide read-article-btn" data-id="${b.id}">
+              <span>Read Story</span>
+              <svg class="ui-icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+    `).join('');
+
+    mainBlogGrid.querySelectorAll('.read-article-btn, .blog-title').forEach(el => {
+      el.addEventListener('click', () => {
+        const id = el.getAttribute('data-id');
+        openArticleReaderModal(id);
+      });
+    });
+  }
+
+  if (mainBlogGrid) {
+    renderDynamicBlogs();
+    window.__renderBlogs = renderDynamicBlogs;
+
+    if (blogSearchInput) {
+      blogSearchInput.addEventListener('input', (e) => {
+        currentBlogSearch = e.target.value.trim();
+        renderDynamicBlogs();
+      });
+    }
+
+    if (blogFilterPills) {
+      blogFilterPills.querySelectorAll('.blog-pill-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          const card = btn.closest('.blog-card');
-          const title = card.querySelector('.blog-title')?.textContent || 'Travel Guide';
-          const excerpt = card.querySelector('.blog-excerpt')?.textContent || '';
-          const tag = card.querySelector('.tour-card-tag')?.textContent || 'Guide';
-          const img = card.querySelector('img')?.src || '';
-
-          openArticleReaderModal(title, excerpt, tag, img);
+          blogFilterPills.querySelectorAll('.blog-pill-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentBlogCategory = btn.getAttribute('data-category') || 'all';
+          renderDynamicBlogs();
         });
       });
     }
-    renderDynamicBlogs();
-    window.__renderBlogs = renderDynamicBlogs;
-  } else {
-    // Static fallback triggers
-    document.querySelectorAll('.read-article-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const card = btn.closest('.blog-card');
-        if (!card) return;
-        const title = card.querySelector('.blog-title')?.textContent || 'Travel Guide';
-        const excerpt = card.querySelector('.blog-excerpt')?.textContent || '';
-        const tag = card.querySelector('.tour-card-tag')?.textContent || 'Guide';
-        const img = card.querySelector('img')?.src || '';
-
-        openArticleReaderModal(title, excerpt, tag, img);
-      });
-    });
   }
 
   // =========================================================================

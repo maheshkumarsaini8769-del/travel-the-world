@@ -116,7 +116,9 @@
                 <option value="3">3 Persons</option>
                 <option value="4">4 Persons (Family Special)</option>
                 <option value="5">5 Persons (Private Van)</option>
-                <option value="6">6+ Persons (Group Discount)</option>
+                <option value="6">6 Persons (Group Discount)</option>
+                <option value="8">8 Persons (Private Mini-Bus)</option>
+                <option value="10">10+ Persons (Large Corporate / Group)</option>
               </select>
             </div>
           </div>
@@ -244,7 +246,7 @@
 
           <div class="order-thumb-row">
             <img id="summaryTourImg" src="assets/images/featured-uluwatu.jpg" alt="Selected tour" class="order-thumb-img">
-            <div>
+            <div class="order-thumb-info">
               <h4 id="summaryTourName" class="order-thumb-name">Uluwatu Temple & Sunset Coast</h4>
               <span id="summaryTourMeta" class="order-thumb-meta">Hindu Temple & Coast • 1 Day</span>
             </div>
@@ -258,24 +260,24 @@
 
           <div class="summary-rows">
             <div class="summary-row">
-              <span>Base Tour Price:</span>
-              <span id="summaryBasePrice">₹1,700</span>
+              <span class="summary-row-label">Base Tour Price:</span>
+              <span class="summary-row-value" id="summaryBasePrice">₹1,700</span>
             </div>
             <div class="summary-row">
-              <span>VIP Add-ons:</span>
-              <span id="summaryAddonsPrice">₹0</span>
+              <span class="summary-row-label">VIP Add-ons:</span>
+              <span class="summary-row-value" id="summaryAddonsPrice">₹0</span>
             </div>
-            <div class="summary-row" id="summaryDiscountRow" style="display: none; color: #16a34a; font-weight: 700;">
-              <span>Promo Discount:</span>
-              <span id="summaryDiscountVal">-₹0</span>
+            <div class="summary-row" id="summaryDiscountRow" style="display: none;">
+              <span class="summary-row-label">Promo Discount:</span>
+              <span class="summary-row-value" id="summaryDiscountVal">-₹0</span>
             </div>
             <div class="summary-row">
-              <span>Taxes & GST (5%):</span>
-              <span style="color: #16a34a; font-weight: 600;">Included (₹0 Extra)</span>
+              <span class="summary-row-label">Taxes & GST (5%):</span>
+              <span class="summary-row-value" style="color: #16a34a; font-weight: 600;">Included (₹0 Extra)</span>
             </div>
             <div class="summary-row total-row">
-              <span>Total Payable:</span>
-              <span id="summaryTotalAmount" style="color: #0f172a; font-size: 1.4rem;">₹1,700</span>
+              <span class="summary-row-label">Total Payable:</span>
+              <span class="summary-row-value" id="summaryTotalAmount">₹1,700</span>
             </div>
           </div>
 

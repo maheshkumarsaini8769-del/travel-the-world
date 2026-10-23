@@ -1209,10 +1209,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('formBlogCategory').value = b.category || 'Travel Guide';
         document.getElementById('formBlogReadTime').value = b.readTime || '';
         document.getElementById('formBlogAuthor').value = b.author || '';
-        const blogImgVal = b.image || 'assets/images/featured-uluwatu.jpg';
+        const blogImgVal = b.image || b.img || 'assets/images/featured-uluwatu.jpg';
         document.getElementById('formBlogImage').value = blogImgVal;
         updateMediaPreview('previewBlogImg', blogImgVal);
         document.getElementById('formBlogSummary').value = b.excerpt || b.summary || '';
+        const contentInput = document.getElementById('formBlogContent');
+        if (contentInput) contentInput.value = b.content || '';
 
         blogModal?.classList.add('active');
       });
@@ -1239,6 +1241,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const bImg = document.getElementById('formBlogImage');
       if (bImg) bImg.value = 'assets/images/featured-uluwatu.jpg';
       updateMediaPreview('previewBlogImg', 'assets/images/featured-uluwatu.jpg');
+      const contentInput = document.getElementById('formBlogContent');
+      if (contentInput) contentInput.value = '';
       blogModal.classList.add('active');
     });
   }
@@ -1247,14 +1251,20 @@ document.addEventListener('DOMContentLoaded', () => {
     blogForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const id = document.getElementById('formBlogId').value;
+      const imgVal = document.getElementById('formBlogImage').value.trim() || 'assets/images/featured-uluwatu.jpg';
+      const summaryVal = document.getElementById('formBlogSummary').value.trim();
+      const contentVal = document.getElementById('formBlogContent')?.value.trim() || summaryVal;
+
       const blogObj = {
         id: id || undefined,
         title: document.getElementById('formBlogTitle').value.trim(),
         category: document.getElementById('formBlogCategory').value,
         readTime: document.getElementById('formBlogReadTime').value.trim(),
         author: document.getElementById('formBlogAuthor').value.trim(),
-        image: document.getElementById('formBlogImage').value,
-        excerpt: document.getElementById('formBlogSummary').value.trim(),
+        image: imgVal,
+        img: imgVal,
+        excerpt: summaryVal,
+        content: contentVal,
         date: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
       };
 

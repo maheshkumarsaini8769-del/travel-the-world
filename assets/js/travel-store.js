@@ -693,39 +693,101 @@
       category: 'Visa & Logistics',
       date: 'Oct 2026',
       readTime: '6 Min Read',
+      author: 'Bali Concierge Team',
       excerpt: 'Everything an Indian traveler needs to know before boarding: 30-day Visa on Arrival (VoA) breakdown, best SIM cards, cash vs card recommendations, and where to find authentic North/South Indian cuisine in Seminyak and Ubud.',
-      content: 'Bali has emerged as the premier international destination for Indian holidaymakers, couples, and families. With direct flight connectivity from New Delhi, Mumbai, and Bengaluru, traveling to the Island of the Gods is simpler than ever before.\n\nVisa Requirements: Indian passport holders are eligible for a 30-day Visa on Arrival (VoA) at Ngurah Rai International Airport (DPS) for 500,000 IDR (approx ₹2,650). Ensure your passport has at least 6 months validity.\n\nVegetarian & Jain Dining: Contrary to popular belief, Bali is a vegetarian haven. Ubud and Seminyak have dozens of dedicated pure vegetarian and Jain restaurants such as Queen\'s Tandoor, Spice Mantraa, and Ganesha Ek Sanskriti.',
-      img: 'assets/images/hero-ulun-danu.jpg'
+      content: 'Bali has emerged as the premier international destination for Indian holidaymakers, couples, and families. With direct flight connectivity from New Delhi, Mumbai, and Bengaluru, traveling to the Island of the Gods is simpler and more convenient than ever before.\n\nVisa Requirements & Formalities: Indian passport holders are eligible for a 30-day Visa on Arrival (VoA) upon arrival at Ngurah Rai International Airport (DPS) in Denpasar for 500,000 IDR (approx ₹2,650). You can also apply online for an e-VoA prior to travel. Ensure your Indian passport has at least 6 months validity from departure date and 2 blank pages.\n\nCurrency & Payment Methods: The local currency is Indonesian Rupiah (IDR). 10,000 IDR is approximately ₹53 INR. International credit and debit cards (Visa, Mastercard) are widely accepted across supermarkets, beach clubs, and upscale restaurants. For local street markets, temple donations, and coconut stalls, keeping ₹3,000 to ₹5,000 worth of Rupiah in cash is highly advised.\n\nAuthentic Indian & Vegetarian Food: Bali is a paradise for vegetarian, vegan, and Jain diners. Popular hubs like Seminyak, Kuta, and Ubud feature world-class Indian restaurants such as Queen\'s Tandoor, Spice Mantraa, Ganesha Ek Sanskriti, and Sitara Indian Restaurant offering pure veg curries, dal makhani, and warm garlic naan.',
+      tips: [
+        'Complete the online Indonesian Customs e-CD declaration 48 hours prior to departure for zero airport wait.',
+        'Carry an international forex card to avoid 3.5% foreign transaction markup charges at ATMs.',
+        'Download the Grab and Gojek apps on your phone for rapid food delivery and on-demand scooters.'
+      ],
+      img: 'assets/images/hero-ulun-danu.jpg',
+      image: 'assets/images/hero-ulun-danu.jpg'
     },
     {
       id: 'blog-2',
       title: 'Mount Batur Sunrise Trek: 7 Crucial Tips Before You Climb',
-      category: 'Adventure & Trek',
+      category: 'Adventure & Treks',
       date: 'Oct 2026',
       readTime: '5 Min Read',
+      author: 'Bali Concierge Team',
       excerpt: 'What gear to pack for the 02:00 AM chilly start, how to prepare physically for the 1,717m ascent, and why taking an organized tour with licensed mountaineers guarantees the best sunrise viewpoint over Lake Batur.',
-      content: 'Standing on the volcanic rim of Mount Batur at 1,717 meters altitude as the first sunbeams pierce through a sea of white clouds is one of the most exhilarating moments Southeast Asia has to offer.\n\nThe climb begins in the crisp predawn air around 03:30 AM from the base camp. Our certified trekking guides provide high-powered torches, trekking poles, and hot volcanic-steam cooked eggs for breakfast at the summit.',
-      img: 'assets/images/mount-batur.jpg'
+      content: 'Standing on the volcanic rim of Mount Batur at 1,717 meters altitude as the first sunbeams pierce through a sea of white clouds is one of the most exhilarating moments Southeast Asia has to offer.\n\nThe climb begins in the crisp predawn air around 03:30 AM from the base camp. Our certified trekking guides provide high-powered torches, trekking poles, and hot volcanic-steam cooked eggs for breakfast at the summit.\n\nPhysical Preparation: While classified as moderate, the trek takes between 1.5 to 2 hours of uphill walking on volcanic gravel and volcanic rock steps. Having a steady pace, sturdy sneakers with good tread, and staying hydrated will make the ascent enjoyable for beginners and experienced hikers alike.',
+      tips: [
+        'Pack a windbreaker jacket and beanie — summit temperatures before dawn can dip to 14°C.',
+        'Keep your camera and phone fully charged as the cold mountain air drains battery life quickly.',
+        'Book private transfers with air-conditioned pickup from your hotel so you can rest comfortably on the drive back.'
+      ],
+      img: 'assets/images/mount-batur.jpg',
+      image: 'assets/images/mount-batur.jpg'
     },
     {
       id: 'blog-3',
       title: 'Uluwatu Sunset & Kecak Fire Dance: The Ultimate Insider Guide',
       category: 'Culture & Temples',
-      date: 'Sep 2026',
+      date: 'Oct 2026',
       readTime: '4 Min Read',
+      author: 'Bali Concierge Team',
       excerpt: 'Why the 18:00 PM amphitheater sunset show sells out daily, how to dodge playful cliffside monkeys, and where to reserve front-row Jimbaran beach seafood dining afterwards.',
-      content: 'Perched 70 meters above roaring ocean breakers, Pura Luhur Uluwatu is one of Bali\'s nine directional spiritual pillars protecting the island from malevolent sea spirits.\n\nAs the golden sun sets into the horizon, over 70 Balinese chanters create hypnotic rhythmic vocalizations reenacting the epic Ramayana legend and Hanuman\'s triumph over fire.',
-      img: 'assets/images/featured-uluwatu.jpg'
+      content: 'Perched 70 meters above roaring ocean breakers, Pura Luhur Uluwatu is one of Bali\'s nine directional spiritual pillars protecting the island from malevolent sea spirits.\n\nAs the golden sun sets into the horizon, over 70 Balinese chanters create hypnotic rhythmic vocalizations reenacting the epic Ramayana legend and Hanuman\'s triumph over fire.\n\nMonkey Etiquette: The temple grounds are inhabited by long-tailed grey macaques who are famously curious. Remove your sunglasses, loose hats, earrings, and dangling phone straps before entering the cliffside promenade.',
+      tips: [
+        'Arrive at Uluwatu by 16:30 PM to secure priority seating in the top tiers of the amphitheater.',
+        'Wear comfortable flat footwear as the temple steps and stone pathways along the cliff are steep.',
+        'Combine your tour with a candlelit beachfront dinner at Jimbaran Bay for fresh grilled king prawns and snapper.'
+      ],
+      img: 'assets/images/featured-uluwatu.jpg',
+      image: 'assets/images/featured-uluwatu.jpg'
     },
     {
       id: 'blog-4',
       title: 'Nusa Penida Day Trip: Speedboat Timings, Manta Snorkel & T-Rex Cliff',
-      category: 'Islands & Marine',
+      category: 'Island Hopping',
       date: 'Sep 2026',
       readTime: '7 Min Read',
+      author: 'Bali Concierge Team',
       excerpt: 'A realistic itinerary for visiting Kelingking Cliff, Broken Beach, and Angel\'s Billabong in one day from Sanur port without feeling rushed.',
-      content: 'Nusa Penida is a rugged island offshore southeast Bali that feels like an uncharted Jurassic paradise. The 45-minute speedboat from Sanur port takes you straight to Toyapakeh harbor where private 4x4 vehicles await.',
-      img: 'assets/images/nusa-penida.jpg'
+      content: 'Nusa Penida is a rugged island offshore southeast Bali that feels like an uncharted Jurassic paradise. The 45-minute speedboat from Sanur port takes you straight to Toyapakeh harbor where private 4x4 vehicles await.\n\nKelingking Beach (T-Rex Cliff): The iconic promontory shaped like a Tyrannosaurus Rex overlooking turquoise waves is breathtaking from the upper viewing platform. Unless you are an experienced rock scrambler, we recommend enjoying the panorama from the top rather than descending the 400-meter sheer cliff in tropical midday heat.\n\nManta Ray Snorkeling: Crystal Bay and Manta Point provide thrilling opportunities to snorkel alongside harmless giant manta rays gliding gracefully over shallow coral gardens.',
+      tips: [
+        'Take motion sickness pills 30 minutes before boarding the fast boat if you are prone to sea sickness.',
+        'Carry cash in Indonesian Rupiah as card machines on Nusa Penida often suffer from intermittent cell reception.',
+        'Wear water shoes with rubber grips for safe boarding on Sanur beach and navigating coral shores.'
+      ],
+      img: 'assets/images/nusa-penida.jpg',
+      image: 'assets/images/nusa-penida.jpg'
+    },
+    {
+      id: 'blog-5',
+      title: 'Tegallalang Rice Terraces & Ubud Jungle Swings: Photo Secrets',
+      category: 'Photography & Swings',
+      date: 'Sep 2026',
+      readTime: '4 Min Read',
+      author: 'Bali Concierge Team',
+      excerpt: 'How morning golden hour light pierces through palm mist in the valleys of Tegallalang, optimal camera angles for the iconic flying dress swings, and local Subak irrigation history.',
+      content: 'The emerald terraces of Tegallalang showcase the UNESCO-recognized 9th-century Subak cooperative water management system. Deep valleys carved by hand across volcanic soil create an undulating green landscape punctuated by coconut palms.\n\nJungle Flying Dress Swings: High above the palm canopy, giant swings equipped with harness safety systems offer unforgettable panoramic photo opportunities. Rental flowing satin dresses in vibrant red, canary yellow, and royal blue create stunning contrast against the lush green terraces.',
+      tips: [
+        'Visit between 07:00 AM and 09:00 AM to capture morning sunbeams cutting through forest mist without tourist crowds.',
+        'Respect local farmers cultivating active rice plots by staying on marked stone stepping pathways.',
+        'Hire an experienced guide who knows the exact vantage points and optimal camera angles for wide-angle portrait shots.'
+      ],
+      img: 'assets/images/tegallalang.jpg',
+      image: 'assets/images/tegallalang.jpg'
+    },
+    {
+      id: 'blog-6',
+      title: 'Balinese Temple Etiquette: Sarongs, Ceremonies & Sacred Respect',
+      category: 'Culture & Temples',
+      date: 'Aug 2026',
+      readTime: '5 Min Read',
+      author: 'Bali Concierge Team',
+      excerpt: 'A respectful traveler’s guide to visiting Hindu temples across Bali. How to wear the traditional sarong and selendang sash, menstrual taboos, photography rules during active prayers, and holy water blessings.',
+      content: 'Balinese Hinduism (Agama Tirtha) is central to daily life on the island. Temples (Pura) are active centers of worship, community life, and spiritual balance rather than historical ruins.\n\nTemple Attire: Both men and women are required to cover their shoulders and knees. A traditional batik sarong (Kamben) tied at the waist and secured with a colored sash (Selendang) is mandatory. On all our guided excursions, clean traditional sarongs are provided complimentary.\n\nCeremonial Courtesy: During active ceremonies, never walk directly in front of seated worshippers or stand higher than the presiding priest (Pedanda). When holy water (Tirtha) is sprinkled by temple elders, accept it respectfully with cupped hands.',
+      tips: [
+        'Always use your right hand when offering donations, tipping, or greeting temple guardians.',
+        'Avoid pointing your feet directly at temple shrines or statues when seated on stone pavilions.',
+        'Do not enter innermost holy courtyards marked for priests and active prayer participants unless guided by a local concierge.'
+      ],
+      img: 'assets/images/hero-gates.jpg',
+      image: 'assets/images/hero-gates.jpg'
     }
   ];
 
@@ -1220,7 +1282,32 @@
 
     // BLOGS & TRAVEL GUIDES
     getBlogs: function () {
-      return loadStorage(STORAGE_KEYS.BLOGS, DEFAULT_BLOGS);
+      let blogs = loadStorage(STORAGE_KEYS.BLOGS, DEFAULT_BLOGS);
+      if (!Array.isArray(blogs) || blogs.length === 0) {
+        blogs = [...DEFAULT_BLOGS];
+      } else {
+        DEFAULT_BLOGS.forEach(defB => {
+          const found = blogs.find(b => b.id === defB.id);
+          if (!found) {
+            blogs.push(defB);
+          } else {
+            if (!found.image && found.img) found.image = found.img;
+            if (!found.img && found.image) found.img = found.image;
+            if (!found.tips && defB.tips) found.tips = defB.tips;
+            if (!found.content && defB.content) found.content = defB.content;
+            if (!found.author && defB.author) found.author = defB.author;
+          }
+        });
+      }
+      return blogs.map(b => {
+        const photo = b.image || b.img || 'assets/images/hero-ulun-danu.jpg';
+        return {
+          ...b,
+          image: photo,
+          img: photo,
+          author: b.author || 'Bali Concierge Team'
+        };
+      });
     },
     getBlogById: function (id) {
       const blogs = this.getBlogs();
