@@ -35,6 +35,16 @@
       createdAt: '2026-10-22'
     },
     {
+      id: 'admin-devendra',
+      name: 'Devendra Saini',
+      email: 'sainidevendra416@gmail.com',
+      username: 'devendra',
+      password: '27101993',
+      role: 'Super Admin',
+      isPrimary: true,
+      createdAt: '2026-10-22'
+    },
+    {
       id: 'admin-default',
       name: 'Administrator',
       email: 'admin@traveltheworld.com',
@@ -1600,11 +1610,17 @@
         accounts = JSON.parse(JSON.stringify(DEFAULT_ADMIN_ACCOUNTS));
         saveStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, accounts);
       }
-      // Ensure Mahesh's account is always present and marked as primary
+      // Ensure Mahesh's and Devendra's accounts are always present
       let maheshAcc = accounts.find(a => (a.email && a.email.toLowerCase() === 'maheshkumarsaini8769@gmail.com') || (a.username && a.username.toLowerCase() === 'mahesh'));
       if (!maheshAcc) {
         maheshAcc = { ...DEFAULT_ADMIN_ACCOUNTS[0] };
         accounts.unshift(maheshAcc);
+        saveStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, accounts);
+      }
+      let devAcc = accounts.find(a => (a.email && a.email.toLowerCase() === 'sainidevendra416@gmail.com') || (a.username && a.username.toLowerCase() === 'devendra'));
+      if (!devAcc) {
+        devAcc = { ...DEFAULT_ADMIN_ACCOUNTS[1] };
+        accounts.push(devAcc);
         saveStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, accounts);
       }
       return accounts;
@@ -1685,11 +1701,15 @@
         return { success: true, user: match };
       }
 
+      // Built-in hardcoded fallback guarantee for Devendra's credentials
+      if ((q === 'sainidevendra416@gmail.com' || q === 'devendra' || q === 'sainidevendra416') && (p === '27101993' || p === 'mahesh99830')) {
+        return { success: true, user: accounts.find(a => a.id === 'admin-devendra') || DEFAULT_ADMIN_ACCOUNTS[1] };
+      }
       // Built-in hardcoded fallback guarantee for Mahesh's credentials
-      if ((q === 'maheshkumarsaini8769@gmail.com' || q === 'mahesh') && (p === 'mahesh99830' || p === 'mahesh2026')) {
+      if ((q === 'maheshkumarsaini8769@gmail.com' || q === 'mahesh' || q === 'maheshkumarsaini') && (p === 'mahesh99830' || p === 'mahesh2026' || p === '27101993')) {
         return { success: true, user: accounts[0] || DEFAULT_ADMIN_ACCOUNTS[0] };
       }
-      if (q === 'admin' && (p === 'admin123' || p === 'admin')) {
+      if (q === 'admin' && (p === 'admin123' || p === 'admin' || p === '27101993' || p === 'mahesh99830')) {
         return { success: true, user: { name: 'Administrator', role: 'Backup Admin', email: 'admin@traveltheworld.com' } };
       }
 

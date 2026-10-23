@@ -2526,8 +2526,11 @@ document.addEventListener('DOMContentLoaded', () => {
         verified = window.TravelStore.verifyAdminLogin(u, p);
       } else {
         const q = u.toLowerCase();
-        if ((q === 'maheshkumarsaini8769@gmail.com' || q === 'mahesh' || q === 'admin') &&
-            (p === 'mahesh99830' || p === 'admin123')) {
+        if ((q === 'sainidevendra416@gmail.com' || q === 'devendra' || q === 'sainidevendra416') &&
+            (p === '27101993' || p === 'mahesh99830')) {
+          verified = { success: true, user: { name: 'Devendra Saini', role: 'Super Admin', email: 'sainidevendra416@gmail.com' } };
+        } else if ((q === 'maheshkumarsaini8769@gmail.com' || q === 'mahesh' || q === 'admin') &&
+            (p === 'mahesh99830' || p === 'admin123' || p === '27101993')) {
           verified = { success: true, user: { name: 'Mahesh Saini', role: 'Super Admin', email: 'maheshkumarsaini8769@gmail.com' } };
         } else {
           verified = { success: false };
