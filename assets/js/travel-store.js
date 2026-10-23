@@ -17,7 +17,9 @@
     USERS: 'ttw_users_data',
     SETTINGS: 'ttw_settings_data',
     ADMIN_ACCOUNTS: 'ttw_admin_accounts_data',
-    INITIALIZED: 'ttw_data_initialized_v5'
+    INITIALIZED: 'ttw_data_initialized_v5',
+    CLOUD_VERSION: 'ttw_cloud_version',
+    CLOUD_UPDATED_AT: 'ttw_cloud_updated_at'
   };
 
   // Seed Data: Administrator & Staff Login Accounts
@@ -1006,6 +1008,203 @@
 
   initStore();
 
+  // =========================================================================
+  // CLOUD BACKEND SYNCHRONIZATION ENGINE (Stale-While-Revalidate Architecture)
+  // First time: fetch from backend, persist to localStorage
+  // Next time: instant load from localStorage (0ms), revalidate against backend in background
+  // Admin changes: debounced push to backend, version bump, instant local reflection
+  // =========================================================================
+  const SYNC_CONFIG = {
+    API_URL: '/api/sync',
+    CDN_BLOB_URL: 'https://jsb9yiflvbh5srr7.public.blob.vercel-storage.com/store/data.json',
+    DEBOUNCE_MS: 350
+  };
+
+  const pendingSyncTimers = {};
+  let currentSyncStatus = {
+    state: 'idle',
+    version: parseInt(loadStorage(STORAGE_KEYS.CLOUD_VERSION, 0), 10) || 0,
+    lastSyncTime: loadStorage(STORAGE_KEYS.CLOUD_UPDATED_AT, null)
+  };
+
+  function dispatchSyncStatus(detail) {
+    currentSyncStatus = { ...currentSyncStatus, ...detail };
+    if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+      try {
+        const evt = typeof CustomEvent === 'function'
+          ? new CustomEvent('ttw:sync-status', { detail: currentSyncStatus })
+          : { type: 'ttw:sync-status', detail: currentSyncStatus };
+        window.dispatchEvent(evt);
+      } catch (e) {}
+    }
+  }
+
+  async function fetchBackendUpdates(force = false) {
+    const localVersion = force ? 0 : (parseInt(loadStorage(STORAGE_KEYS.CLOUD_VERSION, 0), 10) || 0);
+    dispatchSyncStatus({ state: 'checking', version: localVersion });
+
+    let fetchedData = null;
+    let newVersion = 0;
+    let updatedAt = null;
+    let isModified = false;
+
+    // 1. Try /api/sync endpoint
+    try {
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timeoutId = controller ? setTimeout(() => controller.abort(), 6000) : null;
+      const res = await fetch(`${SYNC_CONFIG.API_URL}?version=${localVersion}&t=${Date.now()}`, {
+        headers: { 'Cache-Control': 'no-cache' },
+        signal: controller ? controller.signal : undefined
+      });
+      if (timeoutId) clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const json = await res.json();
+        if (json && json.status === 'ok') {
+          isModified = !!json.modified;
+          newVersion = json.version || localVersion;
+          updatedAt = json.updatedAt;
+          fetchedData = json.data;
+        }
+      } else {
+        throw new Error('API status ' + res.status);
+      }
+    } catch (apiErr) {
+      // 2. Fallback to direct public CDN Blob URL (works even in static or local preview)
+      try {
+        const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        const timeoutId = controller ? setTimeout(() => controller.abort(), 6000) : null;
+        const res = await fetch(`${SYNC_CONFIG.CDN_BLOB_URL}?t=${Date.now()}`, {
+          headers: { 'Cache-Control': 'no-cache' },
+          signal: controller ? controller.signal : undefined
+        });
+        if (timeoutId) clearTimeout(timeoutId);
+
+        if (res.ok) {
+          const blobJson = await res.json();
+          if (blobJson && (force || (blobJson.version && blobJson.version > localVersion))) {
+            isModified = true;
+            newVersion = blobJson.version || (localVersion + 1);
+            updatedAt = blobJson.updatedAt;
+            fetchedData = blobJson.data;
+          } else {
+            isModified = false;
+            newVersion = blobJson ? blobJson.version : localVersion;
+          }
+        }
+      } catch (blobErr) {
+        // network/offline
+      }
+    }
+
+    if (isModified && fetchedData && typeof fetchedData === 'object') {
+      if (fetchedData.settings) {
+        saveStorage(STORAGE_KEYS.SETTINGS, { ...DEFAULT_SETTINGS, ...fetchedData.settings });
+      }
+      if (Array.isArray(fetchedData.tours) && fetchedData.tours.length > 0) {
+        saveStorage(STORAGE_KEYS.TOURS, fetchedData.tours);
+      }
+      if (Array.isArray(fetchedData.coupons)) {
+        saveStorage(STORAGE_KEYS.COUPONS, fetchedData.coupons);
+      }
+      if (Array.isArray(fetchedData.blogs) && fetchedData.blogs.length > 0) {
+        saveStorage(STORAGE_KEYS.BLOGS, fetchedData.blogs);
+      }
+      if (Array.isArray(fetchedData.reviews) && fetchedData.reviews.length > 0) {
+        saveStorage(STORAGE_KEYS.REVIEWS, fetchedData.reviews);
+      }
+      if (Array.isArray(fetchedData.adminAccounts) && fetchedData.adminAccounts.length > 0) {
+        saveStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, fetchedData.adminAccounts);
+      }
+      if (Array.isArray(fetchedData.bookings) && fetchedData.bookings.length > 0) {
+        saveStorage(STORAGE_KEYS.BOOKINGS, fetchedData.bookings);
+      }
+      if (Array.isArray(fetchedData.inquiries) && fetchedData.inquiries.length > 0) {
+        saveStorage(STORAGE_KEYS.INQUIRIES, fetchedData.inquiries);
+      }
+      if (Array.isArray(fetchedData.users) && fetchedData.users.length > 0) {
+        saveStorage(STORAGE_KEYS.USERS, fetchedData.users);
+      }
+
+      saveStorage(STORAGE_KEYS.CLOUD_VERSION, newVersion);
+      saveStorage(STORAGE_KEYS.CLOUD_UPDATED_AT, updatedAt || new Date().toISOString());
+
+      dispatchSyncStatus({ state: 'synced', version: newVersion, lastSyncTime: new Date().toISOString() });
+
+      if (window.TravelStore) {
+        window.TravelStore.applyActiveThemeAndContent();
+        window.TravelStore.triggerUpdate('cloud-sync');
+      }
+      return { success: true, updated: true, version: newVersion };
+    } else {
+      dispatchSyncStatus({ state: 'synced', version: newVersion || localVersion, lastSyncTime: new Date().toISOString() });
+      return { success: true, updated: false, version: newVersion || localVersion };
+    }
+  }
+
+  function queueBackendPush(key, payload) {
+    if (pendingSyncTimers[key]) {
+      clearTimeout(pendingSyncTimers[key]);
+    }
+
+    dispatchSyncStatus({ state: 'syncing', key });
+
+    pendingSyncTimers[key] = setTimeout(async () => {
+      delete pendingSyncTimers[key];
+      try {
+        const res = await fetch(SYNC_CONFIG.API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key, payload })
+        });
+        if (res.ok) {
+          const json = await res.json();
+          const newVer = json.version || (parseInt(loadStorage(STORAGE_KEYS.CLOUD_VERSION, 0), 10) + 1);
+          saveStorage(STORAGE_KEYS.CLOUD_VERSION, newVer);
+          saveStorage(STORAGE_KEYS.CLOUD_UPDATED_AT, json.updatedAt || new Date().toISOString());
+          dispatchSyncStatus({ state: 'synced', version: newVer, lastSyncTime: new Date().toISOString() });
+        } else {
+          dispatchSyncStatus({ state: 'error', error: 'HTTP ' + res.status });
+        }
+      } catch (err) {
+        dispatchSyncStatus({ state: 'offline', error: err.message });
+      }
+    }, SYNC_CONFIG.DEBOUNCE_MS);
+  }
+
+  async function pushFullStoreToBackend() {
+    dispatchSyncStatus({ state: 'syncing', full: true });
+    try {
+      const fullData = {
+        settings: window.TravelStore ? window.TravelStore.getSettings() : loadStorage(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS),
+        tours: window.TravelStore ? window.TravelStore.getTours() : loadStorage(STORAGE_KEYS.TOURS, DEFAULT_TOURS),
+        coupons: window.TravelStore ? window.TravelStore.getCoupons() : loadStorage(STORAGE_KEYS.COUPONS, DEFAULT_COUPONS),
+        blogs: window.TravelStore ? window.TravelStore.getBlogs() : loadStorage(STORAGE_KEYS.BLOGS, DEFAULT_BLOGS),
+        reviews: window.TravelStore ? window.TravelStore.getReviews() : loadStorage(STORAGE_KEYS.REVIEWS, DEFAULT_REVIEWS),
+        adminAccounts: window.TravelStore ? window.TravelStore.getAdminAccounts() : loadStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, DEFAULT_ADMIN_ACCOUNTS),
+        bookings: window.TravelStore ? window.TravelStore.getBookings() : loadStorage(STORAGE_KEYS.BOOKINGS, DEFAULT_BOOKINGS),
+        inquiries: window.TravelStore ? window.TravelStore.getInquiries() : loadStorage(STORAGE_KEYS.INQUIRIES, DEFAULT_INQUIRIES),
+        users: window.TravelStore ? window.TravelStore.getUsers() : loadStorage(STORAGE_KEYS.USERS, DEFAULT_USERS)
+      };
+      const res = await fetch(SYNC_CONFIG.API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullData })
+      });
+      if (res.ok) {
+        const json = await res.json();
+        const newVer = json.version || (parseInt(loadStorage(STORAGE_KEYS.CLOUD_VERSION, 0), 10) + 1);
+        saveStorage(STORAGE_KEYS.CLOUD_VERSION, newVer);
+        saveStorage(STORAGE_KEYS.CLOUD_UPDATED_AT, json.updatedAt || new Date().toISOString());
+        dispatchSyncStatus({ state: 'synced', version: newVer, lastSyncTime: new Date().toISOString() });
+        return { success: true, version: newVer };
+      }
+    } catch (err) {
+      dispatchSyncStatus({ state: 'offline', error: err.message });
+    }
+    return { success: false };
+  }
+
   // Public API Object
   window.TravelStore = {
     DEFAULT_SETTINGS: DEFAULT_SETTINGS,
@@ -1046,6 +1245,7 @@
       }
       saveStorage(STORAGE_KEYS.TOURS, tours);
       this.triggerUpdate('tours');
+      queueBackendPush('tours', tours);
       return tour;
     },
     deleteTour: function (id) {
@@ -1053,6 +1253,7 @@
       tours = tours.filter(t => t.id !== id);
       saveStorage(STORAGE_KEYS.TOURS, tours);
       this.triggerUpdate('tours');
+      queueBackendPush('tours', tours);
       return true;
     },
 
@@ -1083,6 +1284,7 @@
       bookings.unshift(newBooking);
       saveStorage(STORAGE_KEYS.BOOKINGS, bookings);
       this.triggerUpdate('bookings');
+      queueBackendPush('bookings', bookings);
       return newBooking;
     },
     updateBookingStatus: function (id, newStatus, newPaymentStatus) {
@@ -1093,6 +1295,7 @@
         if (newPaymentStatus) b.paymentStatus = newPaymentStatus;
         saveStorage(STORAGE_KEYS.BOOKINGS, bookings);
         this.triggerUpdate('bookings');
+        queueBackendPush('bookings', bookings);
         return b;
       }
       return null;
@@ -1102,6 +1305,7 @@
       bookings = bookings.filter(b => b.id !== id);
       saveStorage(STORAGE_KEYS.BOOKINGS, bookings);
       this.triggerUpdate('bookings');
+      queueBackendPush('bookings', bookings);
       return true;
     },
 
@@ -1124,6 +1328,7 @@
       inquiries.unshift(newInquiry);
       saveStorage(STORAGE_KEYS.INQUIRIES, inquiries);
       this.triggerUpdate('inquiries');
+      queueBackendPush('inquiries', inquiries);
       return newInquiry;
     },
     updateInquiryStatus: function (id, status) {
@@ -1133,6 +1338,7 @@
         inq.status = status;
         saveStorage(STORAGE_KEYS.INQUIRIES, inquiries);
         this.triggerUpdate('inquiries');
+        queueBackendPush('inquiries', inquiries);
         return inq;
       }
       return null;
@@ -1142,6 +1348,7 @@
       inquiries = inquiries.filter(i => i.id !== id);
       saveStorage(STORAGE_KEYS.INQUIRIES, inquiries);
       this.triggerUpdate('inquiries');
+      queueBackendPush('inquiries', inquiries);
       return true;
     },
 
@@ -1166,6 +1373,7 @@
       reviews.unshift(newReview);
       saveStorage(STORAGE_KEYS.REVIEWS, reviews);
       this.triggerUpdate('reviews');
+      queueBackendPush('reviews', reviews);
       return newReview;
     },
     toggleReviewApproval: function (id) {
@@ -1175,6 +1383,7 @@
         rev.approved = !rev.approved;
         saveStorage(STORAGE_KEYS.REVIEWS, reviews);
         this.triggerUpdate('reviews');
+        queueBackendPush('reviews', reviews);
         return rev;
       }
       return null;
@@ -1184,6 +1393,7 @@
       reviews = reviews.filter(r => r.id !== id);
       saveStorage(STORAGE_KEYS.REVIEWS, reviews);
       this.triggerUpdate('reviews');
+      queueBackendPush('reviews', reviews);
       return true;
     },
     replyToReview: function (id, replyText) {
@@ -1199,6 +1409,7 @@
         }
         saveStorage(STORAGE_KEYS.REVIEWS, reviews);
         this.triggerUpdate('reviews');
+        queueBackendPush('reviews', reviews);
         return rev;
       }
       return null;
@@ -1270,6 +1481,7 @@
       }
       saveStorage(STORAGE_KEYS.COUPONS, coupons);
       this.triggerUpdate('coupons');
+      queueBackendPush('coupons', coupons);
       return coupon;
     },
     deleteCoupon: function (code) {
@@ -1277,6 +1489,7 @@
       coupons = coupons.filter(c => c.code.toUpperCase() !== code.toUpperCase());
       saveStorage(STORAGE_KEYS.COUPONS, coupons);
       this.triggerUpdate('coupons');
+      queueBackendPush('coupons', coupons);
       return true;
     },
 
@@ -1324,6 +1537,7 @@
       }
       saveStorage(STORAGE_KEYS.BLOGS, blogs);
       this.triggerUpdate('blogs');
+      queueBackendPush('blogs', blogs);
       return blog;
     },
     deleteBlog: function (id) {
@@ -1331,6 +1545,7 @@
       blogs = blogs.filter(b => b.id !== id);
       saveStorage(STORAGE_KEYS.BLOGS, blogs);
       this.triggerUpdate('blogs');
+      queueBackendPush('blogs', blogs);
       return true;
     },
 
@@ -1341,6 +1556,7 @@
     saveUsers: function (users) {
       saveStorage(STORAGE_KEYS.USERS, users);
       this.triggerUpdate('users');
+      queueBackendPush('users', users);
       return users;
     },
     getActiveUsers: function () {
@@ -1397,6 +1613,7 @@
     saveAdminAccounts: function (accounts) {
       saveStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, accounts);
       this.triggerUpdate('admin-accounts');
+      queueBackendPush('adminAccounts', accounts);
       return accounts;
     },
 
@@ -1578,6 +1795,7 @@
       saveStorage(STORAGE_KEYS.SETTINGS, updated);
       this.triggerUpdate('settings');
       this.applyActiveThemeAndContent();
+      queueBackendPush('settings', updated);
       return updated;
     },
 
@@ -2069,7 +2287,22 @@
       saveStorage(STORAGE_KEYS.ADMIN_ACCOUNTS, DEFAULT_ADMIN_ACCOUNTS);
       this.triggerUpdate('reset');
       this.applyActiveThemeAndContent();
+      pushFullStoreToBackend();
       return true;
+    },
+
+    // CLOUD BACKEND SYNCHRONIZATION METHODS
+    syncWithBackend: function (force) {
+      return fetchBackendUpdates(force);
+    },
+    pushBackendUpdate: function (key, payload) {
+      return queueBackendPush(key, payload);
+    },
+    pushFullStoreToBackend: function () {
+      return pushFullStoreToBackend();
+    },
+    getCloudSyncStatus: function () {
+      return currentSyncStatus;
     },
 
     // Event Trigger for Cross-tab / In-page updates
@@ -2108,5 +2341,24 @@
     window.addEventListener('ttw:store-updated', () => {
       window.TravelStore.applyActiveThemeAndContent();
     });
+  }
+
+  // Background Stale-While-Revalidate Cloud Sync
+  if (typeof window !== 'undefined') {
+    // Non-blocking background sync on boot (0ms local paint, then silent cloud revalidation)
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(() => fetchBackendUpdates());
+    } else {
+      setTimeout(() => fetchBackendUpdates(), 80);
+    }
+
+    // Revalidate when visitor returns to tab or wakes device
+    if (typeof document !== 'undefined') {
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          fetchBackendUpdates();
+        }
+      });
+    }
   }
 })();

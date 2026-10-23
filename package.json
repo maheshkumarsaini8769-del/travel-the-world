@@ -1,0 +1,23 @@
+{
+  "name": "tour-new",
+  "version": "1.0.0",
+  "description": "An advanced, responsive, and production-ready travel booking platform featuring an interactive customer frontend and a secured 11-tab administrative control console.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maheshkumarsaini8769-del/travel-the-world.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maheshkumarsaini8769-del/travel-the-world/issues"
+  },
+  "homepage": "https://github.com/maheshkumarsaini8769-del/travel-the-world#readme",
+  "dependencies": {
+    "@vercel/blob": "^2.8.2"
+  }
+}

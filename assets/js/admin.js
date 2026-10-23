@@ -2412,6 +2412,64 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAll();
   });
 
+  // Cloud Backend Sync Badge Controller
+  const cloudBadge = document.getElementById('cloudSyncBadge');
+  const cloudText = document.getElementById('cloudSyncText');
+
+  function updateCloudBadge(detail) {
+    if (!cloudBadge || !cloudText) return;
+    const state = detail?.state || 'synced';
+    const ver = detail?.version || 1;
+
+    if (state === 'syncing') {
+      cloudBadge.style.background = 'rgba(234, 179, 8, 0.15)';
+      cloudBadge.style.color = '#ca8a04';
+      cloudBadge.style.borderColor = 'rgba(234, 179, 8, 0.35)';
+      cloudText.textContent = 'Cloud: Syncing...';
+    } else if (state === 'checking') {
+      cloudBadge.style.background = 'rgba(37, 99, 235, 0.12)';
+      cloudBadge.style.color = '#2563eb';
+      cloudBadge.style.borderColor = 'rgba(37, 99, 235, 0.3)';
+      cloudText.textContent = 'Cloud: Checking...';
+    } else if (state === 'synced') {
+      cloudBadge.style.background = 'rgba(16, 185, 129, 0.12)';
+      cloudBadge.style.color = '#059669';
+      cloudBadge.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+      cloudText.textContent = `Cloud: Synced (v${ver})`;
+    } else if (state === 'offline' || state === 'error') {
+      cloudBadge.style.background = 'rgba(239, 68, 68, 0.12)';
+      cloudBadge.style.color = '#dc2626';
+      cloudBadge.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+      cloudText.textContent = 'Cloud: Offline (Local)';
+    }
+  }
+
+  window.addEventListener('ttw:sync-status', (e) => {
+    updateCloudBadge(e.detail);
+  });
+
+  if (cloudBadge) {
+    cloudBadge.addEventListener('click', async () => {
+      showToast('Connecting to Cloud Backend...', 'info');
+      if (cloudText) cloudText.textContent = 'Cloud: Syncing...';
+      try {
+        const res = await window.TravelStore.syncWithBackend(true);
+        if (res && res.success) {
+          showToast(`Cloud Synchronized! Active Version: ${res.version}`, 'success');
+          renderAll();
+        } else {
+          showToast('Using local cached store. Backend will auto-reconnect.', 'info');
+        }
+      } catch (err) {
+        showToast('Local offline store active.', 'info');
+      }
+    });
+
+    if (window.TravelStore && typeof window.TravelStore.getCloudSyncStatus === 'function') {
+      updateCloudBadge(window.TravelStore.getCloudSyncStatus());
+    }
+  }
+
   // Modal backdrop click to close
   document.querySelectorAll('.admin-modal-backdrop').forEach(modal => {
     modal.addEventListener('click', (e) => {
