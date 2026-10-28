@@ -852,15 +852,19 @@
     tickerForex: 'Forex Benchmark: ₹1 INR ≈ 190.5 IDR (Zero conversion fee on all tours)',
 
     // Brand Identity & Company Info
-    companyName: 'Travel The World',
-    logoScript: 'travel',
-    logoSub: 'THE WORLD',
-    tagline: 'Bespoke Bali & Indonesian Experiences in Indian Rupees',
-    contactEmail: 'concierge@traveltheworld.bali',
+    companyName: 'Orizon Travel & Luxury Holidays',
+    logoScript: 'orizon',
+    logoSub: 'TRAVEL & HOLIDAYS',
+    logoImage: 'assets/images/brand-logo.svg',
+    logoType: 'both',
+    logoHeight: 44,
+    faviconUrl: 'assets/images/favicon.svg',
+    tagline: 'Bespoke Bali & Global Luxury Escapes in Indian Rupees',
+    contactEmail: 'concierge@orizontravel.com',
     contactPhone: '+91 98200 12345 / +62 361 720 892',
     address: 'Jl. Danau Tamblingan No. 42, Sanur, Bali & Connaught Place, New Delhi',
     licenseNumber: 'Certified Indonesian Tour Operator #7819/BALI',
-    copyrightText: '© 2026 Travel The World. Handcrafted luxury travel & bespoke tours in Indian Rupees.',
+    copyrightText: '© 2026 Orizon Travel & Luxury Holidays. Handcrafted luxury travel & bespoke tours in Indian Rupees.',
 
     // About Us Page Data
     aboutStory: 'Founded over 15 years ago, Travel The World began with a singular focus: crafting high-touch, culturally immersive Balinese journeys with utmost transparency in Indian Rupees.',
@@ -1993,13 +1997,93 @@
         }
       }
 
-      // 6. Brand Logo & Company Info across all pages
-      document.querySelectorAll('.logo-script').forEach(el => {
-        if (settings.logoScript) el.textContent = settings.logoScript;
+      // 6. Brand Logo, Image & Company Info across all pages
+      const logoMode = settings.logoType || 'both'; // 'both' | 'image' | 'text'
+      const logoImgSrc = settings.logoImage || 'assets/images/brand-logo.svg';
+      const logoH = parseInt(settings.logoHeight, 10) || 44;
+      const isAdminPage = document.body.classList.contains('admin-body');
+
+      document.querySelectorAll('.nav-logo').forEach(logoEl => {
+        let img = logoEl.querySelector('.nav-logo-img');
+        let textWrap = logoEl.querySelector('.nav-logo-text');
+
+        // Wrap existing text spans into .nav-logo-text if not already wrapped
+        if (!textWrap) {
+          const scriptEl = logoEl.querySelector('.logo-script');
+          const subEl = logoEl.querySelector('.logo-sub');
+          if (scriptEl || subEl) {
+            textWrap = document.createElement('div');
+            textWrap.className = 'nav-logo-text';
+            if (scriptEl) textWrap.appendChild(scriptEl);
+            if (subEl) textWrap.appendChild(subEl);
+            logoEl.appendChild(textWrap);
+          }
+        }
+
+        // Handle Image Logo Element
+        if (logoMode !== 'text' && logoImgSrc) {
+          if (!img) {
+            img = document.createElement('img');
+            img.className = 'nav-logo-img';
+            img.alt = settings.companyName || 'Orizon Travel';
+            logoEl.insertBefore(img, logoEl.firstChild);
+          }
+          const finalSrc = (isAdminPage && !logoImgSrc.startsWith('http') && !logoImgSrc.startsWith('data:') && !logoImgSrc.startsWith('/')) 
+            ? '../' + logoImgSrc 
+            : logoImgSrc;
+          if (img.getAttribute('src') !== finalSrc) img.src = finalSrc;
+          img.style.display = 'inline-block';
+          img.style.height = logoH + 'px';
+          img.style.width = 'auto';
+        } else if (img) {
+          img.style.display = 'none';
+        }
+
+        // Handle Text Elements
+        if (textWrap) {
+          textWrap.style.display = (logoMode === 'image') ? 'none' : 'flex';
+          const scriptEl = textWrap.querySelector('.logo-script');
+          const subEl = textWrap.querySelector('.logo-sub');
+          if (scriptEl && settings.logoScript) scriptEl.textContent = settings.logoScript;
+          if (subEl && settings.logoSub) subEl.textContent = settings.logoSub;
+        }
       });
-      document.querySelectorAll('.logo-sub').forEach(el => {
-        if (settings.logoSub) el.textContent = settings.logoSub;
-      });
+
+      // Update Admin Sidebar Brand if present
+      const adminLogoImg = document.getElementById('adminSidebarLogoImg');
+      if (adminLogoImg && logoImgSrc) {
+        const finalSrc = (!logoImgSrc.startsWith('http') && !logoImgSrc.startsWith('data:') && !logoImgSrc.startsWith('/'))
+          ? '../' + logoImgSrc
+          : logoImgSrc;
+        adminLogoImg.src = finalSrc;
+      }
+      const adminScriptEl = document.getElementById('adminSidebarLogoScript');
+      if (adminScriptEl && settings.logoScript) {
+        adminScriptEl.textContent = settings.logoScript;
+      }
+
+      // Update Dynamic Favicon
+      const favSrc = settings.faviconUrl || settings.logoImage || 'assets/images/favicon.svg';
+      if (favSrc) {
+        let favLink = document.querySelector("link[rel~='icon']");
+        if (!favLink) {
+          favLink = document.createElement('link');
+          favLink.rel = 'icon';
+          document.head.appendChild(favLink);
+        }
+        const finalFav = (isAdminPage && !favSrc.startsWith('http') && !favSrc.startsWith('data:') && !favSrc.startsWith('/'))
+          ? '../' + favSrc
+          : favSrc;
+        favLink.href = finalFav;
+      }
+
+      // Update Page Title if company name provided
+      if (settings.companyName && !isAdminPage && typeof document.title === 'string') {
+        const curTitle = document.title || '';
+        if (curTitle.includes('Travel The World') || curTitle.includes('Orizon Travel')) {
+          document.title = curTitle.replace(/Travel The World|Orizon Travel[^|]*/i, settings.companyName);
+        }
+      }
 
       // Footer contact & copyright
       const companyEl = document.getElementById('footerCompanyName');

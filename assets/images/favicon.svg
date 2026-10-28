@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="favGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <linearGradient id="favTeal" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0F766E" />
+      <stop offset="100%" stop-color="#14B8A6" />
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="#0A1118" stroke="url(#favGold)" stroke-width="3" />
+  <circle cx="50" cy="50" r="36" stroke="url(#favGold)" stroke-width="1.8" opacity="0.8" />
+  <line x1="14" y1="50" x2="86" y2="50" stroke="url(#favGold)" stroke-width="1.5" />
+  <line x1="50" y1="14" x2="50" y2="86" stroke="url(#favGold)" stroke-width="1.5" />
+  <ellipse cx="50" cy="50" rx="18" ry="36" stroke="url(#favGold)" stroke-width="1.5" fill="none" />
+  <!-- Flight Arc -->
+  <path d="M 24 64 C 34 56, 52 48, 76 28" stroke="url(#favTeal)" stroke-width="3" stroke-linecap="round" fill="none" />
+  <!-- Airplane -->
+  <polygon points="76,23 83,26 77,32 74,30 76,27 71,28 71,26 76,26" fill="url(#favGold)" />
+</svg>

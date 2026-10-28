@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Gold Gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="35%" stop-color="#F59E0B" />
+      <stop offset="70%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+
+    <!-- Teal / Cyan Gradient -->
+    <linearGradient id="tealGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#042F2E" />
+      <stop offset="40%" stop-color="#0D9488" />
+      <stop offset="75%" stop-color="#14B8A6" />
+      <stop offset="100%" stop-color="#5EEAD4" />
+    </linearGradient>
+
+    <!-- Ring Gradient (Gold to Teal) -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="45%" stop-color="#14B8A6" />
+      <stop offset="85%" stop-color="#0D9488" />
+      <stop offset="100%" stop-color="#0F766E" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Dark Disc Backdrop for contrast on any background -->
+  <circle cx="250" cy="250" r="236" fill="#0A1118" stroke="url(#ringGrad)" stroke-width="5" />
+  <circle cx="250" cy="250" r="222" stroke="url(#goldGrad)" stroke-width="2.5" opacity="0.6" stroke-dasharray="8 6" />
+
+  <!-- Outer Double Rings -->
+  <circle cx="250" cy="250" r="208" stroke="url(#goldGrad)" stroke-width="4.5" />
+  <circle cx="250" cy="250" r="198" stroke="url(#tealGrad)" stroke-width="3" />
+
+  <!-- Globe Latitude & Longitude Mesh -->
+  <g opacity="0.85">
+    <!-- Globe Outer Boundary -->
+    <circle cx="250" cy="250" r="172" stroke="url(#goldGrad)" stroke-width="3.5" />
+    
+    <!-- Equator & Latitudes -->
+    <line x1="80" y1="250" x2="420" y2="250" stroke="url(#goldGrad)" stroke-width="3" />
+    <path d="M 98 185 Q 250 215 402 185" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" />
+    <path d="M 98 315 Q 250 285 402 315" stroke="url(#tealGrad)" stroke-width="2.5" fill="none" />
+    <path d="M 135 130 Q 250 155 365 130" stroke="url(#goldGrad)" stroke-width="2" fill="none" />
+
+    <!-- Longitude Ellipses -->
+    <line x1="250" y1="78" x2="250" y2="422" stroke="url(#goldGrad)" stroke-width="3" />
+    <ellipse cx="250" cy="250" rx="65" ry="172" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" />
+    <ellipse cx="250" cy="250" rx="125" ry="172" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" />
+  </g>
+
+  <!-- Tropical Palm / Laurel Leaves on the bottom (Right to Center) -->
+  <g filter="url(#softGlow)">
+    <!-- Branch Stem -->
+    <path d="M 140 330 C 180 375, 270 380, 360 300" stroke="url(#goldGrad)" stroke-width="4.5" fill="none" stroke-linecap="round" />
+    
+    <!-- Leaves -->
+    <path d="M 160 335 C 150 310, 185 305, 190 325 Z" fill="url(#goldGrad)" />
+    <path d="M 185 348 C 185 320, 220 315, 220 340 Z" fill="url(#tealGrad)" />
+    <path d="M 215 358 C 220 330, 255 325, 250 352 Z" fill="url(#goldGrad)" />
+    <path d="M 248 362 C 255 332, 290 328, 282 356 Z" fill="url(#tealGrad)" />
+    <path d="M 280 358 C 290 328, 325 322, 315 350 Z" fill="url(#goldGrad)" />
+    <path d="M 312 346 C 325 318, 355 310, 342 338 Z" fill="url(#tealGrad)" />
+    <path d="M 340 328 C 355 300, 385 292, 368 320 Z" fill="url(#goldGrad)" />
+  </g>
+
+  <!-- Soaring Jet Flight Arc (Bottom-Left to Upper-Right) -->
+  <g filter="url(#softGlow)">
+    <!-- Contrail Swoosh Ribbon -->
+    <path d="M 125 300 C 145 285, 210 270, 310 210 C 340 190, 365 170, 395 135" stroke="url(#goldGrad)" stroke-width="8" stroke-linecap="round" fill="none" />
+    <path d="M 132 304 C 155 292, 220 278, 305 222 C 335 204, 358 186, 385 152" stroke="url(#tealGrad)" stroke-width="5" stroke-linecap="round" fill="none" />
+
+    <!-- Jet Airplane Silhouette -->
+    <g transform="translate(390, 130) rotate(-42)">
+      <!-- Fuselage -->
+      <path d="M 0 -38 C 4 -32, 5 -10, 5 25 L 3 36 L -3 36 L -5 25 C -5 -10, -4 -32, 0 -38 Z" fill="url(#goldGrad)" />
+      <!-- Nose Tip -->
+      <polygon points="0,-45 4,-34 -4,-34" fill="#FDE68A" />
+      <!-- Main Wings -->
+      <path d="M 0 -8 L 38 16 L 36 22 L 4 12 L -4 12 L -36 22 L -38 16 Z" fill="url(#goldGrad)" />
+      <!-- Tail Wing / Stabilizer -->
+      <path d="M 0 20 L 18 34 L 16 38 L 0 32 L -16 38 L -18 34 Z" fill="url(#goldGrad)" />
+      <!-- Cabin Highlights -->
+      <circle cx="0" cy="-20" r="2" fill="#042F2E" />
+      <circle cx="0" cy="-10" r="1.8" fill="#042F2E" />
+      <circle cx="0" cy="0" r="1.8" fill="#042F2E" />
+    </g>
+  </g>
+</svg>

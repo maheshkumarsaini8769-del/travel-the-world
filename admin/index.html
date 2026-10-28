@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Console | Travel The World</title>
-  <meta name="description" content="Super Admin Dashboard for Travel The World. Manage tour packages, reservations, live inquiries, and traveler reviews.">
+  <title>Admin Console | Orizon Travel</title>
+  <meta name="description" content="Super Admin Dashboard for Orizon Travel & Luxury Holidays. Manage tour packages, reservations, live inquiries, and traveler reviews.">
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,9 +21,12 @@
        ============================================== -->
   <aside class="admin-sidebar" id="adminSidebar">
     <div class="sidebar-brand">
-      <div style="display: flex; align-items: baseline; gap: 0.5rem;">
-        <span class="sidebar-logo">travel</span>
-        <span class="sidebar-tag">Admin Console</span>
+      <div style="display: flex; align-items: center; gap: 0.65rem;">
+        <img src="../assets/images/brand-logo.svg" id="adminSidebarLogoImg" alt="Brand Logo" style="height: 36px; width: 36px; object-fit: contain; border-radius: 8px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));">
+        <div style="display: flex; flex-direction: column; line-height: 1;">
+          <span class="sidebar-logo" id="adminSidebarLogoScript">orizon</span>
+          <span class="sidebar-tag">Admin Console</span>
+        </div>
       </div>
     </div>
 
@@ -773,9 +777,92 @@
             </div>
             <div class="admin-card-body">
               <form id="adminSettingsForm">
+                <!-- WEBSITE NAME & BRAND LOGO STUDIO -->
+                <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #cbd5e1; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                      <span style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: #0f172a; color: #F59E0B; border-radius: 8px;">
+                        <svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      </span>
+                      <div>
+                        <h4 style="margin: 0; font-size: 0.98rem; font-weight: 800; color: #0f172a;">Website Name &amp; Brand Logo Studio</h4>
+                        <p style="margin: 0; font-size: 0.75rem; color: #64748b;">Manage company brand name, logo image, cursive script &amp; display mode live across all 8 pages</p>
+                      </div>
+                    </div>
+                    <span style="font-size: 0.72rem; font-weight: 700; background: #dbeafe; color: #1e40af; padding: 0.2rem 0.5rem; border-radius: 6px;">Live Sync</span>
+                  </div>
+
+                  <!-- Live Navbar Logo Simulation Preview Box -->
+                  <div style="background: #0b1320; border: 1px solid #1e293b; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);">
+                    <div>
+                      <span style="display: block; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 0.4rem;">Live Header Navbar Preview</span>
+                      <div id="adminLogoLivePreview" style="display: inline-flex; align-items: center; gap: 0.75rem; user-select: none;">
+                        <img id="adminLogoPreviewImg" src="../assets/images/brand-logo.svg" alt="Preview Logo" style="height: 44px; width: auto; object-fit: contain; border-radius: 8px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));">
+                        <div id="adminLogoPreviewText" style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1;">
+                          <span id="adminLogoPreviewScript" style="font-family: 'Caveat', cursive, sans-serif; font-size: 2.1rem; line-height: 0.9; font-weight: 700; color: #ffffff; letter-spacing: -0.5px;">orizon</span>
+                          <span id="adminLogoPreviewSub" style="font-family: 'Syne', sans-serif; font-size: 0.6rem; letter-spacing: 3px; font-weight: 800; color: #FBBF24;">TRAVEL &amp; HOLIDAYS</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                      <button type="button" class="btn-admin-primary" id="btnPresetLogoSvg" style="background: #1e293b; color: #cbd5e1; border: 1px solid #334155; font-size: 0.75rem; padding: 0.4rem 0.75rem;">
+                        <svg class="ui-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> <span>Vector SVG Logo</span>
+                      </button>
+                      <button type="button" class="btn-admin-primary" id="btnPresetLogoJpg" style="background: #1e293b; color: #cbd5e1; border: 1px solid #334155; font-size: 0.75rem; padding: 0.4rem 0.75rem;">
+                        <svg class="ui-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg> <span>Orizon Badge (HD)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Logo Settings Inputs Grid -->
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                      <label for="setLogoScript" style="font-weight: 700; font-size: 0.8rem;">Logo Cursive Word (Script Font)</label>
+                      <input type="text" id="setLogoScript" class="admin-form-control" placeholder="e.g. orizon, wander, travel">
+                      <span style="font-size: 0.72rem; color: #64748b;">Primary stylish cursive brand text</span>
+                    </div>
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                      <label for="setLogoSub" style="font-weight: 700; font-size: 0.8rem;">Logo Sub-Text / Tagline (All Caps)</label>
+                      <input type="text" id="setLogoSub" class="admin-form-control" placeholder="e.g. TRAVEL &amp; HOLIDAYS, LUXURY EXPEDITIONS">
+                      <span style="font-size: 0.72rem; color: #64748b;">Golden capitalized sub-line under cursive logo</span>
+                    </div>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                      <label for="setLogoType" style="font-weight: 700; font-size: 0.8rem;">Logo Display Mode</label>
+                      <select id="setLogoType" class="admin-form-control">
+                        <option value="both">Badge Icon + Brand Text (Recommended)</option>
+                        <option value="image">Image Logo Only (Hide text)</option>
+                        <option value="text">Stylized Text Only (Hide icon)</option>
+                      </select>
+                      <span style="font-size: 0.72rem; color: #64748b;">How the logo appears in header &amp; footer</span>
+                    </div>
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                      <label for="setLogoHeight" style="font-weight: 700; font-size: 0.8rem;">Logo Height (Pixels)</label>
+                      <input type="number" id="setLogoHeight" class="admin-form-control" min="28" max="90" value="44">
+                      <span style="font-size: 0.72rem; color: #64748b;">Recommended: 40px – 52px</span>
+                    </div>
+                  </div>
+
+                  <!-- Logo Image URL & Upload Controls -->
+                  <div class="admin-form-group" style="margin-bottom: 0;">
+                    <label for="setLogoImage" style="font-weight: 700; font-size: 0.8rem;">Logo Image File / Custom URL</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                      <input type="text" id="setLogoImage" class="admin-form-control" placeholder="assets/images/brand-logo.svg or https://...">
+                      <input type="file" id="uploadLogoFileInput" accept="image/*" style="display: none;">
+                      <button type="button" class="btn-admin-primary" id="btnUploadLogoFile" style="white-space: nowrap; padding: 0.65rem 1rem; font-size: 0.8rem; background: #0f172a;">
+                        <svg class="ui-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg> <span>Upload File</span>
+                      </button>
+                    </div>
+                    <span style="font-size: 0.72rem; color: #64748b;">Upload PNG, SVG, JPG from your computer or paste any direct web image URL</span>
+                  </div>
+                </div>
+
                 <div class="admin-form-group">
-                  <label for="setCompanyName">Company / Agency Name</label>
+                  <label for="setCompanyName">Company / Agency Official Name</label>
                   <input type="text" id="setCompanyName" class="admin-form-control" required>
+                  <span style="font-size: 0.72rem; color: #64748b;">Main legal business title across copyright and system records</span>
                 </div>
                 <div class="admin-form-group">
                   <label for="setTagline">Site Tagline</label>
