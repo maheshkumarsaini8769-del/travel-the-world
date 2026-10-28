@@ -1455,21 +1455,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('setContactPhone').value = settings.contactPhone || '';
     document.getElementById('setAddress').value = settings.address || '';
 
-    // Logo Studio Inputs
-    const setLogoScript = document.getElementById('setLogoScript');
-    const setLogoSub = document.getElementById('setLogoSub');
-    const setLogoImage = document.getElementById('setLogoImage');
-    const setLogoType = document.getElementById('setLogoType');
-    const setLogoHeight = document.getElementById('setLogoHeight');
-
-    if (setLogoScript) setLogoScript.value = settings.logoScript || 'orizon';
-    if (setLogoSub) setLogoSub.value = settings.logoSub || 'TRAVEL & HOLIDAYS';
-    if (setLogoImage) setLogoImage.value = settings.logoImage || 'assets/images/brand-logo.svg';
-    if (setLogoType) setLogoType.value = settings.logoType || 'both';
-    if (setLogoHeight) setLogoHeight.value = settings.logoHeight || 44;
-
-    updateAdminLogoPreview();
-
     const airportEl = document.getElementById('setAddonAirport');
     const droneEl = document.getElementById('setAddonDrone');
     const foodEl = document.getElementById('setAddonFood');
@@ -1481,101 +1466,11 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAdminAccountsTable();
   }
 
-  function updateAdminLogoPreview() {
-    const previewImg = document.getElementById('adminLogoPreviewImg');
-    const previewScript = document.getElementById('adminLogoPreviewScript');
-    const previewSub = document.getElementById('adminLogoPreviewSub');
-    const previewTextWrap = document.getElementById('adminLogoPreviewText');
-
-    const scriptVal = (document.getElementById('setLogoScript')?.value || 'orizon').trim();
-    const subVal = (document.getElementById('setLogoSub')?.value || 'TRAVEL & HOLIDAYS').trim();
-    const imgSrc = (document.getElementById('setLogoImage')?.value || 'assets/images/brand-logo.svg').trim();
-    const mode = document.getElementById('setLogoType')?.value || 'both';
-    const heightVal = parseInt(document.getElementById('setLogoHeight')?.value, 10) || 44;
-
-    if (previewScript) previewScript.textContent = scriptVal;
-    if (previewSub) previewSub.textContent = subVal;
-
-    if (previewImg) {
-      if (mode === 'text' || !imgSrc) {
-        previewImg.style.display = 'none';
-      } else {
-        previewImg.style.display = 'inline-block';
-        const finalSrc = (!imgSrc.startsWith('http') && !imgSrc.startsWith('data:') && !imgSrc.startsWith('/'))
-          ? '../' + imgSrc
-          : imgSrc;
-        previewImg.src = finalSrc;
-        previewImg.style.height = heightVal + 'px';
-      }
-    }
-
-    if (previewTextWrap) {
-      previewTextWrap.style.display = (mode === 'image') ? 'none' : 'flex';
-    }
-  }
-
-  // Live input listeners for Logo Studio
-  ['setLogoScript', 'setLogoSub', 'setLogoImage', 'setLogoType', 'setLogoHeight'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener('input', updateAdminLogoPreview);
-      el.addEventListener('change', updateAdminLogoPreview);
-    }
-  });
-
-  // Preset Buttons for Logo Studio
-  const btnPresetSvg = document.getElementById('btnPresetLogoSvg');
-  if (btnPresetSvg) {
-    btnPresetSvg.addEventListener('click', () => {
-      const imgInput = document.getElementById('setLogoImage');
-      if (imgInput) imgInput.value = 'assets/images/brand-logo.svg';
-      updateAdminLogoPreview();
-      showAdminToast('Applied Vector SVG Logo preset!');
-    });
-  }
-
-  const btnPresetJpg = document.getElementById('btnPresetLogoJpg');
-  if (btnPresetJpg) {
-    btnPresetJpg.addEventListener('click', () => {
-      const imgInput = document.getElementById('setLogoImage');
-      if (imgInput) imgInput.value = 'assets/images/brand-logo.jpg';
-      updateAdminLogoPreview();
-      showAdminToast('Applied Orizon Badge (HD) preset!');
-    });
-  }
-
-  // File Upload Button & File Input for Custom Logo
-  const btnUploadLogo = document.getElementById('btnUploadLogoFile');
-  const uploadLogoInput = document.getElementById('uploadLogoFileInput');
-  if (btnUploadLogo && uploadLogoInput) {
-    btnUploadLogo.addEventListener('click', () => {
-      uploadLogoInput.click();
-    });
-    uploadLogoInput.addEventListener('change', (e) => {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (loadEvt) => {
-        const dataUrl = loadEvt.target.result;
-        const imgInput = document.getElementById('setLogoImage');
-        if (imgInput) imgInput.value = dataUrl;
-        updateAdminLogoPreview();
-        showAdminToast(`Uploaded logo: ${file.name} (Ready to save)`);
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
   if (settingsForm) {
     settingsForm.addEventListener('submit', (e) => {
       e.preventDefault();
       window.TravelStore.saveSettings({
         companyName: document.getElementById('setCompanyName').value,
-        logoScript: document.getElementById('setLogoScript')?.value || 'orizon',
-        logoSub: document.getElementById('setLogoSub')?.value || 'TRAVEL & HOLIDAYS',
-        logoImage: document.getElementById('setLogoImage')?.value || 'assets/images/brand-logo.svg',
-        logoType: document.getElementById('setLogoType')?.value || 'both',
-        logoHeight: parseInt(document.getElementById('setLogoHeight')?.value, 10) || 44,
         tagline: document.getElementById('setTagline').value,
         currencySymbol: document.getElementById('setCurrencySymbol').value,
         contactEmail: document.getElementById('setContactEmail').value,
@@ -1585,7 +1480,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addonDronePrice: parseInt(document.getElementById('setAddonDrone')?.value, 10) || 4500,
         addonFoodPrice: parseInt(document.getElementById('setAddonFood')?.value, 10) || 6000
       });
-      showAdminToast('Website Name, Brand Logo & System Settings saved successfully!');
+      showAdminToast('System settings saved successfully!');
     });
   }
 
