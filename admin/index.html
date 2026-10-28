@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Console | Travel The World</title>
   <meta name="description" content="Super Admin Dashboard for Travel The World. Manage tour packages, reservations, live inquiries, and traveler reviews.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="alternate icon" href="../favicon.ico">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,9 +22,10 @@
        ============================================== -->
   <aside class="admin-sidebar" id="adminSidebar">
     <div class="sidebar-brand">
-      <div style="display: flex; align-items: baseline; gap: 0.5rem;">
+      <img src="../assets/images/logo-icon.svg" alt="Travel The World Logo" class="sidebar-logo-icon" width="36" height="36">
+      <div class="sidebar-brand-text">
         <span class="sidebar-logo">travel</span>
-        <span class="sidebar-tag">Admin Console</span>
+        <span class="sidebar-tag">THE WORLD • ADMIN</span>
       </div>
     </div>
 
@@ -1397,21 +1400,26 @@
               <span style="font-size: 0.76rem; background: #eff6ff; color: #2563eb; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700;">Global Footer on All Pages</span>
             </div>
             <div class="admin-card-body">
-              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem;">
+                <div class="admin-form-group word-field-item">
+                  <label for="wordCustomLogoUrl">Logo Image / Emblem</label>
+                  <input type="text" id="wordCustomLogoUrl" class="admin-form-control" placeholder="assets/images/logo-icon.svg">
+                  <span style="font-size: 0.72rem; color: #94a3b8;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Attached logo icon mark</span>
+                </div>
                 <div class="admin-form-group word-field-item">
                   <label for="wordLogoScript">Logo Cursive Word</label>
                   <input type="text" id="wordLogoScript" class="admin-form-control" placeholder="travel">
-                  <span style="font-size: 0.72rem; color: #94a3b8;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Target: Cursive script in header logo</span>
+                  <span style="font-size: 0.72rem; color: #94a3b8;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Cursive script in header logo</span>
                 </div>
                 <div class="admin-form-group word-field-item">
                   <label for="wordLogoSub">Logo Sub-Word</label>
                   <input type="text" id="wordLogoSub" class="admin-form-control" placeholder="THE WORLD">
-                  <span style="font-size: 0.72rem; color: #94a3b8;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Target: Capitalized subtitle in header logo</span>
+                  <span style="font-size: 0.72rem; color: #94a3b8;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Capitalized subtitle in header</span>
                 </div>
                 <div class="admin-form-group word-field-item">
                   <label for="wordCompanyName">Company Official Name</label>
                   <input type="text" id="wordCompanyName" class="admin-form-control" placeholder="Travel The World">
-                  <span style="font-size: 0.72rem; color: #94a3b8;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Target: Brand title throughout console</span>
+                  <span style="font-size: 0.72rem; color: #94a3b8;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Brand title throughout console</span>
                 </div>
               </div>
 
@@ -2266,8 +2274,10 @@
        ============================================== -->
   <div class="admin-auth-overlay active" id="adminAuthOverlay">
     <div class="admin-auth-card">
-      <div class="admin-auth-icon" style="color:#2563eb;"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg></div>
-      <h2>Admin Portal</h2>
+      <div style="text-align: center; margin-bottom: 0.85rem;">
+        <img src="../assets/images/logo-icon.svg" alt="Travel The World Logo" style="width: 52px; height: 52px; border-radius: 14px; box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);">
+      </div>
+      <h2>Travel The World</h2>
       <p class="auth-sub">Enter administrator credentials to manage Travel The World console.</p>
       
       <div class="admin-auth-error" id="adminAuthError">

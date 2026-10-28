@@ -2042,6 +2042,7 @@ document.addEventListener('DOMContentLoaded', () => {
     wordBlogPageBadge: 'blogPageBadge',
     wordBlogPageTitle: 'blogPageTitle',
     wordBlogPageSubtitle: 'blogPageSubtitle',
+    wordCustomLogoUrl: 'customLogoUrl',
     wordLogoScript: 'logoScript',
     wordLogoSub: 'logoSub',
     wordCompanyName: 'companyName',

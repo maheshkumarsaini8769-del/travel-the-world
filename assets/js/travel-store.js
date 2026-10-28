@@ -853,6 +853,7 @@
 
     // Brand Identity & Company Info
     companyName: 'Travel The World',
+    customLogoUrl: 'assets/images/logo-icon.svg',
     logoScript: 'travel',
     logoSub: 'THE WORLD',
     tagline: 'Bespoke Bali & Indonesian Experiences in Indian Rupees',
@@ -1994,6 +1995,11 @@
       }
 
       // 6. Brand Logo & Company Info across all pages
+      if (settings.customLogoUrl) {
+        document.querySelectorAll('.nav-logo-icon').forEach(img => {
+          img.src = settings.customLogoUrl;
+        });
+      }
       document.querySelectorAll('.logo-script').forEach(el => {
         if (settings.logoScript) el.textContent = settings.logoScript;
       });

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <defs>
+    <!-- Background Gradient: Deep Luxury Oceanic Navy to Cyan Glow -->
+    <linearGradient id="ttwBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#091428"/>
+      <stop offset="55%" stop-color="#0e2340"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+
+    <!-- Luxury Gold Accent Gradient -->
+    <linearGradient id="ttwGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="40%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+
+    <!-- Sky Horizon Arc Gradient -->
+    <linearGradient id="ttwSkyArc" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.1"/>
+      <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+
+    <!-- Subtle Drop Shadow Filter -->
+    <filter id="ttwGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#0284c7" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Base Squircle Container -->
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#ttwBgGrad)"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="15.5" stroke="url(#ttwGoldGrad)" stroke-width="1.2" stroke-opacity="0.75"/>
+
+  <!-- Globe Grid Arcs (World Latitude / Longitude) -->
+  <g stroke="#94a3b8" stroke-width="1" stroke-opacity="0.32" fill="none">
+    <!-- Globe Outer Perimeter -->
+    <circle cx="32" cy="32" r="20"/>
+    <!-- Central Equator -->
+    <ellipse cx="32" cy="32" rx="20" ry="8"/>
+    <!-- Prime Meridian -->
+    <ellipse cx="32" cy="32" rx="8" ry="20"/>
+    <!-- Diagonal Latitude Guide -->
+    <path d="M16 23c4.5 4 10.5 5 16 5s11.5-1 16-5"/>
+    <path d="M16 41c4.5-4 10.5-5 16-5s11.5 1 16 5"/>
+  </g>
+
+  <!-- Dynamic Travel Horizon Arc (Ascending Orbit) -->
+  <path d="M12 45 C 16 27, 31 16, 48 18" stroke="url(#ttwSkyArc)" stroke-width="2.5" stroke-linecap="round" fill="none" filter="url(#ttwGlow)"/>
+
+  <!-- Modern Jet Silhouette at the Pinnacle of the Orbit -->
+  <g transform="translate(48, 18) rotate(42) scale(0.95)" fill="url(#ttwGoldGrad)" filter="url(#ttwGlow)">
+    <!-- Sleek Supersonic Aircraft Vector -->
+    <path d="M0 -7 L3 0 L9 3 L3 4 L3.5 7 L1 6.5 L0 8 L-1 6.5 L-3.5 7 L-3 4 L-9 3 L-3 0 Z"/>
+  </g>
+
+  <!-- 4-Point Compass Star (Guiding North Traveler's Star) -->
+  <g transform="translate(22, 22)" fill="url(#ttwGoldGrad)">
+    <path d="M0 -6 Q 0.6 -1.2, 5.5 0 Q 0.6 1.2, 0 6 Q -0.6 1.2, -5.5 0 Q -0.6 -1.2, 0 -6 Z"/>
+    <circle cx="0" cy="0" r="1.1" fill="#ffffff"/>
+  </g>
+
+  <!-- Destination Waypoint Pin / Sparkle -->
+  <circle cx="15.5" cy="42.5" r="2" fill="#38bdf8"/>
+  <circle cx="15.5" cy="42.5" r="1" fill="#ffffff"/>
+</svg>
